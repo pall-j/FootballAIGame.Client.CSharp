@@ -1,15 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
+using FootballAIGameClient.UserClasses;
 
-namespace FootballAIGame.AI.FSM
+namespace FootballAIGameClient
 {
+    /// <summary>
+    /// The class that contains the entry point of the application.
+    /// </summary>
     class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// The entry point of the application. Creates and starts the <see cref="GameClient"/>.
+        /// </summary>
+        static void Main()
         {
+            //var client = new GameClient(IPAddress.Parse("13.69.197.216"), 50030, new Ai());
+            var client = new GameClient(IPAddress.Parse("127.0.0.1"), 50030, new Ai());
+            client.Start();
         }
+
     }
 }
