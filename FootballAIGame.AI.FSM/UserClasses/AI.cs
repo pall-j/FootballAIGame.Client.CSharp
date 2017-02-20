@@ -28,13 +28,13 @@ namespace FootballAIGameClient.UserClasses
 
         public Ball Ball { get; set; }
 
-        private static Ai _instance;
-
         private Ai()
         {
             Ball = new Ball(new FootballBall());
             MyTeam = new Team(GetParameters());
         }
+
+        private static Ai _instance;
 
         public static Ai Instance
         {
@@ -76,7 +76,7 @@ namespace FootballAIGameClient.UserClasses
             // new action
             CurrentAction = new GameAction() { PlayerActions = new PlayerAction[11], Step = gameState.Step };
 
-            // updates states and set's actions
+            // updates states and actions
             MyTeam.Update(); 
 
             return CurrentAction;

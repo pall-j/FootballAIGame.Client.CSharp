@@ -7,15 +7,15 @@ using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
-    class Attacking : State<Team>
+    class TeamGlobalState : State<Team>
     {
-        private Attacking() { }
+        private TeamGlobalState() { }
 
-        private static Attacking _instance;
+        private static TeamGlobalState _instance;
 
-        public static Attacking Instance
+        public static TeamGlobalState Instance
         {
-            get { return _instance ?? (_instance = new Attacking()); }
+            get { return _instance ?? (_instance = new TeamGlobalState()); }
         }
 
 

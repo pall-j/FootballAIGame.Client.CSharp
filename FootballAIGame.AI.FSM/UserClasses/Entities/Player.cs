@@ -9,9 +9,11 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     abstract class Player : FootballPlayer
     {
+        public PlayerSteeringBehaviours SteeringBehaviours { get; set; }
+
         public abstract void Update();
 
-        public abstract void OnMessage(Message message);
+        public abstract bool ProcessMessage(Message message);
 
         protected Player(FootballPlayer player)
         {
@@ -23,6 +25,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             this.KickPower = player.KickPower;
             this.Possession = player.Possession;
             this.Precision = player.Precision;
+
+            SteeringBehaviours = new PlayerSteeringBehaviours(this);
         }
     }
 }

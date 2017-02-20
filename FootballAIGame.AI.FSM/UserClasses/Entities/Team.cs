@@ -23,11 +23,15 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public Team(IList<FootballPlayer> footballPlayers)
         {
+            StateMachine = new FiniteStateMachine<Team>(this, 
+                TeamStates.Attacking.Instance, TeamStates.TeamGlobalState.Instance);
+
             Players = new Player[11];
 
             GoalKeeper = new GoalKeeper(footballPlayers[0]);
             Players[0] = GoalKeeper;
 
+            Defenders = new List<Defender>(4);
             for (int i = 1; i <= 4; i++)
             {
                 var defender = new Defender(footballPlayers[i]);
@@ -35,6 +39,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 Players[i] = defender;
             }
 
+            Midfielders = new List<Midfielder>(4);
             for (int i = 5; i <= 8; i++)
             {
                 var midfielder = new Midfielder(footballPlayers[i]);
@@ -42,6 +47,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 Players[i] = midfielder;
             }
 
+            Forwards = new List<Forward>(2);
             for (int i = 9; i <= 10; i++)
             {
                 var forward = new Forward(footballPlayers[i]);

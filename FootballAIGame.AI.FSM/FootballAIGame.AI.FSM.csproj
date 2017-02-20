@@ -83,9 +83,10 @@
     <Compile Include="UserClasses\Messaging\MessageDispatcher.cs" />
     <Compile Include="UserClasses\PlayerStates\Wait.cs" />
     <Compile Include="UserClasses\State.cs" />
-    <Compile Include="UserClasses\SteeringBehaviour.cs" />
+    <Compile Include="UserClasses\PlayerSteeringBehaviours.cs" />
     <Compile Include="UserClasses\TeamStates\Attacking.cs" />
     <Compile Include="UserClasses\TeamStates\Defending.cs" />
+    <Compile Include="UserClasses\TeamStates\TeamGlobalState.cs" />
     <Compile Include="UserClasses\Utilities\SupportPositionCalculator.cs" />
   </ItemGroup>
   <ItemGroup>

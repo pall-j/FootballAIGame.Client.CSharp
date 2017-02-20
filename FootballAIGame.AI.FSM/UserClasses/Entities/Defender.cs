@@ -15,12 +15,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public override void Update()
         {
-            throw new NotImplementedException();
         }
 
-        public override void OnMessage(Message message)
+        public override void ProcessMessage(Message message)
         {
-            throw new NotImplementedException();
         }
     }
 }
