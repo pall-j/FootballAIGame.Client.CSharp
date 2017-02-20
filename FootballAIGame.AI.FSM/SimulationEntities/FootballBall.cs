@@ -5,7 +5,7 @@ using FootballAIGameClient.CustomDataTypes;
 
 namespace FootballAIGameClient.SimulationEntities
 {
-    class Ball
+    class FootballBall
     {
 
         /// <summary>
@@ -48,9 +48,9 @@ namespace FootballAIGameClient.SimulationEntities
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Ball"/> class.
+        /// Initializes a new instance of the <see cref="FootballBall"/> class.
         /// </summary>
-        public Ball()
+        public FootballBall()
         {
             Position = new Vector();
             Movement = new Vector();

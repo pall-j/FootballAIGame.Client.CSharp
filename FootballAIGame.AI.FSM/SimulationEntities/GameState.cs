@@ -19,7 +19,7 @@ namespace FootballAIGameClient.SimulationEntities
         /// <summary>
         /// Gets or sets the football ball.
         /// </summary>
-        public Ball Ball { get; set; }
+        public FootballBall Ball { get; set; }
 
         /// <summary>
         /// The simulation step number specifying to which simulation step this instance belongs.
@@ -47,7 +47,7 @@ namespace FootballAIGameClient.SimulationEntities
                 players[i] = new FootballPlayer();
             }
 
-            var ball = new Ball()
+            var ball = new FootballBall()
             {
                 Position = new Vector(floatData[0], floatData[1]),
                 Movement = new Vector(floatData[2], floatData[3])

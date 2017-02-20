@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGameClient.CustomDataTypes;
 using FootballAIGameClient.SimulationEntities;
 
 namespace FootballAIGameClient.UserClasses
 {
     /// <summary>
-    /// The main AI class where the AI behavior is defined.
+    /// The main AI class where the AI behavior is defined. Singleton class.
     /// </summary>
     class Ai : IFootballAi
     {
@@ -19,6 +21,25 @@ namespace FootballAIGameClient.UserClasses
         private FootballPlayer[] Players { get; set; }
 
         private static Random Random { get; set; }
+
+        public GameAction CurrentAction { get; set; }
+
+        public Team MyTeam { get; set; }
+
+        public Ball Ball { get; set; }
+
+        private static Ai _instance;
+
+        private Ai()
+        {
+            Ball = new Ball(new FootballBall());
+            MyTeam = new Team(GetParameters());
+        }
+
+        public static Ai Instance
+        {
+            get { return _instance ?? (_instance = new Ai()); }
+        }
 
         /// <summary>
         /// Gets or sets the value indicating whether the AI football team holds currently the left goal post.
@@ -45,61 +66,20 @@ namespace FootballAIGameClient.UserClasses
             if (gameState.Step == 0)
                 IsOnleft = gameState.FootballPlayers[0].Position.X < 55;
 
-            if (gameState.Step == 750) // switch
+            // switch
+            if (gameState.Step == 750)
                 IsOnleft = !IsOnleft;
 
-            var action = new GameAction { PlayerActions = new PlayerAction[11], Step = gameState.Step};
+            // ai entities (wrappers of SimulationEntities) are set accordingly
+            LoadState(gameState);
 
-            for (var i = 0; i < 11; i++)
-            {
-                var player = gameState.FootballPlayers[i];
-                var playerAction = new PlayerAction();
-                action.PlayerActions[i] = playerAction;
+            // new action
+            CurrentAction = new GameAction() { PlayerActions = new PlayerAction[11], Step = gameState.Step };
 
-                playerAction.Movement.X = Random.NextDouble() - 0.5;
-                playerAction.Movement.Y = Random.NextDouble() - 0.5;
+            // updates states and set's actions
+            MyTeam.Update(); 
 
-                if ((player.Position.X > 110 && playerAction.Movement.X > 0) || (player.Position.X <= 110.01 && player.Position.X + playerAction.Movement.X > 110))
-                    playerAction.Movement.X *= -1;
-
-                if ((player.Position.Y > 75 && playerAction.Movement.Y > 0) || (player.Position.Y < 75.01 && player.Position.Y + playerAction.Movement.Y > 75))
-                    playerAction.Movement.Y *= -1;
-
-                if ((player.Position.X < 0 && playerAction.Movement.X < 0) || (player.Position.X >= 0 && player.Position.X + playerAction.Movement.X < 0))
-                    playerAction.Movement.X *= -1;
-
-                if ((player.Position.Y < 0 && playerAction.Movement.Y < 0) || (player.Position.Y >= 0 && player.Position.Y + playerAction.Movement.Y < 0))
-                    playerAction.Movement.Y *= -1;
-
-                if (IsOnleft)
-                {
-                    playerAction.Kick.X = 110 - player.Position.X;
-                    playerAction.Kick.Y = (75 / 2f) - player.Position.Y;
-                }
-                else
-                {
-                    playerAction.Kick.X = -player.Position.X;
-                    playerAction.Kick.Y = (75 / 2f) - player.Position.Y;
-                }
-
-                // acceleration correction
-                var toNewMovement = Vector.Difference(playerAction.Movement, player.Movement);
-                if (toNewMovement.Length > player.MaxAcceleration)
-                {
-                    toNewMovement.Resize(player.MaxAcceleration);
-                    playerAction.Movement = Vector.Sum(player.Movement, toNewMovement);
-                }
-
-                // speed correction
-                if (playerAction.Movement.Length > player.MaxSpeed)
-                    playerAction.Movement.Resize(player.MaxSpeed);
-
-                // kick correction
-                if (playerAction.Kick.Length > player.MaxKickSpeed)
-                    playerAction.Kick.Resize(player.MaxKickSpeed);
-            }
-
-            return action;
+            return CurrentAction;
         }
 
         /// <summary>
@@ -126,5 +106,25 @@ namespace FootballAIGameClient.UserClasses
 
             return Players;
         }
+
+        public FootballPlayer GetPlayer(int playerNumber)
+        {
+            if (playerNumber > 11 || playerNumber < 0)
+                throw new IndexOutOfRangeException();
+            return Players[playerNumber];
+        }
+
+        private void LoadState(GameState state)
+        {
+            for (int i = 0; i < Players.Length; i++)
+            {
+                MyTeam.Players[i].Movement = state.FootballPlayers[i].Movement;
+                MyTeam.Players[i].Position = state.FootballPlayers[i].Position;
+            }
+
+            Ball.Position = state.Ball.Position;
+            Ball.Movement = state.Ball.Movement;
+        }
+
     }
 }
