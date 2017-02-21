@@ -74,6 +74,7 @@
     <Compile Include="UserClasses\Ai.cs" />
     <Compile Include="UserClasses\Entities\Ball.cs" />
     <Compile Include="UserClasses\Entities\Defender.cs" />
+    <Compile Include="UserClasses\Entities\FieldPlayer.cs" />
     <Compile Include="UserClasses\Entities\Forward.cs" />
     <Compile Include="UserClasses\Entities\GoalKeeper.cs" />
     <Compile Include="UserClasses\Entities\Midfielder.cs" />
@@ -82,6 +83,13 @@
     <Compile Include="UserClasses\FiniteStateMachine.cs" />
     <Compile Include="UserClasses\Messaging\Message.cs" />
     <Compile Include="UserClasses\Messaging\MessageDispatcher.cs" />
+    <Compile Include="UserClasses\PlayerStates\GlobalStates\DefenderGlobalState.cs" />
+    <Compile Include="UserClasses\PlayerStates\GlobalStates\FieldPlayerGlobalState.cs" />
+    <Compile Include="UserClasses\PlayerStates\GlobalStates\ForwardGlobalState.cs" />
+    <Compile Include="UserClasses\PlayerStates\GlobalStates\GoalKeeperGlobalState.cs" />
+    <Compile Include="UserClasses\PlayerStates\GlobalStates\MidfielderGlobalState.cs" />
+    <Compile Include="UserClasses\PlayerStates\GlobalStates\PlayerGlobalState.cs" />
+    <Compile Include="UserClasses\PlayerStates\MoveToHomeRegion.cs" />
     <Compile Include="UserClasses\PlayerStates\Wait.cs" />
     <Compile Include="UserClasses\State.cs" />
     <Compile Include="UserClasses\PlayerSteeringBehaviours.cs" />

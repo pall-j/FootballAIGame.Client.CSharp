@@ -7,13 +7,16 @@ using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
-    class Midfielder : Player
+    class Midfielder : FieldPlayer
     {
+        public FiniteStateMachine<Midfielder> StateMachine { get; set; }
+
         public Midfielder(FootballPlayer player) : base(player)
         {
+
         }
 
-        public override void Update()
+        public override PlayerAction GetAction()
         {
             throw new NotImplementedException();
         }

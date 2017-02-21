@@ -67,7 +67,7 @@ namespace FootballAIGame.AI.FSM.UserClasses
             CurrentAction = new GameAction() { PlayerActions = new PlayerAction[11], Step = gameState.Step };
 
             // updates states and actions
-            MyTeam.Update(); 
+            MyTeam.GetActions(); 
 
             return CurrentAction;
         }

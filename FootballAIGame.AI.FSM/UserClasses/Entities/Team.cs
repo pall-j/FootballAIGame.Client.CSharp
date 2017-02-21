@@ -64,14 +64,17 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             Defending.Instance.SetHomeRegions(this);
         }
 
-        public void Update()
+        public PlayerAction[] GetActions()
         {
             StateMachine.Update();
 
-            foreach (var player in Players)
+            var actions = new PlayerAction[11];
+            for (int i = 0; i < 11; i++)
             {
-                player.Update();
+                actions[i] = Players[i].GetAction();
             }
+
+            return actions;
         }
     }
 }

@@ -7,14 +7,17 @@ using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
-    class Forward : Player
+    class Forward : FieldPlayer
     {
+        public FiniteStateMachine<Forward> StateMachine { get; set; }
+
         public Forward(FootballPlayer player) : base(player)
         {
         }
 
-        public override void Update()
+        public override PlayerAction GetAction()
         {
+            throw new NotImplementedException();
         }
 
         public override bool ProcessMessage(Message message)

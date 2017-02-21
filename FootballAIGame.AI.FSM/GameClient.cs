@@ -80,7 +80,7 @@ namespace FootballAIGame.AI.FSM
 
                 try
                 {
-                    Connection = ServerConnection.ConnectAsync(ServerAddress, ServerPort,
+                    Connection = ServerConnection.Connect(ServerAddress, ServerPort,
                         tokens[0], tokens[1]);
                     Console.WriteLine("Connected.");
                     StartProcessing();

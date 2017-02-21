@@ -14,7 +14,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public PlayerSteeringBehaviours SteeringBehaviours { get; set; }
 
-        public abstract void Update();
+        public abstract PlayerAction GetAction();
 
         public abstract bool ProcessMessage(Message message);
 

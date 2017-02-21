@@ -9,11 +9,14 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     class GoalKeeper : Player
     {
+        public FiniteStateMachine<GoalKeeper> StateMachine { get; set; }
+
         public GoalKeeper(FootballPlayer player) : base(player)
         {
+
         }
 
-        public override void Update()
+        public override PlayerAction GetAction()
         {
             throw new NotImplementedException();
         }

@@ -42,7 +42,7 @@ namespace FootballAIGame.AI.FSM
         /// <exception cref="ServerException">
         /// Thrown if an error has occurred while connecting to the server.
         /// </exception>
-        public static ServerConnection ConnectAsync(IPAddress address, int port,
+        public static ServerConnection Connect(IPAddress address, int port,
             string userName, string aiName)
         {
             var connection = new ServerConnection { ServerTcpClient = new TcpClient { NoDelay = true } };
