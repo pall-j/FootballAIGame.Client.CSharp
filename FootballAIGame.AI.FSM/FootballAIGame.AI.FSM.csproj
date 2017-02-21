@@ -96,6 +96,7 @@
     <Compile Include="UserClasses\TeamStates\Attacking.cs" />
     <Compile Include="UserClasses\TeamStates\Defending.cs" />
     <Compile Include="UserClasses\TeamStates\TeamGlobalState.cs" />
+    <Compile Include="UserClasses\TeamStates\TeamState.cs" />
     <Compile Include="UserClasses\Utilities\SupportPositionCalculator.cs" />
   </ItemGroup>
   <ItemGroup>

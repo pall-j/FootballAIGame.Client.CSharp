@@ -17,13 +17,14 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public Defender(FootballPlayer player) : base(player)
         {
+            Action = new PlayerAction();
             StateMachine = new FiniteStateMachine<Defender>(this, MoveToHomeRegion<Defender>.Instance, 
                 PlayerStates.GlobalStates.DefenderGlobalState.Instance);
         }
 
         public override PlayerAction GetAction()
         {
-            Action.Kick = new Vector(); // state machine might change it
+            Action.Kick = new Vector(0, 0); // state machine might change it
 
             StateMachine.Update();
 
@@ -32,9 +33,14 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             return Action;
         }
 
-        public override bool ProcessMessage(Message message)
+        public override void ProcessMessage(Message message)
         {
-            return false;
+            StateMachine.ProcessMessage(message);
+        }
+
+        public override void InitialStateEnter()
+        {
+            StateMachine.CurrentState.Enter(this);
         }
     }
 }

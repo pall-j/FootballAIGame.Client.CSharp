@@ -36,9 +36,13 @@ namespace FootballAIGame.AI.FSM.UserClasses
 
             if (Target == null) return acceleration;
 
-            var desiredMovement = new Vector(Player.Position, Target, Player.MaxSpeed);
+            var desiredMovement = Vector.Difference(Target, Player.Position);
+            if (desiredMovement.Length > Player.MaxSpeed)
+                desiredMovement.Resize(Player.MaxSpeed);
+
             acceleration = Vector.Difference(desiredMovement, Player.Movement);
-            acceleration.Resize(Player.MaxAcceleration);
+            if (acceleration.Length > Player.MaxAcceleration)
+                acceleration.Resize(Player.MaxAcceleration);
 
             return acceleration;
         }

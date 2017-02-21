@@ -16,7 +16,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public abstract PlayerAction GetAction();
 
-        public abstract bool ProcessMessage(Message message);
+        public abstract void ProcessMessage(Message message);
 
         protected Player(FootballPlayer player)
         {
@@ -31,5 +31,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
             SteeringBehaviours = new PlayerSteeringBehaviours(this);
         }
+
+        public abstract void InitialStateEnter();
     }
 }

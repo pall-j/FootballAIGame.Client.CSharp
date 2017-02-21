@@ -27,5 +27,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
         {
             return false;
         }
+
     }
 }

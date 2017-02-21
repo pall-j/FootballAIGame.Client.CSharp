@@ -54,20 +54,27 @@ namespace FootballAIGame.AI.FSM.UserClasses
         public GameAction GetAction(GameState gameState)
         {
             if (gameState.Step == 0)
+            {
                 MyTeam.IsOnLeft = gameState.FootballPlayers[0].Position.X < 55;
+                MyTeam.UpdateHomeRegions();
+            }
 
             // switch
             if (gameState.Step == 750)
+            {
                 MyTeam.IsOnLeft = !MyTeam.IsOnLeft;
+                MyTeam.UpdateHomeRegions();
+            }
 
-            // ai entities (wrappers of SimulationEntities) are set accordingly
+            // AI entities (wrappers of SimulationEntities) are set accordingly
             LoadState(gameState);
 
             // new action
-            CurrentAction = new GameAction() { PlayerActions = new PlayerAction[11], Step = gameState.Step };
-
-            // updates states and actions
-            MyTeam.GetActions(); 
+            CurrentAction = new GameAction
+            {
+                Step = gameState.Step,
+                PlayerActions = MyTeam.GetActions()
+            };
 
             return CurrentAction;
         }

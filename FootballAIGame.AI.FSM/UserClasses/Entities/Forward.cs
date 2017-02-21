@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.SimulationEntities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
+using FootballAIGame.AI.FSM.UserClasses.PlayerStates;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
@@ -11,18 +13,34 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
     {
         public FiniteStateMachine<Forward> StateMachine { get; set; }
 
+        public PlayerAction Action { get; set; }
+
         public Forward(FootballPlayer player) : base(player)
         {
+            Action = new PlayerAction();
+            StateMachine = new FiniteStateMachine<Forward>(this, MoveToHomeRegion<Forward>.Instance,
+                PlayerStates.GlobalStates.ForwardGlobalState.Instance);
         }
 
         public override PlayerAction GetAction()
         {
-            throw new NotImplementedException();
+            Action.Kick = new Vector(0, 0); // state machine might change it
+
+            StateMachine.Update();
+
+            Action.Movement = Vector.Sum(SteeringBehaviours.CalculateAccelerationVector(), Movement);
+
+            return Action;
         }
 
-        public override bool ProcessMessage(Message message)
+        public override void ProcessMessage(Message message)
         {
-            return false;
+            StateMachine.ProcessMessage(message);
+        }
+
+        public override void InitialStateEnter()
+        {
+            StateMachine.CurrentState.Enter(this);
         }
     }
 }

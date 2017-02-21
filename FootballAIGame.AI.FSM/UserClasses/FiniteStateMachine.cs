@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
+using FootballAIGame.AI.FSM.UserClasses.Messaging;
 using FootballAIGame.AI.FSM.UserClasses.TeamStates;
 
 namespace FootballAIGame.AI.FSM.UserClasses
@@ -21,6 +22,8 @@ namespace FootballAIGame.AI.FSM.UserClasses
             this.Owner = owner;
             this.CurrentState = startState;
             this.GlobalState = globalState;
+
+            this.GlobalState.Enter(owner);
         }
 
         public void ChangeState(State<TEntity> newState)
@@ -40,5 +43,13 @@ namespace FootballAIGame.AI.FSM.UserClasses
                 CurrentState.Run(Owner);
         }
 
+        public void ProcessMessage(Message message)
+        {
+            if (CurrentState != null && CurrentState.ProcessMessage(message))
+                return;
+
+            if (GlobalState != null)
+                GlobalState.ProcessMessage(message);
+        }
     }
 }

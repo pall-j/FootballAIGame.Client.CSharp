@@ -8,7 +8,7 @@ using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
-    class Defending : State<Team>
+    class Defending : TeamState
     {
         private Defending() { }
 
@@ -19,7 +19,16 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             get { return _instance ?? (_instance = new Defending()); }
         }
 
-        public void SetHomeRegions(Team team)
+        public override void Run(Team team)
+        {
+        }
+
+        public override bool ProcessMessage(Message message)
+        {
+            return false;
+        }
+
+        public override void SetHomeRegions(Team team)
         {
             team.GoalKeeper.HomeRegion = Region.GetRegion(0, 4);
 
@@ -34,7 +43,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             team.Midfielders[3].HomeRegion = Region.GetRegion(2, 7);
 
             team.Forwards[0].HomeRegion = Region.GetRegion(3, 2);
-            team.Forwards[1].HomeRegion = Region.GetRegion(3, 4);
+            team.Forwards[1].HomeRegion = Region.GetRegion(3, 6);
 
             if (team.IsOnLeft) return;
 
@@ -42,17 +51,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             foreach (var player in team.Players)
             {
                 player.HomeRegion = Region.GetRegion(
-                    (Region.NumberOfColumns-1) - player.HomeRegion.X, player.HomeRegion.Y);
+                    (Region.NumberOfColumns - 1) - player.HomeRegion.X, player.HomeRegion.Y);
             }
         }
 
-        public override void Run(Team team)
-        {
-        }
-
-        public override bool ProcessMessage(Message message)
-        {
-            return false;
-        }
     }
 }

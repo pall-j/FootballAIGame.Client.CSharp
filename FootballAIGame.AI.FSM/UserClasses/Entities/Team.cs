@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using FootballAIGame.AI.FSM.SimulationEntities;
+using FootballAIGame.AI.FSM.UserClasses.Messaging;
 using FootballAIGame.AI.FSM.UserClasses.TeamStates;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Entities
@@ -30,7 +32,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         public Team(IList<FootballPlayer> footballPlayers)
         {
             StateMachine = new FiniteStateMachine<Team>(this, 
-                TeamStates.Attacking.Instance, TeamStates.TeamGlobalState.Instance);
+                Defending.Instance, TeamGlobalState.Instance);
+            StateMachine.CurrentState.Enter(this); // initial enter
 
             Players = new Player[11];
 
@@ -62,6 +65,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             }
 
             Defending.Instance.SetHomeRegions(this);
+            foreach (var player in Players)
+                player.InitialStateEnter();
         }
 
         public PlayerAction[] GetActions()
@@ -75,6 +80,19 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             }
 
             return actions;
+        }
+
+        public void ProcessMessage(Message message)
+        {
+            StateMachine.ProcessMessage(message);
+        }
+
+        public void UpdateHomeRegions()
+        {
+            var currentState = StateMachine.CurrentState;
+            var teamState = currentState as TeamState;
+            Debug.Assert(teamState != null, "currentState is TeamState");
+            teamState.SetHomeRegions(this);
         }
     }
 }

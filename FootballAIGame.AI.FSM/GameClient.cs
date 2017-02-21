@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Runtime.Remoting;
@@ -71,6 +72,7 @@ namespace FootballAIGame.AI.FSM
                 Console.WriteLine("Enter user name and AI name separated by whitespace.");
                 var line = Console.ReadLine();
 
+                Debug.Assert(line != null, "line != null");
                 var tokens = line.Split();
                 if (tokens.Length != 2)
                 {
