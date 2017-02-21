@@ -2,9 +2,9 @@
 using System.IO;
 using System.Net;
 using System.Runtime.Remoting;
-using FootballAIGameClient.SimulationEntities;
+using FootballAIGame.AI.FSM.SimulationEntities;
 
-namespace FootballAIGameClient
+namespace FootballAIGame.AI.FSM
 {
     /// <summary>
     /// The main AI game client class.
@@ -17,6 +17,16 @@ namespace FootballAIGameClient
         /// The time in milliseconds of one simulation step.
         /// </summary>
         public const int StepInterval = 200; // [ms]
+
+        /// <summary>
+        /// The football field height in meters.
+        /// </summary>
+        public const double FieldHeight = 75; // [m]
+
+        /// <summary>
+        /// The football field width in meters.
+        /// </summary>
+        public const double FieldWidth = 110; // [m]
 
         /// <summary>
         /// Gets or sets the connection to the server.

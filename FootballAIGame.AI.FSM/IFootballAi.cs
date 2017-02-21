@@ -1,6 +1,6 @@
-﻿using FootballAIGameClient.SimulationEntities;
+﻿using FootballAIGame.AI.FSM.SimulationEntities;
 
-namespace FootballAIGameClient
+namespace FootballAIGame.AI.FSM
 {
     interface IFootballAi
     {

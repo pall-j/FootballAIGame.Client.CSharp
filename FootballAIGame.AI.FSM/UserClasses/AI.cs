@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
+using FootballAIGame.AI.FSM.SimulationEntities;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
-using FootballAIGameClient.CustomDataTypes;
-using FootballAIGameClient.SimulationEntities;
 
-namespace FootballAIGameClient.UserClasses
+namespace FootballAIGame.AI.FSM.UserClasses
 {
     /// <summary>
     /// The main AI class where the AI behavior is defined. Singleton class.
@@ -42,11 +37,6 @@ namespace FootballAIGameClient.UserClasses
         }
 
         /// <summary>
-        /// Gets or sets the value indicating whether the AI football team holds currently the left goal post.
-        /// </summary>
-        private bool IsOnleft { get; set; }
-
-        /// <summary>
         /// Called every time the new match simulation with this AI starts.<para />
         /// Called before <see cref="GetParameters" />.
         /// </summary>
@@ -64,11 +54,11 @@ namespace FootballAIGameClient.UserClasses
         public GameAction GetAction(GameState gameState)
         {
             if (gameState.Step == 0)
-                IsOnleft = gameState.FootballPlayers[0].Position.X < 55;
+                MyTeam.IsOnLeft = gameState.FootballPlayers[0].Position.X < 55;
 
             // switch
             if (gameState.Step == 750)
-                IsOnleft = !IsOnleft;
+                MyTeam.IsOnLeft = !MyTeam.IsOnLeft;
 
             // ai entities (wrappers of SimulationEntities) are set accordingly
             LoadState(gameState);

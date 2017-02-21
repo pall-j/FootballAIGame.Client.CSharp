@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FootballAIGame.AI.FSM.SimulationEntities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
-using FootballAIGameClient.SimulationEntities;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
@@ -17,8 +17,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         {
         }
 
-        public override void ProcessMessage(Message message)
+        public override bool ProcessMessage(Message message)
         {
+            return false;
         }
     }
 }

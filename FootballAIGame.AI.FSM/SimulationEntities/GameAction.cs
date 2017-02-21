@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FootballAIGameClient.CustomDataTypes;
+﻿
 
-namespace FootballAIGameClient.SimulationEntities
+namespace FootballAIGame.AI.FSM.SimulationEntities
 {
     /// <summary>
     /// Represents the AI action that consists of the football players actions.

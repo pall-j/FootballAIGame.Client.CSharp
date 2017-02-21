@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using FootballAIGameClient.SimulationEntities;
+using FootballAIGame.AI.FSM.SimulationEntities;
+using FootballAIGame.AI.FSM.UserClasses.TeamStates;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
@@ -20,6 +21,11 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         public List<Midfielder> Midfielders { get; set; }
 
         public List<Forward> Forwards { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating whether the team holds currently the left goal post.
+        /// </summary>
+        public bool IsOnLeft { get; set; }
 
         public Team(IList<FootballPlayer> footballPlayers)
         {
@@ -54,6 +60,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 Forwards.Add(forward);
                 Players[i] = forward;
             }
+
+            Defending.Instance.SetHomeRegions(this);
         }
 
         public void Update()

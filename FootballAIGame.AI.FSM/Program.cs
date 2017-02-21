@@ -1,8 +1,7 @@
-﻿using System;
-using System.Net;
-using FootballAIGameClient.UserClasses;
+﻿using System.Net;
+using FootballAIGame.AI.FSM.UserClasses;
 
-namespace FootballAIGameClient
+namespace FootballAIGame.AI.FSM
 {
     /// <summary>
     /// The class that contains the entry point of the application.

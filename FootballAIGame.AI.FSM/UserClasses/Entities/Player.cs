@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FootballAIGame.AI.FSM.CustomDataTypes;
+using FootballAIGame.AI.FSM.SimulationEntities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
-using FootballAIGameClient.SimulationEntities;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     abstract class Player : FootballPlayer
     {
+        public Region HomeRegion { get; set; }
+
         public PlayerSteeringBehaviours SteeringBehaviours { get; set; }
 
         public abstract void Update();

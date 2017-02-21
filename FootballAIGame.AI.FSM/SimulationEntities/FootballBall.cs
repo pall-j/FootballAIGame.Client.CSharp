@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FootballAIGameClient.CustomDataTypes;
+﻿using FootballAIGame.AI.FSM.CustomDataTypes;
 
-namespace FootballAIGameClient.SimulationEntities
+namespace FootballAIGame.AI.FSM.SimulationEntities
 {
     class FootballBall
     {

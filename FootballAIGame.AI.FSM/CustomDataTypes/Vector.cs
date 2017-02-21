@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace FootballAIGameClient.CustomDataTypes
+namespace FootballAIGame.AI.FSM.CustomDataTypes
 {
     /// <summary>
     /// The vector class used for representing two-dimensional vectors or points.

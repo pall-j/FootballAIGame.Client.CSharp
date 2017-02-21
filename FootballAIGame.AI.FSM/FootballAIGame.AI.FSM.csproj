@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command.cs" />
+    <Compile Include="CustomDataTypes\Region.cs" />
     <Compile Include="CustomDataTypes\Vector.cs" />
     <Compile Include="GameClient.cs" />
     <Compile Include="IFootballAi.cs" />

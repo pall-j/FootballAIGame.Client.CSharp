@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace FootballAIGameClient
+﻿namespace FootballAIGame.AI.FSM
 {
     /// <summary>
     /// Represents the command received from the game server.

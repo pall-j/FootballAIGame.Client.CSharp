@@ -4,9 +4,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Remoting;
 using System.Text;
-using FootballAIGameClient.SimulationEntities;
+using FootballAIGame.AI.FSM.SimulationEntities;
 
-namespace FootballAIGameClient
+namespace FootballAIGame.AI.FSM
 {
     /// <summary>
     /// Responsible for keeping TCP connection to the game server.
