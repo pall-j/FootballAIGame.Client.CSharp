@@ -22,6 +22,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
         public override void Enter(Team team)
         {
             SetHomeRegions(team);
+            foreach (var player in team.Players)
+                MessageDispatcher.Instance.SendMessage(ReturnToHomeMessage.Instance, player);
         }
 
         public override void Run(Team team)

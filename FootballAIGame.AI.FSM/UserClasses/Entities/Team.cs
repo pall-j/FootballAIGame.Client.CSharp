@@ -66,14 +66,17 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 Players[i] = forward;
             }
 
-            Defending.Instance.SetHomeRegions(this);
         }
 
         public PlayerAction[] GetActions()
         {
             if (InitialEnter)
             {
-                StateMachine.CurrentState.Enter(this); // initial enter
+                StateMachine.CurrentState.Enter(this);
+
+                foreach (var player in Players)
+                    player.StateMachine.CurrentState.Enter(player);
+
                 InitialEnter = false;
             }
 

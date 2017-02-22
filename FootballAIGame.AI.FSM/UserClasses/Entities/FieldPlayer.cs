@@ -9,7 +9,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     abstract class FieldPlayer : Player
     {
-        protected FieldPlayer(FootballPlayer player) : base(player)
+        protected FieldPlayer(FootballPlayer player, State<Player> startState, State<Player> globalState) : 
+            base(player, startState, globalState)
         {
         }
     }

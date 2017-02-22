@@ -3,7 +3,7 @@ using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
-    class ForwardGlobalState : State<Forward>
+    class ForwardGlobalState : State<Player>
     {
         private ForwardGlobalState() { }
 
@@ -14,14 +14,14 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
             get { return _instance ?? (_instance = new ForwardGlobalState()); }
         }
 
-        public override void Run(Forward player)
+        public override void Run(Player player)
         {
-            FieldPlayerGlobalState<Forward>.Instance.Run(player);
+            FieldPlayerGlobalState.Instance.Run(player);
         }
 
-        public override bool ProcessMessage(Forward entity, Message message)
+        public override bool ProcessMessage(Player entity, Message message)
         {
-            return FieldPlayerGlobalState<Forward>.Instance.ProcessMessage(entity, message);
+            return FieldPlayerGlobalState.Instance.ProcessMessage(entity, message);
         }
     }
 }

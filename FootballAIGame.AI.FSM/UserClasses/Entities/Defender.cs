@@ -6,20 +6,17 @@ using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.SimulationEntities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
 using FootballAIGame.AI.FSM.UserClasses.PlayerStates;
+using FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     class Defender : FieldPlayer
     {
-        public FiniteStateMachine<Defender> StateMachine { get; set; }
-
         public PlayerAction Action { get; set; }
 
-        public Defender(FootballPlayer player) : base(player)
+        public Defender(FootballPlayer player) : base(player, Wait.Instance, DefenderGlobalState.Instance)
         {
             Action = new PlayerAction();
-            StateMachine = new FiniteStateMachine<Defender>(this, MoveToHomeRegion<Defender>.Instance, 
-                PlayerStates.GlobalStates.DefenderGlobalState.Instance);
         }
 
         public override PlayerAction GetAction()
@@ -38,9 +35,5 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             StateMachine.ProcessMessage(this, message);
         }
 
-        public override void InitialStateEnter()
-        {
-            StateMachine.CurrentState.Enter(this);
-        }
     }
 }

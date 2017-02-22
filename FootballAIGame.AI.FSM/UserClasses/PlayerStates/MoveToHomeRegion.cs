@@ -7,32 +7,31 @@ using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 {
-    class MoveToHomeRegion<TPlayer> : State<TPlayer> where TPlayer : Player
+    class MoveToHomeRegion : State<Player>
     {
         private MoveToHomeRegion() { }
 
-        private static MoveToHomeRegion<TPlayer> _instance;
+        private static MoveToHomeRegion _instance;
 
-        public static State<Forward> Instance
+        public static MoveToHomeRegion Instance
         {
-            get { return _instance ?? (_instance = new MoveToHomeRegion<TPlayer>()); }
+            get { return _instance ?? (_instance = new MoveToHomeRegion()); }
         }
 
-        public override void Enter(TPlayer player)
+        public override void Enter(Player player)
         {
             player.SteeringBehaviours.Target = player.HomeRegion.Center;
             player.SteeringBehaviours.SeekOn = true;
         }
 
-        public override void Run(TPlayer player)
+        public override void Run(Player player)
         {
             player.SteeringBehaviours.Target = player.HomeRegion.Center;
         }
 
-        public override void Exit(TPlayer player)
+        public override void Exit(Player player)
         {
             player.SteeringBehaviours.SeekOn = false;
         }
-
     }
 }

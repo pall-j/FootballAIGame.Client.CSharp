@@ -3,25 +3,25 @@ using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
-    class FieldPlayerGlobalState<TFieldPlayer> : State<TFieldPlayer> where TFieldPlayer : FieldPlayer
+    class FieldPlayerGlobalState : State<Player>
     {
         private FieldPlayerGlobalState() { }
 
-        private static FieldPlayerGlobalState<TFieldPlayer> _instance;
+        private static FieldPlayerGlobalState _instance;
 
-        public static FieldPlayerGlobalState<TFieldPlayer> Instance
+        public static FieldPlayerGlobalState Instance
         {
-            get { return _instance ?? (_instance = new FieldPlayerGlobalState<TFieldPlayer>()); }
+            get { return _instance ?? (_instance = new FieldPlayerGlobalState()); }
         }
 
-        public override void Run(TFieldPlayer entity)
+        public override void Run(Player entity)
         {
-            PlayerGlobalState<TFieldPlayer>.Instance.Run(entity);   
+            PlayerGlobalState.Instance.Run(entity);   
         }
 
-        public override bool ProcessMessage(TFieldPlayer entity, Message message)
+        public override bool ProcessMessage(Player entity, Message message)
         {
-            return PlayerGlobalState<TFieldPlayer>.Instance.ProcessMessage(entity, message);
+            return PlayerGlobalState.Instance.ProcessMessage(entity, message);
         }
     }
 }

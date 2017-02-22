@@ -18,7 +18,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             get { return _instance ?? (_instance = new TeamGlobalState()); }
         }
 
-
         public override void Run(Team entity)
         {
         }

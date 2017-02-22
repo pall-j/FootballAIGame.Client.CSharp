@@ -10,6 +10,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     abstract class Player : FootballPlayer
     {
+        public FiniteStateMachine<Player> StateMachine { get; set; }
+
         public Region HomeRegion { get; set; }
 
         public PlayerSteeringBehaviours SteeringBehaviours { get; set; }
@@ -18,7 +20,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public abstract void ProcessMessage(Message message);
 
-        protected Player(FootballPlayer player) : base(player.Id)
+        protected Player(FootballPlayer player, State<Player> startState, State<Player> globalState) : base(player.Id)
         {
             this.Position = player.Position;
             this.Movement = player.Movement;
@@ -29,11 +31,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             this.Possession = player.Possession;
             this.Precision = player.Precision;
 
+            StateMachine = new FiniteStateMachine<Player>(this, startState, globalState);
             SteeringBehaviours = new PlayerSteeringBehaviours(this);
         }
 
-        public abstract void InitialStateEnter();
-
-        public abstract void ChangeState<TPlayer>(State<TPlayer> state);
     }
 }

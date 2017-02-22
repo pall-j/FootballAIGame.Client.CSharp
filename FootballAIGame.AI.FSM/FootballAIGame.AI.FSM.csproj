@@ -83,7 +83,7 @@
     <Compile Include="UserClasses\FiniteStateMachine.cs" />
     <Compile Include="UserClasses\Messaging\Message.cs" />
     <Compile Include="UserClasses\Messaging\MessageDispatcher.cs" />
-    <Compile Include="UserClasses\Messaging\ReturnToHome.cs" />
+    <Compile Include="UserClasses\Messaging\ReturnToHomeMessage.cs" />
     <Compile Include="UserClasses\PlayerStates\GlobalStates\DefenderGlobalState.cs" />
     <Compile Include="UserClasses\PlayerStates\GlobalStates\FieldPlayerGlobalState.cs" />
     <Compile Include="UserClasses\PlayerStates\GlobalStates\ForwardGlobalState.cs" />

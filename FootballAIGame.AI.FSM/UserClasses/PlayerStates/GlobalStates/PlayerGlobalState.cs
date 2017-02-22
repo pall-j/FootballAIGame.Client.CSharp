@@ -8,35 +8,24 @@ using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
-    class PlayerGlobalState<TPlayer> : State<TPlayer> where TPlayer : Player
+    class PlayerGlobalState : State<Player>
     {
         private PlayerGlobalState() { }
 
-        private static PlayerGlobalState<TPlayer> _instance;
+        private static PlayerGlobalState _instance;
 
-        public static PlayerGlobalState<TPlayer> Instance
+        public static PlayerGlobalState Instance
         {
-            get { return _instance ?? (_instance = new PlayerGlobalState<TPlayer>()); }
+            get { return _instance ?? (_instance = new PlayerGlobalState()); }
         }
 
-        public override void Run(TPlayer entity)
+        public override void Run(Player entity)
         {
         }
 
-        public bool ProcessMessage(TPlayer entity, ReturnToHome message)
+        public bool ProcessMessage(Player entity, ReturnToHomeMessage message)
         {
-            if (entity is Forward)
-                (entity as Forward).ChangeState(MoveToHomeRegion<Forward>.Instance);
-
-            if (entity is Midfielder)
-                (entity as Midfielder).ChangeState(MoveToHomeRegion<Midfielder>.Instance);
-
-            if (entity is Defender)
-                (entity as Defender).ChangeState(MoveToHomeRegion<Defender>.Instance);
-
-            if (entity is GoalKeeper)
-                (entity as GoalKeeper).ChangeState(MoveToHomeRegion<GoalKeeper>.Instance);
-
+            entity.StateMachine.ChangeState(MoveToHomeRegion.Instance);
             return true;
         }
     }

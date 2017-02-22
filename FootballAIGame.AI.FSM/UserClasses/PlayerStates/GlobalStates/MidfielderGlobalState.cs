@@ -7,7 +7,7 @@ using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
-    class MidfielderGlobalState : State<Midfielder>
+    class MidfielderGlobalState : State<Player>
     {
         private MidfielderGlobalState() { }
 
@@ -18,14 +18,14 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
             get { return _instance ?? (_instance = new MidfielderGlobalState()); }
         }
 
-        public override void Run(Midfielder player)
+        public override void Run(Player player)
         {
-            FieldPlayerGlobalState<Midfielder>.Instance.Run(player);
+            FieldPlayerGlobalState.Instance.Run(player);
         }
 
-        public override bool ProcessMessage(Midfielder entity, Message message)
+        public override bool ProcessMessage(Player entity, Message message)
         {
-            return FieldPlayerGlobalState<Midfielder>.Instance.ProcessMessage(entity, message);
+            return FieldPlayerGlobalState.Instance.ProcessMessage(entity, message);
         }
     }
 }
