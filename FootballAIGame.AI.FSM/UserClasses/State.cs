@@ -14,6 +14,9 @@ namespace FootballAIGame.AI.FSM.UserClasses
 
         public virtual void Exit(TEntity entity) { }
 
-        public abstract bool ProcessMessage(Message message);
+        public virtual bool ProcessMessage(TEntity entity, Message message)
+        {
+            return false;
+        }
     }
 }

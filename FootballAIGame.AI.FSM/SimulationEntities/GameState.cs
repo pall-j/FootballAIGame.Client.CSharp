@@ -24,6 +24,28 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         /// </summary>
         public int Step { get; set; }
 
+        public FootballPlayer NearestPlayerToBall
+        {
+            get
+            {
+                var smallestDistance = double.MaxValue;
+                FootballPlayer nearestPlayer = null;
+
+                foreach (var footballPlayer in FootballPlayers)
+                {
+                    var dist = Vector.DistanceBetween(footballPlayer.Position, Ball.Position);
+
+                    if (dist < smallestDistance)
+                    {
+                        smallestDistance = dist;
+                        nearestPlayer = footballPlayer;
+                    }
+                }
+
+                return nearestPlayer;;
+            }
+        }
+
         /// <summary>
         /// Parses the specified binary representation of the game state.
         /// </summary>
@@ -42,7 +64,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             var players = new FootballPlayer[22];
             for (var i = 0; i < 22; i++)
             {
-                players[i] = new FootballPlayer();
+                players[i] = new FootballPlayer(i);
             }
 
             var ball = new FootballBall()
@@ -64,6 +86,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
                 Step = stepData[0]
             };
         }
+
     }
 
     

@@ -4,6 +4,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
 {
     class FootballPlayer
     {
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the speed parameter of the player. <para />
@@ -67,12 +68,9 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         /// </value>
         public Vector Kick { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FootballPlayer"/> class.
-        /// </summary>
-        public FootballPlayer()
+        public FootballPlayer(int id)
         {
-            Position = new Vector();
+            Id = id;
             Movement = new Vector();
             Kick = new Vector();
         }

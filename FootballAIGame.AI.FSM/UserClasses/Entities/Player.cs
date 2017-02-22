@@ -18,7 +18,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public abstract void ProcessMessage(Message message);
 
-        protected Player(FootballPlayer player)
+        protected Player(FootballPlayer player) : base(player.Id)
         {
             this.Position = player.Position;
             this.Movement = player.Movement;
@@ -33,5 +33,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         }
 
         public abstract void InitialStateEnter();
+
+        public abstract void ChangeState<TPlayer>(State<TPlayer> state);
     }
 }

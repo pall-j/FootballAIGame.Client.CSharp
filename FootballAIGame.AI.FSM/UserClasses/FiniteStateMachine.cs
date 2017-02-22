@@ -43,13 +43,13 @@ namespace FootballAIGame.AI.FSM.UserClasses
                 CurrentState.Run(Owner);
         }
 
-        public void ProcessMessage(Message message)
+        public void ProcessMessage(TEntity entity, Message message)
         {
-            if (CurrentState != null && CurrentState.ProcessMessage(message))
+            if (CurrentState != null && CurrentState.ProcessMessage(entity, message))
                 return;
 
             if (GlobalState != null)
-                GlobalState.ProcessMessage(message);
+                GlobalState.ProcessMessage(entity, message);
         }
     }
 }

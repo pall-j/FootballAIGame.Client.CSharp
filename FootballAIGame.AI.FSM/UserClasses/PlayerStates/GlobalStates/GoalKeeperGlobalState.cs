@@ -23,9 +23,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
             PlayerGlobalState<GoalKeeper>.Instance.Run(player);
         }
 
-        public override bool ProcessMessage(Message message)
+        public override bool ProcessMessage(GoalKeeper entity, Message message)
         {
-            return PlayerGlobalState<GoalKeeper>.Instance.ProcessMessage(message);
+            return PlayerGlobalState<GoalKeeper>.Instance.ProcessMessage(entity, message);
         }
     }
 }

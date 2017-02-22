@@ -67,9 +67,12 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
         {
             if (Regions == null)
                 CreateRegions();
+
             if (x >= NumberOfColumns || x < 0 || y >= NumberOfRows || y < 0)
                 throw new IndexOutOfRangeException();
+
             Debug.Assert(Regions != null, "Regions != null");
+
             return Regions[x*NumberOfRows + y];
         }
 

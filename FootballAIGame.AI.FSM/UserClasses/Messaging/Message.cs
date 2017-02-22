@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Messaging
 {
-    class Message
+    abstract class Message
     {
     }
 }

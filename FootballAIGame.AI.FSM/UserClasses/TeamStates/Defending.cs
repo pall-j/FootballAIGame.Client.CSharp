@@ -19,11 +19,16 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             get { return _instance ?? (_instance = new Defending()); }
         }
 
+        public override void Enter(Team team)
+        {
+            SetHomeRegions(team);
+        }
+
         public override void Run(Team team)
         {
         }
 
-        public override bool ProcessMessage(Message message)
+        public override bool ProcessMessage(Team entity, Message message)
         {
             return false;
         }

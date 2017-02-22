@@ -13,7 +13,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
         private static MoveToHomeRegion<TPlayer> _instance;
 
-        public static MoveToHomeRegion<TPlayer> Instance
+        public static State<Forward> Instance
         {
             get { return _instance ?? (_instance = new MoveToHomeRegion<TPlayer>()); }
         }
@@ -34,9 +34,5 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             player.SteeringBehaviours.SeekOn = false;
         }
 
-        public override bool ProcessMessage(Message message)
-        {
-            return false;
-        }
     }
 }

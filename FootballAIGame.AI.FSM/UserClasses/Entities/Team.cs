@@ -12,6 +12,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     class Team
     {
+        private bool InitialEnter { get; set; }
+
         public FiniteStateMachine<Team> StateMachine { get; set; }
 
         public Player[] Players { get; set; }
@@ -31,9 +33,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public Team(IList<FootballPlayer> footballPlayers)
         {
-            StateMachine = new FiniteStateMachine<Team>(this, 
-                Defending.Instance, TeamGlobalState.Instance);
-            StateMachine.CurrentState.Enter(this); // initial enter
+            StateMachine = new FiniteStateMachine<Team>(this,
+                Kickoff.Instance, TeamGlobalState.Instance);
+            InitialEnter = true;
 
             Players = new Player[11];
 
@@ -65,12 +67,16 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             }
 
             Defending.Instance.SetHomeRegions(this);
-            foreach (var player in Players)
-                player.InitialStateEnter();
         }
 
         public PlayerAction[] GetActions()
         {
+            if (InitialEnter)
+            {
+                StateMachine.CurrentState.Enter(this); // initial enter
+                InitialEnter = false;
+            }
+
             StateMachine.Update();
 
             var actions = new PlayerAction[11];
@@ -84,7 +90,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public void ProcessMessage(Message message)
         {
-            StateMachine.ProcessMessage(message);
+            StateMachine.ProcessMessage(this, message);
         }
 
         public void UpdateHomeRegions()
@@ -93,6 +99,21 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             var teamState = currentState as TeamState;
             Debug.Assert(teamState != null, "currentState is TeamState");
             teamState.SetHomeRegions(this);
+        }
+
+        public void LoadState(GameState state)
+        {
+            for (int i = 0; i < Players.Length; i++)
+            {
+                Players[i].Movement = state.FootballPlayers[i].Movement;
+                Players[i].Position = state.FootballPlayers[i].Position;
+            }
+
+            if (state.Step == 0 || state.Step == 750)
+            {
+                IsOnLeft = GoalKeeper.Position.X < 55;
+                StateMachine.ChangeState(Kickoff.Instance); // todo maybe change to message
+            }
         }
     }
 }

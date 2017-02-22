@@ -19,9 +19,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
             PlayerGlobalState<TFieldPlayer>.Instance.Run(entity);   
         }
 
-        public override bool ProcessMessage(Message message)
+        public override bool ProcessMessage(TFieldPlayer entity, Message message)
         {
-            return PlayerGlobalState<TFieldPlayer>.Instance.ProcessMessage(message);
+            return PlayerGlobalState<TFieldPlayer>.Instance.ProcessMessage(entity, message);
         }
     }
 }

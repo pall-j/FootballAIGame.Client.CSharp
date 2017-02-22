@@ -23,7 +23,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
         {
         }
 
-        public override bool ProcessMessage(Message message)
+        public override bool ProcessMessage(Team entity, Message message)
         {
             return false;
         }

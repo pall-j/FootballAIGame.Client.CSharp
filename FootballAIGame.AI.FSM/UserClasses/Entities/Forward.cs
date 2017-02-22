@@ -35,12 +35,17 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public override void ProcessMessage(Message message)
         {
-            StateMachine.ProcessMessage(message);
+            StateMachine.ProcessMessage(this, message);
         }
 
         public override void InitialStateEnter()
         {
             StateMachine.CurrentState.Enter(this);
+        }
+
+        public override void ChangeState<TPlayer>(State<TPlayer> state)
+        {
+            StateMachine.ChangeState(state as State<Forward>);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
@@ -22,9 +23,21 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
         {
         }
 
-        public override bool ProcessMessage(Message message)
+        public bool ProcessMessage(TPlayer entity, ReturnToHome message)
         {
-            return false;
+            if (entity is Forward)
+                (entity as Forward).ChangeState(MoveToHomeRegion<Forward>.Instance);
+
+            if (entity is Midfielder)
+                (entity as Midfielder).ChangeState(MoveToHomeRegion<Midfielder>.Instance);
+
+            if (entity is Defender)
+                (entity as Defender).ChangeState(MoveToHomeRegion<Defender>.Instance);
+
+            if (entity is GoalKeeper)
+                (entity as GoalKeeper).ChangeState(MoveToHomeRegion<GoalKeeper>.Instance);
+
+            return true;
         }
     }
 }

@@ -9,31 +9,21 @@ namespace FootballAIGame.AI.FSM.UserClasses
     /// </summary>
     class Ai : IFootballAi
     {
-        /// <summary>
-        /// Gets or sets the football players with their parameters set.
-        /// Set after GetParameters is called. Used to know players parameters at every <see cref="GetAction"/> call.
-        /// </summary>
-        private FootballPlayer[] Players { get; set; }
-
         private static Random Random { get; set; }
 
-        public GameAction CurrentAction { get; set; }
+        public GameState CurrentState { get; set; }
 
         public Team MyTeam { get; set; }
-
-        public Ball Ball { get; set; }
-
-        private Ai()
-        {
-            Ball = new Ball(new FootballBall());
-            MyTeam = new Team(GetParameters());
-        }
 
         private static Ai _instance;
 
         public static Ai Instance
         {
             get { return _instance ?? (_instance = new Ai()); }
+        }
+
+        private Ai()
+        {
         }
 
         /// <summary>
@@ -53,30 +43,21 @@ namespace FootballAIGame.AI.FSM.UserClasses
         /// <returns>The <see cref="GameAction" /> for the specified <see cref="GameState" />.</returns>
         public GameAction GetAction(GameState gameState)
         {
-            if (gameState.Step == 0)
-            {
-                MyTeam.IsOnLeft = gameState.FootballPlayers[0].Position.X < 55;
-                MyTeam.UpdateHomeRegions();
-            }
-
-            // switch
-            if (gameState.Step == 750)
-            {
-                MyTeam.IsOnLeft = !MyTeam.IsOnLeft;
-                MyTeam.UpdateHomeRegions();
-            }
+            if (gameState.Step == 0 || MyTeam == null)
+                MyTeam = new Team(GetParameters());
 
             // AI entities (wrappers of SimulationEntities) are set accordingly
-            LoadState(gameState);
+            CurrentState = gameState;
+            MyTeam.LoadState(gameState);
 
             // new action
-            CurrentAction = new GameAction
+            var currentAction = new GameAction
             {
                 Step = gameState.Step,
                 PlayerActions = MyTeam.GetActions()
             };
 
-            return CurrentAction;
+            return currentAction;
         }
 
         /// <summary>
@@ -87,12 +68,11 @@ namespace FootballAIGame.AI.FSM.UserClasses
         /// </returns>
         public FootballPlayer[] GetParameters()
         {
-            if (Players != null) return Players;
+            var players = new FootballPlayer[11];
 
-            Players = new FootballPlayer[11];
             for (var i = 0; i < 11; i++)
             {
-                Players[i] = new FootballPlayer
+                players[i] = new FootballPlayer(i)
                 {
                     Speed = 0.4f,
                     KickPower = 0.2f,
@@ -101,27 +81,7 @@ namespace FootballAIGame.AI.FSM.UserClasses
                 };
             }
 
-            return Players;
+            return players;
         }
-
-        public FootballPlayer GetPlayer(int playerNumber)
-        {
-            if (playerNumber > 11 || playerNumber < 0)
-                throw new IndexOutOfRangeException();
-            return Players[playerNumber];
-        }
-
-        private void LoadState(GameState state)
-        {
-            for (int i = 0; i < Players.Length; i++)
-            {
-                MyTeam.Players[i].Movement = state.FootballPlayers[i].Movement;
-                MyTeam.Players[i].Position = state.FootballPlayers[i].Position;
-            }
-
-            Ball.Position = state.Ball.Position;
-            Ball.Movement = state.Ball.Movement;
-        }
-
     }
 }

@@ -19,18 +19,30 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             get { return _instance ?? (_instance = new Attacking()); }
         }
 
+        public override void Enter(Team team)
+        {
+            SetHomeRegions(team);
+            foreach (var player in team.Players)
+            {
+                MessageDispatcher.Instance.SendMessage(ReturnToHome.Instance, player);
+            }
+        }
+
         public override void Run(Team entity)
         {
         }
 
-        public override bool ProcessMessage(Message message)
+        public override bool ProcessMessage(Team entity, Message message)
         {
             return false;
         }
 
         public override void SetHomeRegions(Team team)
         {
-            team.GoalKeeper.HomeRegion = Region.GetRegion(0, 4);
+            Console.WriteLine(Ai.Instance.CurrentState.Step);
+            Console.WriteLine(team.IsOnLeft);
+
+            team.GoalKeeper.HomeRegion = Region.GetRegion(7, 4); // goalkeeper is on team side!
 
             team.Defenders[0].HomeRegion = Region.GetRegion(1, 1);
             team.Defenders[1].HomeRegion = Region.GetRegion(1, 3);
