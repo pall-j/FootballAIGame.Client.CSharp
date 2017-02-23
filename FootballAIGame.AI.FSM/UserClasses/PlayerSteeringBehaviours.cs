@@ -26,7 +26,7 @@ namespace FootballAIGame.AI.FSM.UserClasses
 
         public Vector CalculateAccelerationVector()
         {
-            var acceleration = new Vector();
+            var acceleration = new Vector(0, 0);
 
             if (SeekOn)
                 acceleration = Vector.Sum(acceleration, Seek);
@@ -36,12 +36,11 @@ namespace FootballAIGame.AI.FSM.UserClasses
             return acceleration;
         }
 
-
         private Vector Seek
         {
             get
             {
-                var acceleration = new Vector();
+                var acceleration = new Vector(0, 0);
 
                 if (Target == null) return acceleration;
 
@@ -63,26 +62,18 @@ namespace FootballAIGame.AI.FSM.UserClasses
             {
                 var distance = Vector.DistanceBetween(Player.Position, Target);
                 var desiredMovement = Vector.Difference(Target, Player.Position);
-                var seek = Seek;
-                if (desiredMovement.Length > Player.MaxSpeed)
-                {
-                    desiredMovement.Resize(Player.MaxSpeed);
-                }
+                double speed = Player.MaxSpeed;
 
-                if (distance > 1/2.0 * Math.Pow(Player.CurrentSpeed, 2)/Player.MaxAcceleration)
-                    return seek;
+                if ((distance - desiredMovement.Length) <= Math.Pow(Player.CurrentSpeed, 2) / (2 * Player.MaxAcceleration) ||
+                    distance < Player.MaxAcceleration)
+                    speed = Player.MaxSpeed * distance / SlowingDownRadius;
 
-                if (desiredMovement.Length > 0)
-                {
-                    var minusMovement = new Vector(new Vector(), desiredMovement,
-                        -Player.MaxAcceleration);
+                speed = Math.Min(speed, Player.MaxSpeed);
 
-                    desiredMovement.Resize(Player.CurrentSpeed);
-                    desiredMovement = Vector.Sum(desiredMovement, minusMovement);
-
-                    if (desiredMovement.Length < 0)
-                        desiredMovement.Resize(0);
-                }
+                if (desiredMovement.Length > 0.01)
+                    desiredMovement.Resize(speed);
+                else
+                    desiredMovement = new Vector(0, 0);
 
                 var acceleration = Vector.Difference(desiredMovement, Player.Movement);
                 if (acceleration.Length > Player.MaxAcceleration)
@@ -90,29 +81,6 @@ namespace FootballAIGame.AI.FSM.UserClasses
 
                 return acceleration;
 
-                /*
-                var accel = Seek;
-                var accelTangent = accel.Y / accel.X;
-
-                var s = Player.CurrentSpeed + 1/2.0*accelTangent + 1/2.0*
-                        Math.Pow(accelTangent + Player.CurrentSpeed, 2)/Player.MaxAcceleration;
-
-                if (s <= 1.01*Vector.DistanceBetween(Player.Position, Target) || accelTangent < 0)
-                    return accel;
-
-                // quadratic equation ax^2+bx+c=0
-                var a = Math.Pow(1/Player.MaxAcceleration, 2);
-                var b = 1/2.0 + 2*Player.CurrentSpeed/-Player.MaxAcceleration;
-                var c = Player.CurrentSpeed
-                        + Math.Pow(Player.CurrentSpeed, 2)/-Player.MaxAcceleration
-                        - Vector.DistanceBetween(Player.Position, Target);
-                var discrimant = b*b - 4*a*c;
-                if (discrimant < 0)
-                    Console.WriteLine("ERROR : Discriminant less than zero!");
-                var result = (-b - Math.Sqrt(discrimant))/(2*a);
-
-                return new Vector(1, result, Player.MaxAcceleration);
-                */
             }
         }
     }
