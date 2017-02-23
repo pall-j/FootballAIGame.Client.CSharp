@@ -21,7 +21,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         public override void Enter(Player player)
         {
             player.SteeringBehaviours.Target = player.HomeRegion.Center;
-            player.SteeringBehaviours.ArriveOn = true;
+            player.SteeringBehaviours.FleeOn = true;
         }
 
         public override void Run(Player player)
@@ -31,7 +31,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
         public override void Exit(Player player)
         {
-            player.SteeringBehaviours.ArriveOn = false;
+            player.SteeringBehaviours.FleeOn = false;
         }
     }
 }

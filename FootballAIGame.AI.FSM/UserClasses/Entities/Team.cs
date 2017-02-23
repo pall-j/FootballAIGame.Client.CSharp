@@ -73,9 +73,13 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             if (InitialEnter)
             {
                 StateMachine.CurrentState.Enter(this);
+                StateMachine.GlobalState.Enter(this);
 
                 foreach (var player in Players)
+                {
                     player.StateMachine.CurrentState.Enter(player);
+                    player.StateMachine.GlobalState.Enter(player);
+                }
 
                 InitialEnter = false;
             }

@@ -19,9 +19,13 @@ namespace FootballAIGame.AI.FSM.UserClasses
 
         public bool ArriveOn { get; set; }
 
+        public double FleeRadius { get; set; }
+
+        public bool FleeOn { get; set; }
+
         public PlayerSteeringBehaviours(Player player)
         {
-            this.Player = player;
+            Player = player;
         }
 
         public Vector CalculateAccelerationVector()
@@ -32,6 +36,8 @@ namespace FootballAIGame.AI.FSM.UserClasses
                 acceleration = Vector.Sum(acceleration, Seek);
             if (ArriveOn)
                 acceleration = Vector.Sum(acceleration, Arrive);
+            if (FleeOn)
+                acceleration = Vector.Sum(acceleration, Flee);
 
             return acceleration;
         }
@@ -83,5 +89,23 @@ namespace FootballAIGame.AI.FSM.UserClasses
 
             }
         }
+
+        private Vector Flee
+        {
+            get
+            {
+                var desiredMovemnet = Vector.Difference(Player.Movement, Target);
+                if (Math.Abs(desiredMovemnet.LengthSquared) < 0.01)
+                    desiredMovemnet = new Vector(1, 0);
+                desiredMovemnet.Resize(Player.MaxSpeed);
+
+                var acceleration = Vector.Difference(desiredMovemnet, Player.Movement);
+                if (acceleration.Length > Player.MaxAcceleration)
+                    acceleration.Resize(Player.MaxAcceleration);
+                
+                return acceleration;;
+            }
+        }
+
     }
 }
