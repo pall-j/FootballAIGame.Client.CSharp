@@ -25,7 +25,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             if (nearestToBall.Id < 11) // team is nearest to ball
                 team.StateMachine.ChangeState(Attacking.Instance);
             else
-                team.StateMachine.ChangeState(Attacking.Instance);
+                team.StateMachine.ChangeState(Defending.Instance);
         }
 
         public override void Run(Team team)

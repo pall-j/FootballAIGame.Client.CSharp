@@ -1,4 +1,5 @@
-﻿using FootballAIGame.AI.FSM.CustomDataTypes;
+﻿using System;
+using FootballAIGame.AI.FSM.CustomDataTypes;
 
 namespace FootballAIGame.AI.FSM.SimulationEntities
 {
@@ -105,7 +106,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         /// </value>
         public double MaxAcceleration
         {
-            get { return 3 * GameClient.StepInterval / 1000.0; }
+            get { return 3 * Math.Pow(GameClient.StepInterval / 1000.0, 2); }
         }
 
         /// <summary>

@@ -23,10 +23,15 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
         {
         }
 
-        public bool ProcessMessage(Player entity, ReturnToHomeMessage message)
+        public override bool ProcessMessage(Player player, Message message)
         {
-            entity.StateMachine.ChangeState(MoveToHomeRegion.Instance);
-            return true;
+            if (message is ReturnToHomeMessage)
+            {
+                player.StateMachine.ChangeState(MoveToHomeRegion.Instance);
+                return true;
+            }
+
+            return false;
         }
     }
 }

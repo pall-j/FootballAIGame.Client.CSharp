@@ -46,6 +46,13 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
             Resize(size);
         }
 
+        public Vector(double x, double y, double size)
+        {
+            X = x;
+            Y = y;
+            Resize(size);
+        }
+
         /// <summary>
         /// Gets the vector length.
         /// </summary>
