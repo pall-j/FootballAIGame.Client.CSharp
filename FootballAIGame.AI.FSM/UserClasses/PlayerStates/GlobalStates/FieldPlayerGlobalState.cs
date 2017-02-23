@@ -5,23 +5,21 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
     class FieldPlayerGlobalState : State<Player>
     {
-        private FieldPlayerGlobalState() { }
+        private PlayerGlobalState PlayerGlobalState { get; set; }
 
-        private static FieldPlayerGlobalState _instance;
-
-        public static FieldPlayerGlobalState Instance
+        public FieldPlayerGlobalState(Player entity) : base(entity)
         {
-            get { return _instance ?? (_instance = new FieldPlayerGlobalState()); }
+            PlayerGlobalState = new PlayerGlobalState(entity);
         }
 
-        public override void Run(Player entity)
+        public override void Run()
         {
-            PlayerGlobalState.Instance.Run(entity);   
+            PlayerGlobalState.Run();   
         }
 
-        public override bool ProcessMessage(Player entity, Message message)
+        public override bool ProcessMessage(Message message)
         {
-            return PlayerGlobalState.Instance.ProcessMessage(entity, message);
+            return PlayerGlobalState.ProcessMessage(message);
         }
     }
 }

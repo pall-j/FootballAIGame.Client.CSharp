@@ -8,13 +8,20 @@ namespace FootballAIGame.AI.FSM.UserClasses
 {
     abstract class State<TEntity>
     {
-        public virtual void Enter(TEntity entity) { }
+        protected TEntity Entity { get; set; }
 
-        public abstract void Run(TEntity entity);
+        protected State(TEntity entity)
+        {
+            Entity = entity;
+        }
 
-        public virtual void Exit(TEntity entity) { }
+        public virtual void Enter() { }
 
-        public virtual bool ProcessMessage(TEntity entity, Message message)
+        public abstract void Run();
+
+        public virtual void Exit() { }
+
+        public virtual bool ProcessMessage(Message message)
         {
             return false;
         }

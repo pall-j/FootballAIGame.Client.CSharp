@@ -14,9 +14,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
     {
         public PlayerAction Action { get; set; }
 
-        public Forward(FootballPlayer player) : base(player, Wait.Instance, ForwardGlobalState.Instance)
+        public Forward(FootballPlayer player) : base(player)
         {
             Action = new PlayerAction();
+            StateMachine = new FiniteStateMachine<Player>(this, new Wait(this), new ForwardGlobalState(this));
         }
 
         public override PlayerAction GetAction()
@@ -25,7 +26,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
             StateMachine.Update();
 
-            Action.Movement = Vector.Sum(SteeringBehaviours.CalculateAccelerationVector(), Movement);
+            Action.Movement = Vector.Sum(SteeringBehaviorsManager.CalculateAccelerationVector(), Movement);
 
             return Action;
         }

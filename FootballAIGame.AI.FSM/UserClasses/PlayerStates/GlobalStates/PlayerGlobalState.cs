@@ -10,28 +10,23 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
     class PlayerGlobalState : State<Player>
     {
-        private PlayerGlobalState() { }
-
-        private static PlayerGlobalState _instance;
-
-        public static PlayerGlobalState Instance
-        {
-            get { return _instance ?? (_instance = new PlayerGlobalState()); }
-        }
-
-        public override void Run(Player entity)
+        public override void Run()
         {
         }
 
-        public override bool ProcessMessage(Player player, Message message)
+        public override bool ProcessMessage(Message message)
         {
             if (message is ReturnToHomeMessage)
             {
-                player.StateMachine.ChangeState(MoveToHomeRegion.Instance);
+                Entity.StateMachine.ChangeState(new MoveToHomeRegion(Entity));
                 return true;
             }
 
             return false;
+        }
+
+        public PlayerGlobalState(Player entity) : base(entity)
+        {
         }
     }
 }

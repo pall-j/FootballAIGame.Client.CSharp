@@ -23,33 +23,33 @@ namespace FootballAIGame.AI.FSM.UserClasses
             this.CurrentState = startState;
             this.GlobalState = globalState;
 
-            this.GlobalState.Enter(owner);
+            this.GlobalState.Enter();
         }
 
         public void ChangeState(State<TEntity> newState)
         {
             if (CurrentState != null)
-                CurrentState.Exit(Owner);
+                CurrentState.Exit();
 
             CurrentState = newState;
-            CurrentState.Enter(Owner);
+            CurrentState.Enter();
         }
 
         public void Update()
         {
             if (GlobalState != null)
-                GlobalState.Run(Owner);
+                GlobalState.Run();
             if (CurrentState != null)
-                CurrentState.Run(Owner);
+                CurrentState.Run();
         }
 
         public void ProcessMessage(TEntity entity, Message message)
         {
-            if (CurrentState != null && CurrentState.ProcessMessage(entity, message))
+            if (CurrentState != null && CurrentState.ProcessMessage(message))
                 return;
 
             if (GlobalState != null)
-                GlobalState.ProcessMessage(entity, message);
+                GlobalState.ProcessMessage(message);
         }
     }
 }

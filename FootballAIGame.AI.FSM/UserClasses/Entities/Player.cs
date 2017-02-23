@@ -5,6 +5,7 @@ using System.Text;
 using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.SimulationEntities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
+using FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
@@ -14,13 +15,13 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public Region HomeRegion { get; set; }
 
-        public PlayerSteeringBehaviours SteeringBehaviours { get; set; }
+        public SteeringBehaviorsManager SteeringBehaviorsManager { get; set; }
 
         public abstract PlayerAction GetAction();
 
         public abstract void ProcessMessage(Message message);
 
-        protected Player(FootballPlayer player, State<Player> startState, State<Player> globalState) : base(player.Id)
+        protected Player(FootballPlayer player) : base(player.Id)
         {
             this.Position = player.Position;
             this.Movement = player.Movement;
@@ -31,8 +32,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             this.Possession = player.Possession;
             this.Precision = player.Precision;
 
-            StateMachine = new FiniteStateMachine<Player>(this, startState, globalState);
-            SteeringBehaviours = new PlayerSteeringBehaviours(this);
+            SteeringBehaviorsManager = new SteeringBehaviorsManager(this);
         }
 
     }

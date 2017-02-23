@@ -4,34 +4,33 @@ using System.Linq;
 using System.Text;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
+using FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors;
 
 namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 {
-    class MoveToHomeRegion : State<Player>
+    class MoveToHomeRegion : PlayerState
     {
-        private MoveToHomeRegion() { }
+        private Arrive MoveToHomeRegionArrive { get; set; }
 
-        private static MoveToHomeRegion _instance;
-
-        public static MoveToHomeRegion Instance
+        public MoveToHomeRegion(Player player) : base(player)
         {
-            get { return _instance ?? (_instance = new MoveToHomeRegion()); }
         }
 
-        public override void Enter(Player player)
+        public override void Enter()
         {
-            player.SteeringBehaviours.Target = player.HomeRegion.Center;
-            player.SteeringBehaviours.FleeOn = true;
+            MoveToHomeRegionArrive = new Arrive(1, 1, Player.HomeRegion.Center);
+            Player.SteeringBehaviorsManager.AddBehavior(MoveToHomeRegionArrive);
         }
 
-        public override void Run(Player player)
+        public override void Run()
         {
-            player.SteeringBehaviours.Target = player.HomeRegion.Center;
+            MoveToHomeRegionArrive.Target = Player.HomeRegion.Center;
         }
 
-        public override void Exit(Player player)
+        public override void Exit()
         {
-            player.SteeringBehaviours.FleeOn = false;
+            Player.SteeringBehaviorsManager.RemoveBehavior(MoveToHomeRegionArrive);
         }
+
     }
 }

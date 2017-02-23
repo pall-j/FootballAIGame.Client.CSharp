@@ -109,6 +109,12 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
             Y *= newLength;
         }
 
+        public void Multiply(double scalar)
+        {
+            X *= scalar;
+            Y *= scalar;
+        }
+
         /// <summary>
         /// Gets the distances between the given vectors.
         /// </summary>

@@ -9,35 +9,30 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
     class Kickoff : TeamState
     {
-        private Kickoff() { }
-
-        private static Kickoff _instance;
-
-        public static Kickoff Instance
-        {
-            get { return _instance ?? (_instance = new Kickoff()); }
-        }
-
-        public override void Enter(Team team)
+        public override void Enter()
         {
             var nearestToBall = Ai.Instance.CurrentState.NearestPlayerToBall;
 
             if (nearestToBall.Id < 11) // team is nearest to ball
-                team.StateMachine.ChangeState(Attacking.Instance);
+                Entity.StateMachine.ChangeState(new Attacking(Entity));
             else
-                team.StateMachine.ChangeState(Defending.Instance);
+                Entity.StateMachine.ChangeState(new Defending(Entity));
         }
 
-        public override void Run(Team team)
+        public override void Run()
         {
         }
 
-        public override bool ProcessMessage(Team entity, Message message)
+        public override bool ProcessMessage(Message message)
         {
             return false;
         }
 
         public override void SetHomeRegions(Team team)
+        {
+        }
+
+        public Kickoff(Team team) : base(team)
         {
         }
     }

@@ -9,23 +9,17 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
     class TeamGlobalState : State<Team>
     {
-        private TeamGlobalState() { }
-
-        private static TeamGlobalState _instance;
-
-        public static TeamGlobalState Instance
-        {
-            get { return _instance ?? (_instance = new TeamGlobalState()); }
-        }
-
-        public override void Run(Team entity)
+        public override void Run()
         {
         }
 
-        public override bool ProcessMessage(Team entity, Message message)
+        public override bool ProcessMessage(Message message)
         {
             return false;
         }
 
+        public TeamGlobalState(Team team) : base(team)
+        {
+        }
     }
 }

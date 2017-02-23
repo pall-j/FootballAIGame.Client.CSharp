@@ -9,23 +9,21 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
     class GoalKeeperGlobalState : State<Player>
     {
-        private GoalKeeperGlobalState() { }
+        private PlayerGlobalState PlayerGlobalState { get; set; }
 
-        private static GoalKeeperGlobalState _instance;
-
-        public static GoalKeeperGlobalState Instance
+        public GoalKeeperGlobalState(Player entity) : base(entity)
         {
-            get { return _instance ?? (_instance = new GoalKeeperGlobalState()); }
+            PlayerGlobalState = new PlayerGlobalState(entity);
         }
 
-        public override void Run(Player player)
+        public override void Run()
         {
-            PlayerGlobalState.Instance.Run(player);
+            PlayerGlobalState.Run();
         }
 
-        public override bool ProcessMessage(Player entity, Message message)
+        public override bool ProcessMessage(Message message)
         {
-            return PlayerGlobalState.Instance.ProcessMessage(entity, message);
+            return PlayerGlobalState.ProcessMessage(message);
         }
     }
 }

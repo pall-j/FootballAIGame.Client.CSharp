@@ -91,9 +91,14 @@
     <Compile Include="UserClasses\PlayerStates\GlobalStates\MidfielderGlobalState.cs" />
     <Compile Include="UserClasses\PlayerStates\GlobalStates\PlayerGlobalState.cs" />
     <Compile Include="UserClasses\PlayerStates\MoveToHomeRegion.cs" />
+    <Compile Include="UserClasses\PlayerStates\PlayerState.cs" />
     <Compile Include="UserClasses\PlayerStates\Wait.cs" />
     <Compile Include="UserClasses\State.cs" />
-    <Compile Include="UserClasses\PlayerSteeringBehaviours.cs" />
+    <Compile Include="UserClasses\SteeringBehaviors\Arrive.cs" />
+    <Compile Include="UserClasses\SteeringBehaviors\Flee.cs" />
+    <Compile Include="UserClasses\SteeringBehaviors\Seek.cs" />
+    <Compile Include="UserClasses\SteeringBehaviors\SteeringBehavior.cs" />
+    <Compile Include="UserClasses\SteeringBehaviors\SteeringBehaviorsManager.cs" />
     <Compile Include="UserClasses\TeamStates\Attacking.cs" />
     <Compile Include="UserClasses\TeamStates\Defending.cs" />
     <Compile Include="UserClasses\TeamStates\Kickoff.cs" />

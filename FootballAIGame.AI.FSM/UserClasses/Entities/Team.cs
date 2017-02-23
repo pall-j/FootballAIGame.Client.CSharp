@@ -33,8 +33,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public Team(IList<FootballPlayer> footballPlayers)
         {
-            StateMachine = new FiniteStateMachine<Team>(this,
-                Kickoff.Instance, TeamGlobalState.Instance);
+            StateMachine = new FiniteStateMachine<Team>(this, new Kickoff(this), new TeamGlobalState(this));
             InitialEnter = true;
 
             Players = new Player[11];
@@ -72,14 +71,11 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         {
             if (InitialEnter)
             {
-                StateMachine.CurrentState.Enter(this);
-                StateMachine.GlobalState.Enter(this);
+                StateMachine.CurrentState.Enter();
+                StateMachine.GlobalState.Enter();
 
                 foreach (var player in Players)
-                {
-                    player.StateMachine.CurrentState.Enter(player);
-                    player.StateMachine.GlobalState.Enter(player);
-                }
+                    player.StateMachine.GlobalState.Enter();
 
                 InitialEnter = false;
             }
@@ -119,7 +115,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             if (state.Step == 0 || state.Step == 750)
             {
                 IsOnLeft = GoalKeeper.Position.X < 55;
-                StateMachine.ChangeState(Kickoff.Instance); // todo maybe change to message
+                StateMachine.ChangeState(new Kickoff(this)); // todo maybe change to message
             }
         }
     }

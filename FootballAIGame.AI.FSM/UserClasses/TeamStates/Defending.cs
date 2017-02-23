@@ -10,27 +10,18 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
     class Defending : TeamState
     {
-        private Defending() { }
-
-        private static Defending _instance;
-
-        public static Defending Instance
+        public override void Enter()
         {
-            get { return _instance ?? (_instance = new Defending()); }
-        }
-
-        public override void Enter(Team team)
-        {
-            SetHomeRegions(team);
-            foreach (var player in team.Players)
+            SetHomeRegions(Entity);
+            foreach (var player in Entity.Players)
                 MessageDispatcher.Instance.SendMessage(ReturnToHomeMessage.Instance, player);
         }
 
-        public override void Run(Team team)
+        public override void Run()
         {
         }
 
-        public override bool ProcessMessage(Team entity, Message message)
+        public override bool ProcessMessage(Message message)
         {
             return false;
         }
@@ -62,5 +53,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             }
         }
 
+        public Defending(Team team) : base(team)
+        {
+        }
     }
 }
