@@ -9,8 +9,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 {
     class Arrive : SteeringBehavior
     {
-        public const double SlowingDownRadius = 10;
-
         public Vector Target { get; set; }
 
         public Arrive(int priority, double weight, Vector target) : base(priority, weight)
@@ -21,26 +19,40 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
         public override Vector CalculateAccelerationVector(Player player)
         {
             var distance = Vector.DistanceBetween(player.Position, Target);
+
             var desiredMovement = Vector.Difference(Target, player.Position);
+
             if (desiredMovement.Length > player.MaxSpeed)
                 desiredMovement.Resize(player.MaxSpeed);
 
+            var acceleration = Vector.Difference(desiredMovement, player.Movement);
+            if (acceleration.Length > player.MaxAcceleration)
+                acceleration.Resize(player.MaxAcceleration);
+
+            desiredMovement = Vector.Sum(player.Movement, acceleration);
+
             double speed = desiredMovement.Length;
 
-            if ((distance - desiredMovement.Length) <= Math.Pow(player.CurrentSpeed, 2)/(2*player.MaxAcceleration)
-                || distance < player.MaxAcceleration)
+            // calculation (k == 0 -> next step will be stop)
+            var v0 = desiredMovement.Length;
+            var v1 = 0;
+            var a = -player.MaxAcceleration;
+            var k = Math.Floor((v1 - v0)/a);
+            if (v0 > 0 && v0 > -a && distance - desiredMovement.Length < k*v0 + a*k/2.0*(1 + k))
             {
-                speed = Math.Min(speed, player.MaxSpeed*distance/SlowingDownRadius);
+                speed = Math.Max(0, player.CurrentSpeed + a);
             }
 
             speed = Math.Min(speed, player.MaxSpeed);
 
-            if (desiredMovement.Length > 0.0001)
+            if (desiredMovement.Length > 0.001)
+            {
                 desiredMovement.Resize(speed);
+            }
             else
                 desiredMovement = new Vector(0, 0);
 
-            var acceleration = Vector.Difference(desiredMovement, player.Movement);
+            acceleration = Vector.Difference(desiredMovement, player.Movement);
             if (acceleration.Length > player.MaxAcceleration)
                 acceleration.Resize(player.MaxAcceleration);
 

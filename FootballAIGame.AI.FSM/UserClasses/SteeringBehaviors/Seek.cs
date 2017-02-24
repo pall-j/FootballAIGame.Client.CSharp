@@ -11,6 +11,11 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
     {
         public Vector Target { get; set; }
 
+        public Seek(int priority, double weight, Vector target) : base(priority, weight)
+        {
+            Target = target;
+        }
+
         public override Vector CalculateAccelerationVector(Player player)
         {
             var acceleration = new Vector(0, 0);
@@ -28,9 +33,5 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             return acceleration;
         }
 
-        public Seek(int priority, double weight, Vector target) : base(priority, weight)
-        {
-            Target = target;
-        }
     }
 }

@@ -95,7 +95,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         /// </value>
         public double MaxSpeed
         {
-            get { return (5 + Speed*2.5/0.4) * GameClient.StepInterval / 1000; }
+            get { return (5 + Speed*2.5/0.4) * GameClient.StepInterval / 1000.0; }
         }
 
         /// <summary>
@@ -119,5 +119,24 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         {
             get { return (15 + KickPower*10) * GameClient.StepInterval / 1000; }
         }
+
+        public static double DotProduct(Vector v1, Vector v2)
+        {
+            return v1.X*v2.X + v1.Y*v2.Y;
+        }
+
+        public double TimeToGetToTarget(Vector target)
+        {
+            // todo this is only approx. (continuous acceleration)
+
+            var v0 = Vector.DotProduct(target, Movement);
+            var v1 = MaxSpeed;
+            var a = MaxAcceleration;
+            var t1 = (v1 - v0) / a;
+            var s = Vector.DistanceBetween(Position, target);
+
+            return (s - v0 * t1 - 1 / 2.0 * t1 * t1 + v1 * t1) / v1;
+        }
+
     }
 }

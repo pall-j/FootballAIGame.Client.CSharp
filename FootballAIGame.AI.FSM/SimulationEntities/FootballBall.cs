@@ -53,5 +53,12 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             Movement = new Vector();
         }
 
+        public double TimeToCoverDistance(double kickPower, double distance)
+        {
+
+
+            return 0.0;
+        }
+
     }
 }
