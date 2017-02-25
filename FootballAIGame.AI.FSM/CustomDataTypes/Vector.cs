@@ -97,6 +97,13 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
             return result;
         }
 
+        public Vector Resized(double newSize)
+        {
+            var res = Normalized;
+            res.Multiply(newSize);
+            return res;
+        }
+
         /// <summary>
         /// Normalizes this instance.
         /// </summary>

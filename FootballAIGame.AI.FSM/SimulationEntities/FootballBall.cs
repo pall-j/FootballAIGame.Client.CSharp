@@ -2,36 +2,8 @@
 
 namespace FootballAIGame.AI.FSM.SimulationEntities
 {
-    class FootballBall
+    class FootballBall : MovableEntity
     {
-
-        /// <summary>
-        /// Gets or sets the position of the ball.
-        /// </summary>
-        /// <value>
-        /// The ball's position.
-        /// </value>
-        public Vector Position { get; set; }
-
-        /// <summary>
-        /// Gets or sets the movement vector of the ball. It describes how ball position
-        /// changes in one simulation step.
-        /// </summary>
-        /// <value>
-        /// The ball's movement vector.
-        /// </value>
-        public Vector Movement { get; set; }
-
-        /// <summary>
-        /// Gets the ball's current speed in meters per simulation step.
-        /// </summary>
-        /// <value>
-        /// The ball's current speed in meters per simulation step.
-        /// </value>
-        public double CurrentSpeed
-        {
-            get { return Movement.Length; }
-        }
 
         /// <summary>
         /// Gets the ball's deceleration in meters per simulation step squared.

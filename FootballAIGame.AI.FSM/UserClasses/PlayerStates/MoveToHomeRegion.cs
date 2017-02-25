@@ -10,7 +10,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 {
     class MoveToHomeRegion : PlayerState
     {
-        private SteeringBehavior MoveToHomeRegionArrive { get; set; }
+        private Arrive MoveToHomeRegionArrive { get; set; }
 
         public MoveToHomeRegion(Player player) : base(player)
         {
@@ -18,18 +18,14 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
         public override void Enter()
         {
-            if (Player.Id != 0)
-                MoveToHomeRegionArrive = new Arrive(1, 1, Player.HomeRegion.Center);
-            else
-            {
-                MoveToHomeRegionArrive = new Pursuit(1, 1, Ai.Instance.OpponentTeam.Forwards[0]);
-            }
+            MoveToHomeRegionArrive = new Arrive(Player, 1, 1, Player.HomeRegion.Center);
+            //MoveToHomeRegionArrive = new Wander(Player, 1, 1, 0.5, 1, 2);
             Player.SteeringBehaviorsManager.AddBehavior(MoveToHomeRegionArrive);
         }
 
         public override void Run()
         {
-            //MoveToHomeRegionArrive.Target = Player.HomeRegion.Center;
+            MoveToHomeRegionArrive.Target = Player.HomeRegion.Center;
         }
 
         public override void Exit()

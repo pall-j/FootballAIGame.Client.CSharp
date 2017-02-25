@@ -9,16 +9,19 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 {
     abstract class SteeringBehavior
     {
-        public abstract Vector CalculateAccelerationVector(Player player);
+        protected Player Player { get; set; }
 
         public int Priority { get; set; }
 
         public double Weight { get; set; }
 
-        protected SteeringBehavior(int priority, double weight)
+        public abstract Vector CalculateAccelerationVector();
+
+        protected SteeringBehavior(Player player, int priority, double weight)
         {
             Priority = priority;
             Weight = weight;
+            Player = player;
         }
     }
 }

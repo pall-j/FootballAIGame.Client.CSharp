@@ -13,27 +13,27 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 
         public double SafeDistance { get; set; }
 
-        public Flee(int priority, double weight, Vector from, double safeDistance) : base(priority, weight)
+        public Flee(Player player, int priority, double weight, Vector from, 
+            double safeDistance) : base(player, priority, weight)
         {
             From = from;
             SafeDistance = safeDistance;
         }
 
-        public override Vector CalculateAccelerationVector(Player player)
+        public override Vector CalculateAccelerationVector()
         {
-            if (Vector.DistanceBetween(player.Position, From) >= SafeDistance)
+            if (Vector.DistanceBetween(Player.Position, From) >= SafeDistance)
                 return new Vector(0, 0);
 
-            var desiredMovemnet = Vector.Difference(player.Movement, From);
+            var desiredMovemnet = Vector.Difference(Player.Movement, From);
 
             if (Math.Abs(desiredMovemnet.LengthSquared) < 0.01)
                 desiredMovemnet = new Vector(1, 0);
 
-            desiredMovemnet.Resize(player.MaxSpeed);
+            desiredMovemnet.Resize(Player.MaxSpeed);
 
-            var acceleration = Vector.Difference(desiredMovemnet, player.Movement);
-            if (acceleration.Length > player.MaxAcceleration)
-                acceleration.Resize(player.MaxAcceleration);
+            var acceleration = Vector.Difference(desiredMovemnet, Player.Movement);
+            acceleration.Truncate(Player.MaxAcceleration);
 
             return acceleration; ;
         }

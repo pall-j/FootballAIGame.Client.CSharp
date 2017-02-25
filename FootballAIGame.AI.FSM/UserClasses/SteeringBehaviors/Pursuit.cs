@@ -12,30 +12,29 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
     {
         private Seek TargetSeek { get; set; }
 
-        public FootballPlayer Target { get; set; }
+        public MovableEntity Target { get; set; }
 
-        public Pursuit(int priority, double weight, FootballPlayer target) : base(priority, weight)
+        public Pursuit(Player player, int priority, double weight, MovableEntity target) : 
+            base(player, priority, weight)
         {
             Target = target;
+            TargetSeek = new Seek(Player, priority, weight, target.Position);
         }
 
-        public override Vector CalculateAccelerationVector(Player player)
+        public override Vector CalculateAccelerationVector()
         {
-            var distance = Vector.DistanceBetween(player.Position, Target.Position);
+            var distance = Vector.DistanceBetween(Player.Position, Target.Position);
 
             double lookAheadTime = 0;
-            if (player.CurrentSpeed + Target.CurrentSpeed > 0)
-                lookAheadTime = distance /(player.CurrentSpeed + Target.CurrentSpeed);
+            if (Player.CurrentSpeed + Target.CurrentSpeed > 0)
+                lookAheadTime = distance /(Player.CurrentSpeed + Target.CurrentSpeed);
 
             var predictedPosition = Vector.Sum(Target.Position, 
                 Target.Movement.Multiplied(lookAheadTime));
 
-            if (TargetSeek == null)
-                TargetSeek = new Seek(Priority, Weight, predictedPosition);
-            else
-                TargetSeek.Target = predictedPosition;
+            TargetSeek.Target = predictedPosition;
 
-            return TargetSeek.CalculateAccelerationVector(player);
+            return TargetSeek.CalculateAccelerationVector();
         }
     }
 }

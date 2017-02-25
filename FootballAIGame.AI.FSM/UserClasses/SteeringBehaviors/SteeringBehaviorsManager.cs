@@ -67,10 +67,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 
                 foreach (var steeringbehavior in list)
                 {
-                    var behaviorAccel = steeringbehavior.CalculateAccelerationVector(Player);
-
+                    var behaviorAccel = steeringbehavior.CalculateAccelerationVector();
                     behaviorAccel.Multiply(steeringbehavior.Weight);
-
                     acceleration = Vector.Sum(acceleration, behaviorAccel);
                 }
             }

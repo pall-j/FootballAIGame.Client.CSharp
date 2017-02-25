@@ -10,7 +10,7 @@ namespace FootballAIGame.AI.FSM.UserClasses
     /// </summary>
     class Ai : IFootballAi
     {
-        private static Random Random { get; set; }
+        public static Random Random { get; set; }
 
         public GameState CurrentState { get; set; }
 

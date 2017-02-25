@@ -3,7 +3,7 @@ using FootballAIGame.AI.FSM.CustomDataTypes;
 
 namespace FootballAIGame.AI.FSM.SimulationEntities
 {
-    class FootballPlayer
+    class FootballPlayer : MovableEntity
     {
         public int Id { get; set; }
 
@@ -44,23 +44,6 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         public float KickPower { get; set; }
 
         /// <summary>
-        /// Gets or sets the position of the player.
-        /// </summary>
-        /// <value>
-        /// The player's position.
-        /// </value>
-        public Vector Position { get; set; }
-
-        /// <summary>
-        /// Gets or sets the movement vector of the player. It describes how player position will
-        /// change in one simulation step.
-        /// </summary>
-        /// <value>
-        /// The player's movement vector.
-        /// </value>
-        public Vector Movement { get; set; }
-
-        /// <summary>
         /// Gets or sets the kick vector of the player. It describes movement vector
         /// that ball would get if the kick was done with 100% precision.
         /// </summary>
@@ -74,17 +57,6 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             Id = id;
             Movement = new Vector();
             Kick = new Vector();
-        }
-
-        /// <summary>
-        /// Gets the current speed in meters per simulation step.
-        /// </summary>
-        /// <value>
-        /// The current speed in meters per second.
-        /// </value>
-        public double CurrentSpeed
-        {
-            get { return Movement.Length; }
         }
 
         /// <summary>

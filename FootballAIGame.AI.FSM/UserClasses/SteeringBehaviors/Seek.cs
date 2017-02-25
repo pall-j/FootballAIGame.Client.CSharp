@@ -11,24 +11,23 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
     {
         public Vector Target { get; set; }
 
-        public Seek(int priority, double weight, Vector target) : base(priority, weight)
+        public Seek(Player player, int priority, double weight, Vector target) : 
+            base(player, priority, weight)
         {
             Target = target;
         }
 
-        public override Vector CalculateAccelerationVector(Player player)
+        public override Vector CalculateAccelerationVector()
         {
             var acceleration = new Vector(0, 0);
 
             if (Target == null) return acceleration;
 
-            var desiredMovement = Vector.Difference(Target, player.Position);
-            if (desiredMovement.Length > player.MaxSpeed)
-                desiredMovement.Resize(player.MaxSpeed);
+            var desiredMovement = Vector.Difference(Target, Player.Position);
+            desiredMovement.Truncate(Player.MaxSpeed);
 
-            acceleration = Vector.Difference(desiredMovement, player.Movement);
-            if (acceleration.Length > player.MaxAcceleration)
-                acceleration.Resize(player.MaxAcceleration);
+            acceleration = Vector.Difference(desiredMovement, Player.Movement);
+            acceleration.Truncate(Player.MaxAcceleration);
 
             return acceleration;
         }

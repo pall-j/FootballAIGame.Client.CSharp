@@ -70,6 +70,7 @@
     <Compile Include="SimulationEntities\FootballPlayer.cs" />
     <Compile Include="SimulationEntities\GameAction.cs" />
     <Compile Include="SimulationEntities\GameState.cs" />
+    <Compile Include="SimulationEntities\MovableEntity.cs" />
     <Compile Include="SimulationEntities\PlayerAction.cs" />
     <Compile Include="UserClasses\Ai.cs" />
     <Compile Include="UserClasses\Entities\Ball.cs" />
@@ -95,11 +96,13 @@
     <Compile Include="UserClasses\PlayerStates\Wait.cs" />
     <Compile Include="UserClasses\State.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\Arrive.cs" />
+    <Compile Include="UserClasses\SteeringBehaviors\Evade.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\Flee.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\Pursuit.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\Seek.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\SteeringBehavior.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\SteeringBehaviorsManager.cs" />
+    <Compile Include="UserClasses\SteeringBehaviors\Wander.cs" />
     <Compile Include="UserClasses\TeamStates\Attacking.cs" />
     <Compile Include="UserClasses\TeamStates\Defending.cs" />
     <Compile Include="UserClasses\TeamStates\Kickoff.cs" />
