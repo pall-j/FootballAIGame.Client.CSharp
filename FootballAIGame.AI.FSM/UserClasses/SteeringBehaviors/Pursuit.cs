@@ -29,10 +29,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             if (Player.CurrentSpeed + Target.CurrentSpeed > 0)
                 lookAheadTime = distance /(Player.CurrentSpeed + Target.CurrentSpeed);
 
-            var predictedPosition = Vector.Sum(Target.Position, 
-                Target.Movement.Multiplied(lookAheadTime));
-
-            TargetSeek.Target = predictedPosition;
+            TargetSeek.Target = Target.PredictedPositionInTime(lookAheadTime);
 
             return TargetSeek.CalculateAccelerationVector();
         }

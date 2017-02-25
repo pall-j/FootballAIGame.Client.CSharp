@@ -37,5 +37,9 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             get { return Movement.Length; }
         }
 
+        public virtual Vector PredictedPositionInTime(double time)
+        {
+            return Vector.Sum(Position, Movement.Multiplied(time));
+        }
     }
 }

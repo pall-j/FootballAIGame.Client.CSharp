@@ -59,7 +59,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 
         public Vector CalculateAccelerationVector()
         {
+            // Weighted Prioritized Truncated Sum method used
+
             var acceleration = new Vector(0, 0);
+            var accelerationRemaining = Player.MaxAcceleration;
 
             foreach (var keyValuePair in SteeringBehaviors)
             {
@@ -69,8 +72,19 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
                 {
                     var behaviorAccel = steeringbehavior.CalculateAccelerationVector();
                     behaviorAccel.Multiply(steeringbehavior.Weight);
+
+                    if (accelerationRemaining - behaviorAccel.Length < 0)
+                        behaviorAccel.Resize(accelerationRemaining);
+                    accelerationRemaining -= behaviorAccel.Length;
+
                     acceleration = Vector.Sum(acceleration, behaviorAccel);
+
+                    if (accelerationRemaining <= 0)
+                        break;
                 }
+
+                if (accelerationRemaining <= 0)
+                    break;
             }
 
             return acceleration;

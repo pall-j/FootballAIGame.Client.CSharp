@@ -98,6 +98,7 @@
     <Compile Include="UserClasses\SteeringBehaviors\Arrive.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\Evade.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\Flee.cs" />
+    <Compile Include="UserClasses\SteeringBehaviors\Interpose.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\Pursuit.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\Seek.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\SteeringBehavior.cs" />

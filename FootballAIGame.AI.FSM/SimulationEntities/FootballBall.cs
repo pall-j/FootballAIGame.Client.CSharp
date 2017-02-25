@@ -13,7 +13,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         /// </value>
         public static double BallDeceleration
         {
-            get { return 1.5*GameClient.StepInterval/1000; }
+            get { return 1.5 * GameClient.StepInterval / 1000; }
         }
 
         /// <summary>
@@ -32,5 +32,17 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             return 0.0;
         }
 
+        public override Vector PredictedPositionInTime(double time)
+        {
+            var finalSpeed = CurrentSpeed - BallDeceleration*time;
+
+            if (finalSpeed < 0)
+                time = CurrentSpeed / BallDeceleration; // time to stop
+
+            var diff = Vector.Sum(Movement.Multiplied(time),
+                Movement.Resized(-1/2.0*BallDeceleration*time*time));
+
+            return diff;
+        }
     }
 }
