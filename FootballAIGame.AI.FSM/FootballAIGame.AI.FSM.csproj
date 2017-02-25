@@ -96,6 +96,7 @@
     <Compile Include="UserClasses\State.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\Arrive.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\Flee.cs" />
+    <Compile Include="UserClasses\SteeringBehaviors\Pursuit.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\Seek.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\SteeringBehavior.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\SteeringBehaviorsManager.cs" />

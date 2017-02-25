@@ -1,4 +1,5 @@
 ﻿using System;
+using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.SimulationEntities;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 
@@ -14,6 +15,8 @@ namespace FootballAIGame.AI.FSM.UserClasses
         public GameState CurrentState { get; set; }
 
         public Team MyTeam { get; set; }
+
+        public Team OpponentTeam { get; set; }
 
         private static Ai _instance;
 
@@ -44,11 +47,15 @@ namespace FootballAIGame.AI.FSM.UserClasses
         public GameAction GetAction(GameState gameState)
         {
             if (gameState.Step == 0 || MyTeam == null)
+            {
                 MyTeam = new Team(GetParameters());
+                OpponentTeam = new Team(GetParameters()); // ~ expect him to have same parameters
+            }
 
             // AI entities (wrappers of SimulationEntities) are set accordingly
             CurrentState = gameState;
-            MyTeam.LoadState(gameState);
+            MyTeam.LoadState(gameState, true);
+            OpponentTeam.LoadState(gameState, false);
 
             // new action
             var currentAction = new GameAction

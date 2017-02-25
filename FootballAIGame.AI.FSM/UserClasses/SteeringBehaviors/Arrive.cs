@@ -21,16 +21,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             var distance = Vector.DistanceBetween(player.Position, Target);
 
             var desiredMovement = Vector.Difference(Target, player.Position);
-
-            if (desiredMovement.Length > player.MaxSpeed)
-                desiredMovement.Resize(player.MaxSpeed);
+            desiredMovement.Truncate(player.MaxSpeed);
 
             var acceleration = Vector.Difference(desiredMovement, player.Movement);
-            if (acceleration.Length > player.MaxAcceleration)
-                acceleration.Resize(player.MaxAcceleration);
+            acceleration.Truncate(player.MaxAcceleration);
 
             desiredMovement = Vector.Sum(player.Movement, acceleration);
-
             double speed = desiredMovement.Length;
 
             // calculation (k == 0 -> next step will be stop)
@@ -39,16 +35,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             var a = -player.MaxAcceleration;
             var k = Math.Floor((v1 - v0)/a);
             if (v0 > 0 && v0 > -a && distance - desiredMovement.Length < k*v0 + a*k/2.0*(1 + k))
-            {
                 speed = Math.Max(0, player.CurrentSpeed + a);
-            }
 
             speed = Math.Min(speed, player.MaxSpeed);
 
             if (desiredMovement.Length > 0.001)
-            {
                 desiredMovement.Resize(speed);
-            }
             else
                 desiredMovement = new Vector(0, 0);
 

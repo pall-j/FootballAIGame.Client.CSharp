@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace FootballAIGame.AI.FSM.CustomDataTypes
 {
@@ -88,6 +89,14 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
             }
         }
 
+        public Vector Multiplied(double scalar)
+        {
+            var result = new Vector(X, Y);
+            result.Multiply(scalar);
+
+            return result;
+        }
+
         /// <summary>
         /// Normalizes this instance.
         /// </summary>
@@ -107,6 +116,12 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
             Normalize();
             X *= newLength;
             Y *= newLength;
+        }
+
+        public void Truncate(double maxLength)
+        {
+            if(Length > maxLength)
+                Resize(maxLength);
         }
 
         public void Multiply(double scalar)
@@ -169,5 +184,6 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
         {
             return new Vector(first.X + second.X, first.Y + second.Y);
         }
+
     }
 }

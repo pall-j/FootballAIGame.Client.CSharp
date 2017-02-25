@@ -28,9 +28,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 
         public override void SetHomeRegions(Team team)
         {
-            Console.WriteLine(Ai.Instance.CurrentState.Step);
-            Console.WriteLine(team.IsOnLeft);
-
             team.GoalKeeper.HomeRegion = Region.GetRegion(7, 4); // goalkeeper is on team side!
 
             team.Defenders[0].HomeRegion = Region.GetRegion(1, 1);

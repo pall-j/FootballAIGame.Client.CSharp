@@ -104,12 +104,14 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             teamState.SetHomeRegions(this);
         }
 
-        public void LoadState(GameState state)
+        public void LoadState(GameState state, bool firstTeam)
         {
+            var diff = firstTeam ? 0 : 11;
+
             for (int i = 0; i < Players.Length; i++)
             {
-                Players[i].Movement = state.FootballPlayers[i].Movement;
-                Players[i].Position = state.FootballPlayers[i].Position;
+                Players[i].Movement = state.FootballPlayers[i + diff].Movement;
+                Players[i].Position = state.FootballPlayers[i + diff].Position;
             }
 
             if (state.Step == 0 || state.Step == 750)
