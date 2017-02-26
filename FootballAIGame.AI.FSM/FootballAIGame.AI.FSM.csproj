@@ -93,6 +93,7 @@
     <Compile Include="UserClasses\PlayerStates\GlobalStates\PlayerGlobalState.cs" />
     <Compile Include="UserClasses\PlayerStates\MoveToHomeRegion.cs" />
     <Compile Include="UserClasses\PlayerStates\PlayerState.cs" />
+    <Compile Include="UserClasses\PlayerStates\Support.cs" />
     <Compile Include="UserClasses\PlayerStates\Wait.cs" />
     <Compile Include="UserClasses\State.cs" />
     <Compile Include="UserClasses\SteeringBehaviors\Arrive.cs" />

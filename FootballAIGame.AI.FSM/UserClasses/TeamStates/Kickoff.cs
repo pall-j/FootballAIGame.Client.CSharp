@@ -14,7 +14,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             var nearestToBall = Ai.Instance.CurrentState.NearestPlayerToBall;
 
             if (nearestToBall.Id < 11) // team is nearest to ball
-                Entity.StateMachine.ChangeState(new Attacking(Entity));
+                Entity.StateMachine.ChangeState(new Defending(Entity));
             else
                 Entity.StateMachine.ChangeState(new Defending(Entity));
         }

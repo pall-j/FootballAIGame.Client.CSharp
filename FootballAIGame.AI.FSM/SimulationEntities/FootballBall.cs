@@ -15,7 +15,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         /// </value>
         public static double BallDeceleration
         {
-            get { return 1.5 * GameClient.StepInterval / 1000; }
+            get { return 1.5 * Math.Pow(GameClient.StepInterval / 1000.0, 2); }
         }
 
         /// <summary>
@@ -33,12 +33,13 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             var a = BallDeceleration;
             var s = distance;
 
-            var v1Squared = 2*a*s + v0*v0;
-            if (v1Squared < 0)
-                return double.PositiveInfinity;;
-            var v1 = Math.Sqrt(v1Squared);
+            // s = v0*t - 1/2 at^2   --> at^2 - 2v0t + 2s = 0  (quadratic equation) 
+            // smaller solution only - larger solution corresponds to the backwards movement
+            var discriminant = 4*v0*v0 - 8*s*a;
+            if (discriminant < 0)
+                return double.PositiveInfinity; // ball will stop before target
 
-            var t = (v1 - v0)/a;
+            var t = (2*v0 - Math.Sqrt(4*v0*v0 - 8*s*a))/(2*a);
 
             return t;
         }
@@ -53,7 +54,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             var diff = Vector.Sum(Movement.Multiplied(time),
                 Movement.Resized(-1/2.0*BallDeceleration*time*time));
 
-            return diff;
+            return Vector.Sum(Position, diff);
         }
     }
 }

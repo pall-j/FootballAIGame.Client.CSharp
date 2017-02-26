@@ -5,6 +5,7 @@ using System.Text;
 using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
+using FootballAIGame.AI.FSM.UserClasses.PlayerStates;
 
 namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
@@ -12,9 +13,23 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
     {
         public override void Enter()
         {
-            SetHomeRegions(Entity);
-            foreach (var player in Entity.Players)
-                MessageDispatcher.Instance.SendMessage(ReturnToHomeMessage.Instance, player);
+            SetHomeRegions(Team);
+            foreach (var player in Team.Players)
+            {
+                player.StateMachine.ChangeState(new Wait(player));
+            }
+
+            var controlling = Team.BallControllingPlayer;
+            if (controlling != null)
+            {
+                if (Team.Forwards[0] != controlling) 
+                    Team.Forwards[0].StateMachine.ChangeState(new Support(Team.Forwards[0]));
+                else 
+                    Team.Forwards[1].StateMachine.ChangeState(new Support(Team.Forwards[1]));
+            }
+
+
+            //MessageDispatcher.Instance.SendMessage(ReturnToHomeMessage.Instance, player);
         }
 
         public override void Run()
