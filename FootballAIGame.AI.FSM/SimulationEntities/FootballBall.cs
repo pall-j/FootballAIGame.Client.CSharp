@@ -1,9 +1,11 @@
-﻿using FootballAIGame.AI.FSM.CustomDataTypes;
+﻿using System;
+using FootballAIGame.AI.FSM.CustomDataTypes;
 
 namespace FootballAIGame.AI.FSM.SimulationEntities
 {
     class FootballBall : MovableEntity
     {
+        public const double MinDistanceForKick = 2; // [m]
 
         /// <summary>
         /// Gets the ball's deceleration in meters per simulation step squared.
@@ -25,11 +27,20 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             Movement = new Vector();
         }
 
-        public double TimeToCoverDistance(double kickPower, double distance)
+        public double TimeToCoverDistance(double distance, double kickPower)
         {
+            var v0 = kickPower;
+            var a = BallDeceleration;
+            var s = distance;
 
+            var v1Squared = 2*a*s + v0*v0;
+            if (v1Squared < 0)
+                return double.PositiveInfinity;;
+            var v1 = Math.Sqrt(v1Squared);
 
-            return 0.0;
+            var t = (v1 - v0)/a;
+
+            return t;
         }
 
         public override Vector PredictedPositionInTime(double time)

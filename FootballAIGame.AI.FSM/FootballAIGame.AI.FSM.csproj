@@ -109,7 +109,7 @@
     <Compile Include="UserClasses\TeamStates\Kickoff.cs" />
     <Compile Include="UserClasses\TeamStates\TeamGlobalState.cs" />
     <Compile Include="UserClasses\TeamStates\TeamState.cs" />
-    <Compile Include="UserClasses\Utilities\SupportPositionCalculator.cs" />
+    <Compile Include="UserClasses\Utilities\SupportPositionsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

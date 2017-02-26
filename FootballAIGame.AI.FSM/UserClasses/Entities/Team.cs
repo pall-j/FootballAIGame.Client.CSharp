@@ -4,9 +4,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.SimulationEntities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
 using FootballAIGame.AI.FSM.UserClasses.TeamStates;
+using FootballAIGame.AI.FSM.UserClasses.Utilities;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
@@ -25,6 +27,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         public List<Midfielder> Midfielders { get; set; }
 
         public List<Forward> Forwards { get; set; }
+
+        public Player BallControllingPlayer { get; set; }
 
         /// <summary>
         /// Gets or sets the value indicating whether the team holds currently the left goal post.
@@ -107,11 +111,22 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         public void LoadState(GameState state, bool firstTeam)
         {
             var diff = firstTeam ? 0 : 11;
+            BallControllingPlayer = null;
+            var bestControllingDist = 0.0;
 
             for (int i = 0; i < Players.Length; i++)
             {
                 Players[i].Movement = state.FootballPlayers[i + diff].Movement;
                 Players[i].Position = state.FootballPlayers[i + diff].Position;
+
+                var distToBall = Vector.DistanceBetween(Players[i].Position, Ai.Instance.CurrentState.Ball.Position);
+
+                if (distToBall < FootballBall.MinDistanceForKick*2 &&
+                    (BallControllingPlayer == null || bestControllingDist > distToBall))
+                {
+                    bestControllingDist = distToBall;
+                    BallControllingPlayer = Players[i];
+                }
             }
 
             if (state.Step == 0 || state.Step == 750)
@@ -119,6 +134,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 IsOnLeft = GoalKeeper.Position.X < 55;
                 StateMachine.ChangeState(new Kickoff(this)); // todo maybe change to message
             }
+
         }
     }
 }

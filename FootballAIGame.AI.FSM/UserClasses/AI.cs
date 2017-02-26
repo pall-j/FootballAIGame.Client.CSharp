@@ -2,6 +2,7 @@
 using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.SimulationEntities;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
+using FootballAIGame.AI.FSM.UserClasses.Utilities;
 
 namespace FootballAIGame.AI.FSM.UserClasses
 {
@@ -56,6 +57,7 @@ namespace FootballAIGame.AI.FSM.UserClasses
             CurrentState = gameState;
             MyTeam.LoadState(gameState, true);
             OpponentTeam.LoadState(gameState, false);
+            SupportPositionsManager.Instance.Update();
 
             // new action
             var currentAction = new GameAction
