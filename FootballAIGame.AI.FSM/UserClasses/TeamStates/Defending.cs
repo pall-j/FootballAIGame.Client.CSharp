@@ -5,6 +5,7 @@ using System.Text;
 using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
+using FootballAIGame.AI.FSM.UserClasses.Messaging.Messages;
 using FootballAIGame.AI.FSM.UserClasses.PlayerStates;
 
 namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
@@ -14,8 +15,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
         public override void Enter()
         {
             SetHomeRegions(Team);
-            foreach (var player in Team.Players)
-                MessageDispatcher.Instance.SendMessage(ReturnToHomeMessage.Instance, player);
+            MessageDispatcher.Instance.SendMessage(ReturnToHomeMessage.Instance, Team.Players);
         }
 
         public override void Run()

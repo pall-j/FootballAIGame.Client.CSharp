@@ -21,11 +21,19 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public abstract void ProcessMessage(Message message);
 
+        public bool IsAtHomeRegion
+        {
+            get
+            {
+                return Vector.DistanceBetween(HomeRegion.Center, Position) <= Parameters.PlayerInHomeRegionRange;
+            }    
+        }
+
         protected Player(FootballPlayer player) : base(player.Id)
         {
             this.Position = player.Position;
             this.Movement = player.Movement;
-            this.Kick = player.Kick;
+            this.KickVector = player.KickVector;
 
             this.Speed = player.Speed;
             this.KickPower = player.KickPower;

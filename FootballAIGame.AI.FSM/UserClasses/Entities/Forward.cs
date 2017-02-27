@@ -17,7 +17,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         public Forward(FootballPlayer player) : base(player)
         {
             Action = new PlayerAction();
-            StateMachine = new FiniteStateMachine<Player>(this, new Wait(this), new ForwardGlobalState(this));
+            StateMachine = new FiniteStateMachine<Player>(this, new Default(this), new ForwardGlobalState(this));
         }
 
         public override PlayerAction GetAction()

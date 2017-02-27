@@ -11,9 +11,11 @@ namespace FootballAIGame.AI.FSM.UserClasses
     /// </summary>
     class Ai : IFootballAi
     {
+        private GameState CurrentState { get; set; }
+
         public static Random Random { get; set; }
 
-        public GameState CurrentState { get; set; }
+        public Ball Ball { get; set; }
 
         public Team MyTeam { get; set; }
 
@@ -57,6 +59,7 @@ namespace FootballAIGame.AI.FSM.UserClasses
             CurrentState = gameState;
             MyTeam.LoadState(gameState, true);
             OpponentTeam.LoadState(gameState, false);
+            Ball.LoadState(gameState);
             SupportPositionsManager.Instance.Update();
 
             // new action

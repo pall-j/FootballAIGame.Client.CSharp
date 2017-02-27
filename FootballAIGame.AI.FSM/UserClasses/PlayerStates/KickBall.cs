@@ -6,14 +6,15 @@ using FootballAIGame.AI.FSM.UserClasses.Entities;
 
 namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 {
-    class Wait : PlayerState
+    class KickBall : PlayerState
     {
-        public override void Run()
+        public KickBall(Player player) : base(player)
         {
         }
 
-        public Wait(Player player) : base(player)
+        public override void Run()
         {
+            throw new NotImplementedException();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
     {
         public override void Enter()
         {
-            if (Team.ControllingPlayer == null)
+            if (Team.PlayerInBallRange == null)
                 Team.StateMachine.ChangeState(new Defending(Team));
             else
                 Team.StateMachine.ChangeState(new Attacking(Team));

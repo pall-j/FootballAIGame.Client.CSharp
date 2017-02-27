@@ -17,7 +17,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         public Midfielder(FootballPlayer player) : base(player)
         {
             Action = new PlayerAction();
-            StateMachine = new FiniteStateMachine<Player>(this, new Wait(this), new MidfielderGlobalState(this));
+            StateMachine = new FiniteStateMachine<Player>(this, new Default(this), new MidfielderGlobalState(this));
         }
 
         public override PlayerAction GetAction()

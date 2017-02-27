@@ -70,7 +70,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
             var controlling = Ai.Instance.MyTeam.ControllingPlayer;
             if (controlling != null)
             {
-                if (IsPassSafe(supportPosition.Position))
+                if (Ai.Instance.MyTeam.IsPassFromControllingSafe(supportPosition.Position))
                 {
                     supportPosition.Score += PassSafeFromControllingPlayerWeight;
                     supportPosition.PassScore += PassSafeFromControllingPlayerWeight;
@@ -103,35 +103,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
             var ball = new FootballBall() { Position = position };
 
             return !double.IsInfinity(ball.TimeToCoverDistance(distance, new FootballPlayer(0).MaxKickSpeed));
-        }
-
-        private bool IsPassSafe(Vector position)
-        {
-            var controlling = Ai.Instance.MyTeam.ControllingPlayer;
-            var ball = Ai.Instance.CurrentState.Ball;
-
-            var toControlling = Vector.Difference(controlling.Position, position);
-
-            foreach (var opponent in Ai.Instance.OpponentTeam.Players)
-            {
-                var toOpponent = Vector.Difference(opponent.Position, position);
-
-                var k = Vector.DotProduct(toControlling, toOpponent) /  toControlling.Length;
-                var interposeTarget = Vector.Sum(position, toControlling.Resized(k));
-
-                if (k > toControlling.Length || k <= 0)
-                    continue; // safe
-
-                var ballToInterpose = Vector.DistanceBetween(ball.Position, interposeTarget);
-
-                var t1 = ball.TimeToCoverDistance(ballToInterpose, controlling.MaxKickSpeed);
-                var t2 = opponent.TimeToGetToTarget(interposeTarget);
-
-                if (t2 < t1)
-                    return false;
-            }
-
-            return true;
         }
 
         private double GetDistanceFromControllingScore(Vector position)

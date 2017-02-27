@@ -20,9 +20,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.Messaging
 
         private MessageDispatcher() { }
 
-        public void SendMessage(Message message, Player target)
+        public void SendMessage(Message message, params Player[] receivers)
         {
-            target.ProcessMessage(message);
+            foreach (var receiver in receivers)
+            {
+                receiver.ProcessMessage(message);
+            }
         }
     }
 }

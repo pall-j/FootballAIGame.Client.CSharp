@@ -17,7 +17,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         public GoalKeeper(FootballPlayer player) : base(player)
         {
             Action = new PlayerAction();
-            StateMachine = new FiniteStateMachine<Player>(this, new Wait(this), new GoalKeeperGlobalState(this));
+            StateMachine = new FiniteStateMachine<Player>(this, new Default(this), new GoalKeeperGlobalState(this));
         }
 
         public override PlayerAction GetAction()

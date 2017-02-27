@@ -17,7 +17,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         public Defender(FootballPlayer player) : base(player)
         {
             Action = new PlayerAction();
-            StateMachine = new FiniteStateMachine<Player>(this, new Wait(this), new DefenderGlobalState(this));
+            StateMachine = new FiniteStateMachine<Player>(this, new Default(this), new DefenderGlobalState(this));
         }
 
         public override PlayerAction GetAction()

@@ -28,6 +28,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public List<Forward> Forwards { get; set; }
 
+        public Player PlayerInBallRange { get; set; }
+
         public Player ControllingPlayer { get; set; }
 
         public Player PassReceiver { get; set; }
@@ -61,6 +63,22 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             }
 
             return minPlayer;
+        }
+
+        public Player NearestPlayerToBall
+        {
+            get
+            {
+                return GetNearestPlayerToPosition(Ai.Instance.Ball.Position);
+            }
+        }
+
+        public bool IsNearerToOpponent(Player player, Player otherPlayer)
+        {
+            if (IsOnLeft)
+                return player.Position.X > otherPlayer.Position.X;
+            else
+                return player.Position.X < otherPlayer.Position.X;
         }
 
         public Team(IList<FootballPlayer> footballPlayers)
@@ -137,24 +155,56 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             teamState.SetHomeRegions(this);
         }
 
+        public bool IsPassFromControllingSafe(Vector position)
+        {
+            var controlling = Ai.Instance.MyTeam.ControllingPlayer;
+            var ball = Ai.Instance.Ball;
+
+            if (controlling == null)
+                return false;
+
+            var toControlling = Vector.Difference(controlling.Position, position);
+
+            foreach (var opponent in Ai.Instance.OpponentTeam.Players)
+            {
+                var toOpponent = Vector.Difference(opponent.Position, position);
+
+                var k = Vector.DotProduct(toControlling, toOpponent) / toControlling.Length;
+                var interposeTarget = Vector.Sum(position, toControlling.Resized(k));
+
+                if (k > toControlling.Length || k <= 0)
+                    continue; // safe
+
+                var controllingToInterpose = Vector.DistanceBetween(controlling.Position, interposeTarget);
+
+                var t1 = ball.TimeToCoverDistance(controllingToInterpose, controlling.MaxKickSpeed);
+                var t2 = opponent.TimeToGetToTarget(interposeTarget);
+
+                if (t2 < t1)
+                    return false;
+            }
+
+            return true;
+        }
+
         public void LoadState(GameState state, bool firstTeam)
         {
             var diff = firstTeam ? 0 : 11;
-            ControllingPlayer = null;
-            var bestControllingDist = 0.0;
+            PlayerInBallRange = null;
+            var bestDist = 0.0;
 
             for (int i = 0; i < Players.Length; i++)
             {
                 Players[i].Movement = state.FootballPlayers[i + diff].Movement;
                 Players[i].Position = state.FootballPlayers[i + diff].Position;
 
-                var distToBall = Vector.DistanceBetween(Players[i].Position, Ai.Instance.CurrentState.Ball.Position);
+                var distToBall = Vector.DistanceBetween(Players[i].Position, Ai.Instance.Ball.Position);
 
-                if (distToBall < FootballBall.MinDistanceForKick*2 &&
-                    (ControllingPlayer == null || bestControllingDist > distToBall))
+                if (distToBall < Parameters.BallRange &&
+                    (PlayerInBallRange == null || bestDist > distToBall))
                 {
-                    bestControllingDist = distToBall;
-                    ControllingPlayer = Players[i];
+                    bestDist = distToBall;
+                    PlayerInBallRange = Players[i];
                 }
             }
 
