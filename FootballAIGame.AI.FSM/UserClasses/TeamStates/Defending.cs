@@ -15,25 +15,13 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
         {
             SetHomeRegions(Team);
             foreach (var player in Team.Players)
-            {
-                player.StateMachine.ChangeState(new Wait(player));
-            }
-
-            var controlling = Team.BallControllingPlayer;
-            if (controlling != null)
-            {
-                if (Team.Forwards[0] != controlling) 
-                    Team.Forwards[0].StateMachine.ChangeState(new Support(Team.Forwards[0]));
-                else 
-                    Team.Forwards[1].StateMachine.ChangeState(new Support(Team.Forwards[1]));
-            }
-
-
-            //MessageDispatcher.Instance.SendMessage(ReturnToHomeMessage.Instance, player);
+                MessageDispatcher.Instance.SendMessage(ReturnToHomeMessage.Instance, player);
         }
 
         public override void Run()
         {
+
+
         }
 
         public override bool ProcessMessage(Message message)

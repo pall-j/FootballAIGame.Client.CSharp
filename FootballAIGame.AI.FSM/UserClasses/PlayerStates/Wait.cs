@@ -6,7 +6,7 @@ using FootballAIGame.AI.FSM.UserClasses.Entities;
 
 namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 {
-    class Wait : State<Player>
+    class Wait : PlayerState
     {
         public override void Run()
         {

@@ -7,13 +7,13 @@ using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
-    class MidfielderGlobalState : State<Player>
+    class MidfielderGlobalState : PlayerState
     {
         private FieldPlayerGlobalState FieldPlayerGlobalState { get; set; }
 
-        public MidfielderGlobalState(Player entity) : base(entity)
+        public MidfielderGlobalState(Player player) : base(player)
         {
-            FieldPlayerGlobalState = new FieldPlayerGlobalState(entity);
+            FieldPlayerGlobalState = new FieldPlayerGlobalState(player);
         }
 
         public override void Run()

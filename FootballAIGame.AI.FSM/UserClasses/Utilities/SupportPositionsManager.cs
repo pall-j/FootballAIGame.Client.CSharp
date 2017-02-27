@@ -55,7 +55,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
                         bestPosition = supportPosition;
                 }
 
-                Console.WriteLine(string.Format("Score {0}, DistanceS {1}, SafePassS {2}, ShotScore {3}", bestPosition.Score, bestPosition.DistanceScore, bestPosition.PassScore, bestPosition.ShootScore));
+                //Console.WriteLine(string.Format("Score {0}, DistanceS {1}, SafePassS {2}, ShotScore {3}", bestPosition.Score, bestPosition.DistanceScore, bestPosition.PassScore, bestPosition.ShootScore));
                 return bestPosition.Position;
             }
         }
@@ -67,7 +67,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
             supportPosition.DistanceScore = 0;
             supportPosition.PassScore = 0;
 
-            var controlling = Ai.Instance.MyTeam.BallControllingPlayer;
+            var controlling = Ai.Instance.MyTeam.ControllingPlayer;
             if (controlling != null)
             {
                 if (IsPassSafe(supportPosition.Position))
@@ -107,7 +107,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
 
         private bool IsPassSafe(Vector position)
         {
-            var controlling = Ai.Instance.MyTeam.BallControllingPlayer;
+            var controlling = Ai.Instance.MyTeam.ControllingPlayer;
             var ball = Ai.Instance.CurrentState.Ball;
 
             var toControlling = Vector.Difference(controlling.Position, position);
@@ -136,7 +136,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
 
         private double GetDistanceFromControllingScore(Vector position)
         {
-            double distance = Vector.DistanceBetween(position, Ai.Instance.MyTeam.BallControllingPlayer.Position);
+            double distance = Vector.DistanceBetween(position, Ai.Instance.MyTeam.ControllingPlayer.Position);
 
             var diff = Math.Abs(distance - OptimalDistanceFromControlling);
 

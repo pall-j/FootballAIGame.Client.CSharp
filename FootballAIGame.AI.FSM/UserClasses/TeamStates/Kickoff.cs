@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
+using FootballAIGame.AI.FSM.UserClasses.PlayerStates;
 
 namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
@@ -11,12 +12,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
     {
         public override void Enter()
         {
-            var nearestToBall = Ai.Instance.CurrentState.NearestPlayerToBall;
-
-            if (nearestToBall.Id < 11) // team is nearest to ball
-                Entity.StateMachine.ChangeState(new Defending(Entity));
+            if (Team.ControllingPlayer == null)
+                Team.StateMachine.ChangeState(new Defending(Team));
             else
-                Entity.StateMachine.ChangeState(new Defending(Entity));
+                Team.StateMachine.ChangeState(new Attacking(Team));
         }
 
         public override void Run()

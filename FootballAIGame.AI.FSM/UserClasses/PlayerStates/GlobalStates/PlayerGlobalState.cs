@@ -8,7 +8,7 @@ using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
-    class PlayerGlobalState : State<Player>
+    class PlayerGlobalState : PlayerState
     {
         public override void Run()
         {
@@ -18,7 +18,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
         {
             if (message is ReturnToHomeMessage)
             {
-                Entity.StateMachine.ChangeState(new MoveToHomeRegion(Entity));
+                Player.StateMachine.ChangeState(new MoveToHomeRegion(Player));
+                return true;
+            }
+            if (message is SupportControllingMessage)
+            {
+                Player.StateMachine.ChangeState(new SupportControlling(Player));
                 return true;
             }
 

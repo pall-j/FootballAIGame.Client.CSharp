@@ -28,12 +28,40 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public List<Forward> Forwards { get; set; }
 
-        public Player BallControllingPlayer { get; set; }
+        public Player ControllingPlayer { get; set; }
+
+        public Player PassReceiver { get; set; }
+
+        public List<Player> SupportingPlayers { get; set; }
 
         /// <summary>
         /// Gets or sets the value indicating whether the team holds currently the left goal post.
         /// </summary>
         public bool IsOnLeft { get; set; }
+
+        public Player GetNearestPlayerToPosition(Vector position, params Player[] skippedPlayers)
+        {
+            var minPlayer = Players.FirstOrDefault(p => !skippedPlayers.Contains(p));
+            if (minPlayer == null)
+                return null; // all players are skipped
+
+            var minDistSq = Vector.DistanceBetweenSquared(minPlayer.Position, position);
+
+            foreach (var player in Players)
+            {
+                if (skippedPlayers.Contains(player))
+                    continue;
+
+                var dist = Vector.DistanceBetweenSquared(player.Position, minPlayer.Position);
+                if (dist < minDistSq)
+                {
+                    minDistSq = dist;
+                    minPlayer = player;
+                }
+            }
+
+            return minPlayer;
+        }
 
         public Team(IList<FootballPlayer> footballPlayers)
         {
@@ -41,6 +69,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             InitialEnter = true;
 
             Players = new Player[11];
+            SupportingPlayers = new List<Player>();
 
             GoalKeeper = new GoalKeeper(footballPlayers[0]);
             Players[0] = GoalKeeper;
@@ -111,7 +140,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         public void LoadState(GameState state, bool firstTeam)
         {
             var diff = firstTeam ? 0 : 11;
-            BallControllingPlayer = null;
+            ControllingPlayer = null;
             var bestControllingDist = 0.0;
 
             for (int i = 0; i < Players.Length; i++)
@@ -122,10 +151,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 var distToBall = Vector.DistanceBetween(Players[i].Position, Ai.Instance.CurrentState.Ball.Position);
 
                 if (distToBall < FootballBall.MinDistanceForKick*2 &&
-                    (BallControllingPlayer == null || bestControllingDist > distToBall))
+                    (ControllingPlayer == null || bestControllingDist > distToBall))
                 {
                     bestControllingDist = distToBall;
-                    BallControllingPlayer = Players[i];
+                    ControllingPlayer = Players[i];
                 }
             }
 
