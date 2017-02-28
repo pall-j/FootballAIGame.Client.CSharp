@@ -51,15 +51,16 @@ namespace FootballAIGame.AI.FSM.UserClasses
         {
             if (gameState.Step == 0 || MyTeam == null)
             {
+                Ball = new Ball(gameState.Ball);
                 MyTeam = new Team(GetParameters());
                 OpponentTeam = new Team(GetParameters()); // ~ expect him to have same parameters
             }
 
             // AI entities (wrappers of SimulationEntities) are set accordingly
             CurrentState = gameState;
+            Ball.LoadState(gameState);
             MyTeam.LoadState(gameState, true);
             OpponentTeam.LoadState(gameState, false);
-            Ball.LoadState(gameState);
             SupportPositionsManager.Instance.Update();
 
             // new action

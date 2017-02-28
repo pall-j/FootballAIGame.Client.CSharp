@@ -54,10 +54,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 if (skippedPlayers.Contains(player))
                     continue;
 
-                var dist = Vector.DistanceBetweenSquared(player.Position, minPlayer.Position);
-                if (dist < minDistSq)
+                var distSq = Vector.DistanceBetweenSquared(player.Position, position);
+                if (minDistSq > distSq)
                 {
-                    minDistSq = dist;
+                    minDistSq = distSq;
                     minPlayer = player;
                 }
             }
@@ -155,29 +155,33 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             teamState.SetHomeRegions(this);
         }
 
-        public bool IsPassFromControllingSafe(Vector position)
+        public bool IsPassFromControllingSafe(Vector target)
         {
-            var controlling = Ai.Instance.MyTeam.ControllingPlayer;
+            return IsKickSafe(ControllingPlayer, target);
+        }
+
+        public bool IsKickSafe(Player from, Vector target)
+        {
             var ball = Ai.Instance.Ball;
 
-            if (controlling == null)
+            if (from == null)
                 return false;
 
-            var toControlling = Vector.Difference(controlling.Position, position);
+            var toFrom = Vector.Difference(from.Position, target);
 
             foreach (var opponent in Ai.Instance.OpponentTeam.Players)
             {
-                var toOpponent = Vector.Difference(opponent.Position, position);
+                var toOpponent = Vector.Difference(opponent.Position, target);
 
-                var k = Vector.DotProduct(toControlling, toOpponent) / toControlling.Length;
-                var interposeTarget = Vector.Sum(position, toControlling.Resized(k));
+                var k = Vector.DotProduct(toFrom, toOpponent) / toFrom.Length;
+                var interposeTarget = Vector.Sum(target, toFrom.Resized(k));
 
-                if (k > toControlling.Length || k <= 0)
+                if (k > toFrom.Length || k <= 0)
                     continue; // safe
 
-                var controllingToInterpose = Vector.DistanceBetween(controlling.Position, interposeTarget);
+                var controllingToInterpose = Vector.DistanceBetween(from.Position, interposeTarget);
 
-                var t1 = ball.TimeToCoverDistance(controllingToInterpose, controlling.MaxKickSpeed);
+                var t1 = ball.TimeToCoverDistance(controllingToInterpose, from.MaxKickSpeed);
                 var t2 = opponent.TimeToGetToTarget(interposeTarget);
 
                 if (t2 < t1)
@@ -197,6 +201,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             {
                 Players[i].Movement = state.FootballPlayers[i + diff].Movement;
                 Players[i].Position = state.FootballPlayers[i + diff].Position;
+                Players[i].KickVector = new Vector(0, 0);
 
                 var distToBall = Vector.DistanceBetween(Players[i].Position, Ai.Instance.Ball.Position);
 
@@ -208,12 +213,50 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 }
             }
 
-            if (state.Step == 0 || state.Step == 750)
+            if (state.KickOff)
             {
                 IsOnLeft = GoalKeeper.Position.X < 55;
                 StateMachine.ChangeState(new Kickoff(this)); // todo maybe change to message
             }
 
+        }
+
+        public bool TryGetShotOnGoal(Player player, out Vector shotTarget)
+        {
+            // try 10 random positions
+
+            for (int i = 0; i < Parameters.NumberOfGeneratedShotTargets; i++)
+            {
+                var target =
+                    new Vector(0, GameClient.FieldHeight/2.0 + (Ai.Random.NextDouble() - 0.5) * 7.32 / 2);
+                if (IsOnLeft)
+                    target.X = GameClient.FieldWidth;
+
+                if (IsKickSafe(player, target))
+                {
+                    shotTarget = target;
+                    return true;
+                }
+            }
+
+            shotTarget = null;
+            return false;
+        }
+
+        public bool TryGetSafePass(Player player, out Player target)
+        {
+            foreach (var otherPlayer in Players)
+            {
+                if (player == otherPlayer)
+                    continue;
+                if (IsKickSafe(player, otherPlayer.Position))
+                {
+                    target = otherPlayer;
+                    return true;
+                }
+            }
+            target = null;
+            return false;
         }
     }
 }

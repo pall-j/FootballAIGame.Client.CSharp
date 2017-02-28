@@ -48,6 +48,9 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         {
             var finalSpeed = CurrentSpeed - BallDeceleration*time;
 
+            if (Math.Abs(CurrentSpeed) < 0.001)
+                return Position;
+
             if (finalSpeed < 0)
                 time = CurrentSpeed / BallDeceleration; // time to stop
 

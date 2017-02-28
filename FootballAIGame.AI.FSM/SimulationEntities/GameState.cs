@@ -1,5 +1,6 @@
 ﻿using System;
 using FootballAIGame.AI.FSM.CustomDataTypes;
+using FootballAIGame.AI.FSM.UserClasses.TeamStates;
 
 namespace FootballAIGame.AI.FSM.SimulationEntities
 {
@@ -23,6 +24,8 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         /// The simulation step number specifying to which simulation step this instance belongs.
         /// </summary>
         public int Step { get; set; }
+
+        public bool KickOff { get; set; }
 
         public FootballPlayer NearestPlayerToBall
         {
@@ -57,7 +60,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             var stepData = new int[1];
 
             Buffer.BlockCopy(data, 0, stepData, 0, 4);
-            Buffer.BlockCopy(data, 4, floatData, 0, (data.Length - 4));
+            Buffer.BlockCopy(data, 5, floatData, 0, (data.Length - 5));
 
             //Buffer.BlockCopy(data, 0, floatData, 0, data.Length);
 
@@ -83,7 +86,8 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             {
                 Ball = ball,
                 FootballPlayers = players,
-                Step = stepData[0]
+                Step = stepData[0],
+                KickOff = data[4] == 1
             };
         }
 

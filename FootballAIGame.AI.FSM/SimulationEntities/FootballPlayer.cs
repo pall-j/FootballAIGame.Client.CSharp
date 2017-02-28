@@ -99,7 +99,14 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
 
         public void KickBall(FootballBall ball, Vector target)
         {
-            
+            KickBall(ball, target, MaxKickSpeed);
+        }
+
+        public void KickBall(FootballBall ball, Vector target, double kickAcceleration)
+        {
+            if (kickAcceleration > MaxKickSpeed)
+                kickAcceleration = MaxKickSpeed;
+            KickVector = new Vector(ball.Position, target, kickAcceleration);
         }
 
         public static double DotProduct(Vector v1, Vector v2)

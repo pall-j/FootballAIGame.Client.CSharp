@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
 using FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors;
@@ -26,6 +27,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         public override void Run()
         {
             MoveToHomeRegionArrive.Target = Player.HomeRegion.Center;
+            if (Player.IsAtHomeRegion && Math.Abs(Player.CurrentSpeed) < 0.00001)
+                Player.StateMachine.ChangeState(new Default(Player));
         }
 
         public override void Exit()

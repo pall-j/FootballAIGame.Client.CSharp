@@ -192,5 +192,11 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
             return new Vector(first.X + second.X, first.Y + second.Y);
         }
 
+        public Vector Truncated(double maxLength)
+        {
+            var res = new Vector(X, Y);
+            res.Truncate(maxLength);
+            return res;
+        }
     }
 }

@@ -29,6 +29,15 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             }    
         }
 
+        public bool IsInDanger
+        {
+            get
+            {
+                return Vector.DistanceBetween(Ai.Instance.OpponentTeam.GetNearestPlayerToPosition(
+                    Position).Position, Position) < Parameters.DangerRange;
+            }
+        }
+
         protected Player(FootballPlayer player) : base(player.Id)
         {
             this.Position = player.Position;

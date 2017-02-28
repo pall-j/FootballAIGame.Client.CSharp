@@ -27,6 +27,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             StateMachine.Update();
 
             Action.Movement = Vector.Sum(SteeringBehaviorsManager.CalculateAccelerationVector(), Movement);
+            Action.Kick = KickVector;
 
             return Action;
         }

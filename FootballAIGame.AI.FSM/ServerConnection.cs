@@ -94,7 +94,7 @@ namespace FootballAIGame.AI.FSM
                 else if (firstLine.Length >= 10 && firstLine.Substring(firstLine.Length - 10) == "GET ACTION")
                 {
                     //Console.WriteLine("reading state data");
-                    var data = new byte[372];
+                    var data = new byte[373];
                     NetworkStream.Read(data, 0, data.Length);
 
                     return new Command()
