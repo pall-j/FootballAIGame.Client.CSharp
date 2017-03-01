@@ -33,17 +33,19 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             Arrive.Target = SupportPositionsManager.Instance.BestSupportPosition;
             var team = Ai.Instance.MyTeam;
 
-            // nearest except goalkeeper
-            var nearest = Ai.Instance.MyTeam.GetNearestPlayerToPosition(Arrive.Target, team.GoalKeeper);
+            // nearest except goalkeeper and controlling
+            var nearest = Ai.Instance.MyTeam.GetNearestPlayerToPosition(Arrive.Target, team.GoalKeeper, team.ControllingPlayer);
 
             // goalkeeper shouldn't go too far from his home region
             if (Player is GoalKeeper &&
                 Vector.DistanceBetween(Arrive.Target, Player.HomeRegion.Center) > MaxGoalkeeperSupportingDistance)
             {
                 MessageDispatcher.Instance.SendMessage(new SupportControllingMessage(), nearest);
-                Player.StateMachine.ChangeState(new MoveToHomeRegion(Player));
-                if (Player is GoalKeeper)
-                    Console.WriteLine("State change: Support -> Home (1)");
+                //   if (Player is GoalKeeper)
+                //        Console.WriteLine("State change: Support -> Home (1)");
+                Player.StateMachine.ChangeState(new Default(Player));
+                return;
+
             }
 
             // if shot on goal is possible request pass from controlling
@@ -54,12 +56,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             }
 
             // someone else is nearer the best position (not goalkeeper)
-            if (!(Player is GoalKeeper) && nearest != Player)
+            if (!(Player is GoalKeeper) && nearest != Player && nearest != team.ControllingPlayer)
             {
                 MessageDispatcher.Instance.SendMessage(new SupportControllingMessage(), nearest);
-                Player.StateMachine.ChangeState(new MoveToHomeRegion(Player));
-                if (Player is GoalKeeper)
-                    Console.WriteLine("State change: Support -> Home (2)");
+                Player.StateMachine.ChangeState(new Default(Player));
+            //    if (Player is GoalKeeper)
+            //        Console.WriteLine("State change: Support -> Home (2)");
             }
 
         }

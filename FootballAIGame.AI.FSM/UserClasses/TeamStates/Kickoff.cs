@@ -21,9 +21,15 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             Console.WriteLine("KICKOFF");
 
             if (Team.PlayerInBallRange == null)
+            {
+                Console.WriteLine("KICKOFF -> DEFENDING");
                 Team.StateMachine.ChangeState(new Defending(Team));
+            }
             else
+            {
+                Console.WriteLine("KICKOFF -> ATTACKING");
                 Team.StateMachine.ChangeState(new Attacking(Team));
+            }
         }
 
         public override void Run()

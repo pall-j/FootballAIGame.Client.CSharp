@@ -29,8 +29,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             MoveToHomeRegionArrive.Target = Player.HomeRegion.Center;
             if (Player.IsAtHomeRegion && Math.Abs(Player.CurrentSpeed) < 0.00001)
             {
-                if (Player is GoalKeeper)
-                    Console.WriteLine("State change: MoveHome -> Default");
+             //   if (Player is GoalKeeper)
+             //       Console.WriteLine("State change: MoveHome -> Default");
                 Player.StateMachine.ChangeState(new Default(Player));
             }
 

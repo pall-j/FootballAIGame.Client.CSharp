@@ -14,16 +14,16 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
     {
         public override void Enter()
         {
-            SetHomeRegions(Entity);
-            MessageDispatcher.Instance.SendMessage(new GoDefaultMessage(), Team.Players);
-            Console.WriteLine("ENTERING");
+            Console.WriteLine("ENTERING ATTACKING");
+            SetHomeRegions(Team);
         }
 
         public override void Run()
         {
-            if (Team.ControllingPlayer == null &&
+            if (Team.PlayerInBallRange == null &&
                 Ai.Instance.OpponentTeam.PlayerInBallRange != null)
             {
+                Console.WriteLine("ATTACKING -> DEFENDING");
                 Team.StateMachine.ChangeState(new Defending(Team));
             }
             
@@ -42,6 +42,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 
         public override void SetHomeRegions(Team team)
         {
+            Console.WriteLine("ATTACKING REGIONS");
             team.GoalKeeper.HomeRegion = Region.GetRegion(7, 4);
 
             team.Defenders[0].HomeRegion = Region.GetRegion(6, 4);

@@ -23,7 +23,6 @@ namespace FootballAIGame.AI.FSM.UserClasses
             this.CurrentState = startState;
             this.GlobalState = globalState;
 
-            this.GlobalState.Enter();
         }
 
         public void ChangeState(State<TEntity> newState)

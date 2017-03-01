@@ -20,8 +20,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
         {
             if (message is ReturnToHomeMessage)
             {
-                if (Player is GoalKeeper)
-                    Console.WriteLine("State change: Return home msg -> MoveToHomeRegion");
+            //    if (Player is GoalKeeper)
+            //        Console.WriteLine("State change: Return home msg -> MoveToHomeRegion");
                 Player.StateMachine.ChangeState(new MoveToHomeRegion(Player));
 
                 return true;
@@ -31,8 +31,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
             {
                 if (!(Player.StateMachine.CurrentState is SupportControlling))
                 {
-                    if (Player is GoalKeeper)
-                        Console.WriteLine("State change: SupportMsg -> SupportControlling");
+             //       if (Player is GoalKeeper)
+             //           Console.WriteLine("State change: SupportMsg -> SupportControlling");
                     Player.StateMachine.ChangeState(new SupportControlling(Player));
 
                 }
@@ -42,8 +42,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 
             if (message is GoDefaultMessage)
             {
-                if (Player is GoalKeeper)
-                    Console.WriteLine("State change: goDefaultMsg -> Default");
+             //   if (Player is GoalKeeper)
+            //        Console.WriteLine("State change: goDefaultMsg -> Default");
                 Player.StateMachine.ChangeState(new Default(Player));
 
                 return true;
@@ -58,8 +58,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
                 {
                     Player.KickBall(ball, target);
                     MessageDispatcher.Instance.SendMessage(new ReceivePassMessage(target));
-                    if (Player is GoalKeeper)
-                        Console.WriteLine("State change: pass message -> default");
+               //     if (Player is GoalKeeper)
+               //         Console.WriteLine("State change: pass message -> default");
                     Player.StateMachine.ChangeState(new Default(Player));
 
                 }
@@ -70,8 +70,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
             if (message is ReceivePassMessage)
             {
                 var msg = (ReceivePassMessage) message;
-                if (Player is GoalKeeper)
-                    Console.WriteLine("State change: receive message -> receive");
+              //  if (Player is GoalKeeper)
+              //      Console.WriteLine("State change: receive message -> receive");
                 Player.StateMachine.ChangeState(new ReceivePass(Player, msg.PassTarget));
 
                 return true;
@@ -79,8 +79,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 
             if (message is PursueBallMessage)
             {
-                if (Player is GoalKeeper)
-                    Console.WriteLine("State change: pursue message -> pursue");
+               // if (Player is GoalKeeper)
+              //      Console.WriteLine("State change: pursue message -> pursue");
                 Player.StateMachine.ChangeState(new PursueBall(Player));
                 return true;
             }

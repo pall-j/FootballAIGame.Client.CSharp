@@ -40,8 +40,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             if (team.TryGetShotOnGoal(Player, out target))
             {
                 Player.KickBall(Ai.Instance.Ball, target);
-                if (Player is GoalKeeper)
-                    Console.WriteLine("State change: KickBall -> Default (1)");
+               // if (Player is GoalKeeper)
+               //     Console.WriteLine("State change: KickBall -> Default (1)");
                 Player.StateMachine.ChangeState(new Default(Player));
 
                 return;
@@ -58,15 +58,15 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
                 Player.KickBall(Ai.Instance.Ball, nextPos);
                 MessageDispatcher.Instance.SendMessage(new ReceivePassMessage(nextPos), passTarget);
-                if (Player is GoalKeeper)
-                    Console.WriteLine("State change: KickBall -> Default (2)");
+               // if (Player is GoalKeeper)
+                //    Console.WriteLine("State change: KickBall -> Default (2)");
                 Player.StateMachine.ChangeState(new Default(Player));
 
                 return;
             }
 
-            if (Player is GoalKeeper)
-                Console.WriteLine("State change: KickBall -> Dribble");
+            //if (Player is GoalKeeper)
+           //     Console.WriteLine("State change: KickBall -> Dribble");
             Player.StateMachine.ChangeState(new Dribble(Player));
         }
 

@@ -31,15 +31,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
             Player.KickBall(Ai.Instance.Ball, target, futureSpeedInKickDirection);
 
-            if (Player is GoalKeeper)
-                Console.WriteLine("State change: Dribble -> PursueBall");
+            //if (Player is GoalKeeper)
+            //    Console.WriteLine("State change: Dribble -> PursueBall");
             Player.StateMachine.ChangeState(new PursueBall(Player));
         }
 
-        public override void Exit()
-        {
-            if (Ai.Instance.MyTeam.ControllingPlayer == Player)
-                Ai.Instance.MyTeam.ControllingPlayer = null;
-        }
     }
 }

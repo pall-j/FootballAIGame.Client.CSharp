@@ -22,6 +22,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         public override void Enter()
         {
             Ai.Instance.MyTeam.PassReceiver = Player;
+            Ai.Instance.MyTeam.ControllingPlayer = Player;
             SteeringBehaviour = new Arrive(Player, 1, 1.0, PassTarget);
             Player.SteeringBehaviorsManager.AddBehavior(SteeringBehaviour);
         }
@@ -30,8 +31,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         {
             if (Ai.Instance.MyTeam.PassReceiver != Player)
             {
-                if (Player is GoalKeeper)
-                    Console.WriteLine("State change: Receive -> Default");
+             //   if (Player is GoalKeeper)
+             //       Console.WriteLine("State change: Receive -> Default");
                 Player.StateMachine.ChangeState(new Default(Player));
 
                 return;
@@ -39,16 +40,16 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
             if (Player.CanKickBall(Ai.Instance.Ball))
             {
-                if (Player is GoalKeeper)
-                    Console.WriteLine("State change: Receive -> KickBall");
+             //   if (Player is GoalKeeper)
+             //       Console.WriteLine("State change: Receive -> KickBall");
                 Player.StateMachine.ChangeState(new KickBall(Player));
 
             }
 
             if (Vector.DistanceBetween(Ai.Instance.Ball.Position, Player.Position) < Parameters.BallReceivingRange)
             {
-                if (Player is GoalKeeper)
-                    Console.WriteLine("State change: Receive -> Pursue");
+              //  if (Player is GoalKeeper)
+             //       Console.WriteLine("State change: Receive -> Pursue");
                 Player.StateMachine.ChangeState(new PursueBall(Player));
 
                 return;
