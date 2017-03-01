@@ -90,5 +90,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             return acceleration;
         }
 
+        public void Reset()
+        {
+            SteeringBehaviors = new SortedDictionary<int, List<SteeringBehavior>>();
+        }
     }
 }

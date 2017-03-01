@@ -12,23 +12,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     class Defender : FieldPlayer
     {
-        public PlayerAction Action { get; set; }
-
         public Defender(FootballPlayer player) : base(player)
         {
-            Action = new PlayerAction();
             StateMachine = new FiniteStateMachine<Player>(this, new Default(this), new DefenderGlobalState(this));
-        }
-
-        public override PlayerAction GetAction()
-        {
-            Action.Kick = new Vector(0, 0); // state machine might change it
-
-            StateMachine.Update();
-
-            Action.Movement = Vector.Sum(SteeringBehaviorsManager.CalculateAccelerationVector(), Movement);
-
-            return Action;
         }
 
         public override void ProcessMessage(Message message)

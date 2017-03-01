@@ -12,6 +12,14 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
     {
         public override void Enter()
         {
+            Team.ControllingPlayer = null;
+            Team.PassReceiver = null;
+            Team.SupportingPlayers = new List<Player>();
+            foreach (var teamPlayer in Team.Players)
+                teamPlayer.SteeringBehaviorsManager.Reset();
+
+            Console.WriteLine("KICKOFF");
+
             if (Team.PlayerInBallRange == null)
                 Team.StateMachine.ChangeState(new Defending(Team));
             else

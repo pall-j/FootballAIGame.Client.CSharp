@@ -16,6 +16,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
         {
             SetHomeRegions(Entity);
             MessageDispatcher.Instance.SendMessage(new GoDefaultMessage(), Team.Players);
+            Console.WriteLine("ENTERING");
         }
 
         public override void Run()
@@ -26,10 +27,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
                 Team.StateMachine.ChangeState(new Defending(Team));
             }
             
-            if (Team.SupportingPlayers.Count == 0)
+            if (Team.SupportingPlayers.Count == 0 && Team.ControllingPlayer != null)
             {
                 var bestPos = Utilities.SupportPositionsManager.Instance.BestSupportPosition;
-                var bestSupporter = Team.GetNearestPlayerToPosition(bestPos);
+                var bestSupporter = Team.GetNearestPlayerToPosition(bestPos, Team.ControllingPlayer);
                 MessageDispatcher.Instance.SendMessage(new SupportControllingMessage(), bestSupporter);
             }
         }

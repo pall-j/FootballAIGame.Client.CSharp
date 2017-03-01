@@ -29,7 +29,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             else if (team.NearestPlayerToBall == Player &&
                      team.PassReceiver == null)
             {
+                if (Player is GoalKeeper)
+                    Console.WriteLine("State change: Default -> PursueBall");
                 Player.StateMachine.ChangeState(new PursueBall(Player));
+
             }
             else if (!Player.IsAtHomeRegion)
             {

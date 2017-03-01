@@ -17,7 +17,17 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public SteeringBehaviorsManager SteeringBehaviorsManager { get; set; }
 
-        public abstract PlayerAction GetAction();
+        public PlayerAction GetAction()
+        {
+            var action = new PlayerAction();
+
+            StateMachine.Update();
+
+            action.Movement = Vector.Sum(SteeringBehaviorsManager.CalculateAccelerationVector(), Movement);
+            action.Kick = KickVector;
+
+            return action;
+        }
 
         public abstract void ProcessMessage(Message message);
 

@@ -17,7 +17,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         public ReceivePass(Player player, Vector passTarget) : base(player)
         {
             PassTarget = passTarget;
-            var ball = Ai.Instance.Ball;
         }
 
         public override void Enter()
@@ -31,15 +30,31 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         {
             if (Ai.Instance.MyTeam.PassReceiver != Player)
             {
+                if (Player is GoalKeeper)
+                    Console.WriteLine("State change: Receive -> Default");
                 Player.StateMachine.ChangeState(new Default(Player));
+
                 return;
+            }
+
+            if (Player.CanKickBall(Ai.Instance.Ball))
+            {
+                if (Player is GoalKeeper)
+                    Console.WriteLine("State change: Receive -> KickBall");
+                Player.StateMachine.ChangeState(new KickBall(Player));
+
             }
 
             if (Vector.DistanceBetween(Ai.Instance.Ball.Position, Player.Position) < Parameters.BallReceivingRange)
             {
+                if (Player is GoalKeeper)
+                    Console.WriteLine("State change: Receive -> Pursue");
                 Player.StateMachine.ChangeState(new PursueBall(Player));
+
                 return;
             }
+
+            UpdatePassTarget();
 
             var nearestOpponent = Ai.Instance.OpponentTeam.GetNearestPlayerToPosition(Player.Position);
             var ball = Ai.Instance.Ball;
@@ -69,9 +84,22 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
         }
 
+        private void UpdatePassTarget()
+        {
+            var ball = Ai.Instance.Ball;
+            var time = ball.TimeToCoverDistance(Vector.DistanceBetween(PassTarget, ball.Position), ball.CurrentSpeed);
+            PassTarget = ball.PredictedPositionInTime(time);
+
+            var arrive = SteeringBehaviour as Arrive;
+            if (arrive != null)
+                arrive.Target = PassTarget;
+        }
+
         public override void Exit()
         {
             Player.SteeringBehaviorsManager.RemoveBehavior(SteeringBehaviour);
+            if (Player == Ai.Instance.MyTeam.PassReceiver)
+                Ai.Instance.MyTeam.PassReceiver = null;
         }
     }
 }

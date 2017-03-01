@@ -30,6 +30,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             var futureSpeedInKickDirection = Vector.DotProduct(playerFutureMovement, kickDirection)/kickDirection.Length + 0.1;
 
             Player.KickBall(Ai.Instance.Ball, target, futureSpeedInKickDirection);
+
+            if (Player is GoalKeeper)
+                Console.WriteLine("State change: Dribble -> PursueBall");
             Player.StateMachine.ChangeState(new PursueBall(Player));
         }
 

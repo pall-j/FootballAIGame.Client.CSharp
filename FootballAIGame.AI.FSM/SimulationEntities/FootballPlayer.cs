@@ -67,7 +67,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         /// </value>
         public double MaxSpeed
         {
-            get { return (5 + Speed*2.5/0.4) * GameClient.StepInterval / 1000.0; }
+            get { return (4 + Speed*2/0.4) * GameClient.StepInterval / 1000.0; }
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         /// </value>
         public double MaxAcceleration
         {
-            get { return 3 * Math.Pow(GameClient.StepInterval / 1000.0, 2); }
+            get { return 5 * Math.Pow(GameClient.StepInterval / 1000.0, 2); }
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         /// </value>
         public double MaxKickSpeed
         {
-            get { return (15 + KickPower*10) * GameClient.StepInterval / 1000.0; }
+            get { return (10 + KickPower*5) * GameClient.StepInterval / 1000.0; }
         }
 
         public bool CanKickBall(FootballBall ball)

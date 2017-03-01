@@ -42,6 +42,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             {
                 MessageDispatcher.Instance.SendMessage(new SupportControllingMessage(), nearest);
                 Player.StateMachine.ChangeState(new MoveToHomeRegion(Player));
+                if (Player is GoalKeeper)
+                    Console.WriteLine("State change: Support -> Home (1)");
             }
 
             // if shot on goal is possible request pass from controlling
@@ -56,6 +58,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             {
                 MessageDispatcher.Instance.SendMessage(new SupportControllingMessage(), nearest);
                 Player.StateMachine.ChangeState(new MoveToHomeRegion(Player));
+                if (Player is GoalKeeper)
+                    Console.WriteLine("State change: Support -> Home (2)");
             }
 
         }

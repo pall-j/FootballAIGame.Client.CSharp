@@ -245,18 +245,21 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public bool TryGetSafePass(Player player, out Player target)
         {
+            target = null;
+
             foreach (var otherPlayer in Players)
             {
                 if (player == otherPlayer)
                     continue;
                 if (IsKickSafe(player, otherPlayer.Position))
                 {
-                    target = otherPlayer;
-                    return true;
+                    if (target == null || (IsOnLeft && target.Position.X < otherPlayer.Position.X) ||
+                        (!IsOnLeft && target.Position.X > otherPlayer.Position.X))
+                        target = otherPlayer;
                 }
             }
-            target = null;
-            return false;
+
+            return target != null;
         }
     }
 }
