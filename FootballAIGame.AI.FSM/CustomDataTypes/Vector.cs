@@ -54,6 +54,12 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
             Resize(size);
         }
 
+        public Vector(Vector from, Vector to)
+        {
+            X = to.X - from.X;
+            Y = to.Y - from.Y;
+        }
+
         /// <summary>
         /// Gets the vector length.
         /// </summary>

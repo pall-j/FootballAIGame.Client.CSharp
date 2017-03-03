@@ -91,6 +91,8 @@
     <Compile Include="UserClasses\Messaging\Messages\SupportControllingMessage.cs" />
     <Compile Include="UserClasses\Messaging\Messages\GoDefaultMessage.cs" />
     <Compile Include="UserClasses\Parameters.cs" />
+    <Compile Include="UserClasses\PlayerStates\DefendGoal.cs" />
+    <Compile Include="UserClasses\PlayerStates\InterceptBall.cs" />
     <Compile Include="UserClasses\PlayerStates\PursueBall.cs" />
     <Compile Include="UserClasses\PlayerStates\Dribble.cs" />
     <Compile Include="UserClasses\PlayerStates\GlobalStates\DefenderGlobalState.cs" />

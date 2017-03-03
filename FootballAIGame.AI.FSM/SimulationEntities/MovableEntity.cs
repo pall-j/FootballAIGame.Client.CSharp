@@ -41,5 +41,6 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         {
             return Vector.Sum(Position, Movement.Multiplied(time));
         }
+
     }
 }

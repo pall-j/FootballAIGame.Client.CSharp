@@ -16,7 +16,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             Team.PassReceiver = null;
             Team.SupportingPlayers = new List<Player>();
             foreach (var teamPlayer in Team.Players)
+            {
                 teamPlayer.SteeringBehaviorsManager.Reset();
+                teamPlayer.StateMachine.ChangeState(new Default(teamPlayer));
+            }
 
             Console.WriteLine("KICKOFF");
 

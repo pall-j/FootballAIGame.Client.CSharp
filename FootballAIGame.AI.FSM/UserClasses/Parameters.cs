@@ -11,6 +11,7 @@ namespace FootballAIGame.AI.FSM.UserClasses
         public const double PlayerInHomeRegionRange = 5;
         public const double BallReceivingRange = 4;
         public const double BallRange = 2;
+        public const double DefendGoalDistance = 5;
         public const int NumberOfGeneratedShotTargets = 10;
         public const int DangerRange = 8;
 

@@ -10,7 +10,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 {
     class Pursuit : SteeringBehavior
     {
-        private Seek TargetSeek { get; set; }
+        private Arrive TargetSeek { get; set; }
 
         public MovableEntity Target { get; set; }
 
@@ -18,7 +18,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             base(player, priority, weight)
         {
             Target = target;
-            TargetSeek = new Seek(Player, priority, weight, target.Position);
+            TargetSeek = new Arrive(Player, priority, weight, target.Position);
         }
 
         public override Vector CalculateAccelerationVector()

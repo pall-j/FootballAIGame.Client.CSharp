@@ -19,12 +19,11 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public PlayerAction GetAction()
         {
-            var action = new PlayerAction();
-
-            StateMachine.Update();
-
-            action.Movement = Vector.Sum(SteeringBehaviorsManager.CalculateAccelerationVector(), Movement);
-            action.Kick = KickVector;
+            var action = new PlayerAction
+            {
+                Movement = Vector.Sum(SteeringBehaviorsManager.CalculateAccelerationVector(), Movement),
+                Kick = KickVector
+            };
 
             return action;
         }

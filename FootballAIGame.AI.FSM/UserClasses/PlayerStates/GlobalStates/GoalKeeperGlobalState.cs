@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
+using FootballAIGame.AI.FSM.UserClasses.Messaging.Messages;
 
 namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
@@ -23,6 +24,17 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 
         public override bool ProcessMessage(Message message)
         {
+            if (message is ReceivePassMessage)
+            {
+                Player.StateMachine.ChangeState(new InterceptBall(Player));
+                return true;
+            }
+            if (message is GoDefaultMessage)
+            {
+                Player.StateMachine.ChangeState(new DefendGoal(Player));
+                return true;
+            }
+
             return PlayerGlobalState.ProcessMessage(message);
         }
     }

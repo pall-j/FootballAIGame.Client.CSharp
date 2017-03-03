@@ -46,7 +46,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
                 return;
             }
-
+           
             Player passTarget;
             if (Player.IsInDanger && team.TryGetSafePass(Player, out passTarget))
             {
@@ -64,7 +64,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
                 return;
             }
-
+            
             //if (Player is GoalKeeper)
            //     Console.WriteLine("State change: KickBall -> Dribble");
             Player.StateMachine.ChangeState(new Dribble(Player));

@@ -10,6 +10,11 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 {
     class Default : PlayerState
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Default"/> class.
+        /// </summary>
+        /// <param name="player">The player.</param>
         public Default(Player player) : base(player)
         {
         }
@@ -19,7 +24,11 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             var controlling = Ai.Instance.MyTeam.ControllingPlayer;
             var team = Ai.Instance.MyTeam;
 
-            if (controlling != null &&
+            if (Player is GoalKeeper)
+            {
+                Player.StateMachine.ChangeState(new DefendGoal(Player));
+            }
+            else if (controlling != null &&
                 team.IsNearerToOpponent(Player, controlling) &&
                 team.IsPassFromControllingSafe(Player.Position) &&
                 team.PassReceiver == null)

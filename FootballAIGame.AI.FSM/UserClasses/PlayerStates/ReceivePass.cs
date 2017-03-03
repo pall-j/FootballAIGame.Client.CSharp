@@ -43,7 +43,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
              //   if (Player is GoalKeeper)
              //       Console.WriteLine("State change: Receive -> KickBall");
                 Player.StateMachine.ChangeState(new KickBall(Player));
-
+                return;
             }
 
             if (Vector.DistanceBetween(Ai.Instance.Ball.Position, Player.Position) < Parameters.BallReceivingRange)

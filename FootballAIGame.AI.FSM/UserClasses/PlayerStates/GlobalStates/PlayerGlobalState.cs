@@ -52,12 +52,16 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
             if (message is PassToPlayerMessage)
             {
                 var ball = Ai.Instance.Ball;
-                var target = ((PassToPlayerMessage) message).Receiver.Position;
+                var target = ((PassToPlayerMessage) message).Receiver;
+
+                var time = ball.TimeToCoverDistance(Vector.DistanceBetween(target.Position, ball.Position),
+                    Player.MaxKickSpeed);
+                var predictedTargetPosition = target.PredictedPositionInTime(time);
 
                 if (Player.CanKickBall(ball))
                 {
-                    Player.KickBall(ball, target);
-                    MessageDispatcher.Instance.SendMessage(new ReceivePassMessage(target));
+                    Player.KickBall(ball, predictedTargetPosition);
+                    MessageDispatcher.Instance.SendMessage(new ReceivePassMessage(predictedTargetPosition));
                //     if (Player is GoalKeeper)
                //         Console.WriteLine("State change: pass message -> default");
                     Player.StateMachine.ChangeState(new Default(Player));

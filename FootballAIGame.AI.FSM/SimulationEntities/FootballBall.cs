@@ -39,7 +39,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             if (discriminant < 0)
                 return double.PositiveInfinity; // ball will stop before target
 
-            var t = (2*v0 - Math.Sqrt(4*v0*v0 - 8*s*a))/(2*a);
+            var t = (2*v0 - Math.Sqrt(discriminant))/(2*a);
 
             return t;
         }
@@ -59,5 +59,22 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
 
             return Vector.Sum(Position, diff);
         }
+
+        public Vector PredictedPositionInTimeAfterKick(double time, double kickSpeed)
+        {
+            var finalSpeed = kickSpeed - BallDeceleration * time;
+
+            if (Math.Abs(kickSpeed) < 0.001)
+                return Position;
+
+            if (finalSpeed < 0)
+                time = kickSpeed / BallDeceleration; // time to stop
+
+            var diff = Vector.Sum(Movement.Resized(time * kickSpeed),
+                Movement.Resized(-1 / 2.0 * BallDeceleration * time * time));
+
+            return Vector.Sum(Position, diff);
+        }
+
     }
 }

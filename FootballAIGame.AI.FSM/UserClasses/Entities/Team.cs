@@ -131,13 +131,17 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 InitialEnter = false;
             }
 
+            // update team
             StateMachine.Update();
 
+            // update players
+            foreach (var player in Players)
+                player.StateMachine.Update();
+
+            // retrieve actions
             var actions = new PlayerAction[11];
             for (int i = 0; i < 11; i++)
-            {
                 actions[i] = Players[i].GetAction();
-            }
 
             return actions;
         }
@@ -213,7 +217,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 }
             }
 
-            if (firstTeam && (state.Step == 0 || state.Step == 750))
+            if (firstTeam && state.KickOff)
             {
                 IsOnLeft = GoalKeeper.Position.X < 55;
                 StateMachine.ChangeState(new Kickoff(this)); // todo maybe change to message
