@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
+using FootballAIGame.AI.FSM.UserClasses.Messaging;
+using FootballAIGame.AI.FSM.UserClasses.Messaging.Messages;
 using FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors;
+using FootballAIGame.AI.FSM.UserClasses.TeamStates;
 
 namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 {
@@ -32,7 +35,11 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
         public override void Run()
         {
-            
+            if (Ai.Instance.MyTeam.StateMachine.CurrentState is Defending &&
+                Vector.DistanceBetween(Ai.Instance.Ball.Position, Ai.Instance.MyTeam.GoalCenter) < Parameters.GoalKeeperInterceptRange)
+            {
+                Player.StateMachine.ChangeState(new InterceptBall(Player));
+            }
         }
 
         public override void Exit()

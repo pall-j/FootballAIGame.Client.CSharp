@@ -27,16 +27,13 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         {
             if (Player.CanKickBall(Ai.Instance.Ball))
             {
-             //   if (Player is GoalKeeper)
-            //        Console.WriteLine("State change: Pursue -> KickBall");
                 Player.StateMachine.ChangeState(new KickBall(Player));
+                return;
             }
 
             var nearestToBall = Ai.Instance.MyTeam.NearestPlayerToBall;
             if (Player != nearestToBall)
             {
-             //   if (Player is GoalKeeper)
-             //       Console.WriteLine("State change: Pursue -> MoveHome");
                 Player.StateMachine.ChangeState(new MoveToHomeRegion(Player));
                 MessageDispatcher.Instance.SendMessage(new PursueBallMessage(), nearestToBall);
             }

@@ -13,8 +13,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
     class SupportPositionsManager
     {
         public const double PassSafeFromControllingPlayerWeight = 3.0;
-        public const double DistanceFromControllingPlayerWeight = 1.0;
-        public const double ShotOnGoalPossibleWeight = 1.0;
+        public const double DistanceFromControllingPlayerWeight = 0.5;
+        public const double ShotOnGoalPossibleWeight = 2.0;
         public const double DistanceFromOpponentGoal = 0.5;
 
         public const double OptimalDistanceFromControlling = 20;
@@ -87,6 +87,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
                 supportPosition.Score += ShotOnGoalPossibleWeight;
                 supportPosition.ShootScore += ShotOnGoalPossibleWeight;
             }
+
+            // distance from opponent
+            
 
         }
 

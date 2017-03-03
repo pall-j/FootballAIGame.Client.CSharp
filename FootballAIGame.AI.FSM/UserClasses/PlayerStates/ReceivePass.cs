@@ -31,27 +31,19 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         {
             if (Ai.Instance.MyTeam.PassReceiver != Player)
             {
-             //   if (Player is GoalKeeper)
-             //       Console.WriteLine("State change: Receive -> Default");
                 Player.StateMachine.ChangeState(new Default(Player));
-
                 return;
             }
 
             if (Player.CanKickBall(Ai.Instance.Ball))
             {
-             //   if (Player is GoalKeeper)
-             //       Console.WriteLine("State change: Receive -> KickBall");
                 Player.StateMachine.ChangeState(new KickBall(Player));
                 return;
             }
 
             if (Vector.DistanceBetween(Ai.Instance.Ball.Position, Player.Position) < Parameters.BallReceivingRange)
             {
-              //  if (Player is GoalKeeper)
-             //       Console.WriteLine("State change: Receive -> Pursue");
                 Player.StateMachine.ChangeState(new PursueBall(Player));
-
                 return;
             }
 

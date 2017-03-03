@@ -109,6 +109,14 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             KickVector = new Vector(ball.Position, target, kickAcceleration);
         }
 
+        public Vector PassBall(FootballBall ball, FootballPlayer passTarget)
+        {
+            var time = ball.TimeToCoverDistance(Vector.DistanceBetween(ball.Position, passTarget.Position), MaxKickSpeed);
+            var nextPos = passTarget.PredictedPositionInTime(time);
+            KickBall(ball, nextPos);
+            return nextPos;
+        }
+
         public static double DotProduct(Vector v1, Vector v2)
         {
             return v1.X*v2.X + v1.Y*v2.Y;

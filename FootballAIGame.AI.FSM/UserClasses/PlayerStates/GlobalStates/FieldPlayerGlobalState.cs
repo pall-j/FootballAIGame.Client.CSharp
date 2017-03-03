@@ -14,6 +14,17 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 
         public override void Run()
         {
+            var team = Ai.Instance.MyTeam;
+
+            if (team.NearestPlayerToBall == Player &&
+                     team.PassReceiver == null)
+            {
+                //if (Player is GoalKeeper)
+                //    Console.WriteLine("State change: Default -> PursueBall");
+                Player.StateMachine.ChangeState(new PursueBall(Player));
+            }
+
+
             PlayerGlobalState.Run();   
         }
 

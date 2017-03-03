@@ -20,7 +20,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         public override void Enter()
         {
             MoveToHomeRegionArrive = new Arrive(Player, 1, 1, Player.HomeRegion.Center);
-            //MoveToHomeRegionArrive = new Wander(Player, 1, 1, 0.5, 1, 2);
             Player.SteeringBehaviorsManager.AddBehavior(MoveToHomeRegionArrive);
         }
 
@@ -28,11 +27,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         {
             MoveToHomeRegionArrive.Target = Player.HomeRegion.Center;
             if (Player.IsAtHomeRegion && Math.Abs(Player.CurrentSpeed) < 0.00001)
-            {
-             //   if (Player is GoalKeeper)
-             //       Console.WriteLine("State change: MoveHome -> Default");
                 Player.StateMachine.ChangeState(new Default(Player));
-            }
 
         }
 

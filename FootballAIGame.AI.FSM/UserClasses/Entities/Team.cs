@@ -36,6 +36,16 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public List<Player> SupportingPlayers { get; set; }
 
+        public Vector GoalCenter
+        {
+            get
+            {
+                return IsOnLeft
+                    ? new Vector(0, GameClient.FieldHeight/2)
+                    : new Vector(GameClient.FieldWidth, GameClient.FieldHeight/2);
+            }
+        }
+
         /// <summary>
         /// Gets or sets the value indicating whether the team holds currently the left goal post.
         /// </summary>

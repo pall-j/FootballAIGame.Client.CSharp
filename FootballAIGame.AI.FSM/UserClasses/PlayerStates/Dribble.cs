@@ -21,9 +21,15 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
         public override void Run()
         {
-            var target = new Vector(110, Player.Position.Y);
+            var target = new Vector(90, Player.Position.Y);
             if (!Ai.Instance.MyTeam.IsOnLeft)
-                target.X = 0;
+                target.X = 20;
+
+            if (Player.Position.X > 89 && Ai.Instance.MyTeam.IsOnLeft)
+                target = new Vector(100, GameClient.FieldHeight / 2.0 + (Ai.Random.NextDouble() - 0.5) * 7.32);
+
+            if (Player.Position.X < 21 && !Ai.Instance.MyTeam.IsOnLeft)
+                target = new Vector(10, GameClient.FieldHeight / 2.0 + (Ai.Random.NextDouble() - 0.5) * 7.32);
 
             var kickDirection = Vector.Difference(target, Player.Position);
             var playerFutureMovement = Vector.Sum(Player.Movement, kickDirection.Resized(Player.MaxAcceleration)).Truncated(Player.MaxSpeed);
@@ -31,8 +37,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
             Player.KickBall(Ai.Instance.Ball, target, futureSpeedInKickDirection);
 
-            //if (Player is GoalKeeper)
-            //    Console.WriteLine("State change: Dribble -> PursueBall");
             Player.StateMachine.ChangeState(new PursueBall(Player));
         }
 
