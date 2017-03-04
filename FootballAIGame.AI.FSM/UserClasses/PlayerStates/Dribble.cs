@@ -33,7 +33,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
             var kickDirection = Vector.Difference(target, Player.Position);
             var playerFutureMovement = Vector.Sum(Player.Movement, kickDirection.Resized(Player.MaxAcceleration)).Truncated(Player.MaxSpeed);
-            var futureSpeedInKickDirection = Vector.DotProduct(playerFutureMovement, kickDirection)/kickDirection.Length + 0.1;
+            var futureSpeedInKickDirection = Vector.DotProduct(playerFutureMovement, kickDirection)/kickDirection.Length;
 
             Player.KickBall(Ai.Instance.Ball, target, futureSpeedInKickDirection);
 

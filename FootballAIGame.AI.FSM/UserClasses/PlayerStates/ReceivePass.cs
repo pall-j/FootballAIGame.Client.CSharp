@@ -35,6 +35,13 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
                 return;
             }
 
+            // lost control
+            if (Ai.Instance.OpponentTeam.PlayerInBallRange != null && Ai.Instance.MyTeam.PlayerInBallRange == null)
+            {
+                Player.StateMachine.ChangeState(new Default(Player));
+                return;
+            }
+
             if (Player.CanKickBall(Ai.Instance.Ball))
             {
                 Player.StateMachine.ChangeState(new KickBall(Player));

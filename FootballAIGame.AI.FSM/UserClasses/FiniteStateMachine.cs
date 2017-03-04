@@ -19,10 +19,9 @@ namespace FootballAIGame.AI.FSM.UserClasses
         
         public FiniteStateMachine(TEntity owner, State<TEntity> startState, State<TEntity> globalState)
         {
-            this.Owner = owner;
-            this.CurrentState = startState;
-            this.GlobalState = globalState;
-
+            Owner = owner;
+            CurrentState = startState;
+            GlobalState = globalState;
         }
 
         public void ChangeState(State<TEntity> newState)

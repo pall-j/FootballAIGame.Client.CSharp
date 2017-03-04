@@ -16,7 +16,11 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
         {
             var team = Ai.Instance.MyTeam;
 
-            if (team.NearestPlayerToBall == Player &&
+            if (Player.CanKickBall(Ai.Instance.Ball))
+            {
+                Player.StateMachine.ChangeState(new KickBall(Player));
+            }
+            else if (team.NearestPlayerToBall == Player &&
                      team.PassReceiver == null)
             {
                 //if (Player is GoalKeeper)

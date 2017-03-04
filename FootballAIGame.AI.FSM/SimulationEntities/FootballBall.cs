@@ -5,7 +5,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
 {
     class FootballBall : MovableEntity
     {
-        public const double MinDistanceForKick = 2; // [m]
+        public const double MinDistanceForKick = 1.5; // [m]
 
         /// <summary>
         /// Gets the ball's deceleration in meters per simulation step squared.

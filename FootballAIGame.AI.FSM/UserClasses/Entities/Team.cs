@@ -132,11 +132,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         {
             if (InitialEnter)
             {
-                StateMachine.CurrentState.Enter();
                 StateMachine.GlobalState.Enter();
 
                 foreach (var player in Players)
+                {
                     player.StateMachine.GlobalState.Enter();
+                }
 
                 InitialEnter = false;
             }
@@ -181,22 +182,28 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             if (from == null)
                 return false;
 
-            var toFrom = Vector.Difference(from.Position, target);
+            var toBall = Vector.Difference(ball.Position, target);
 
             foreach (var opponent in Ai.Instance.OpponentTeam.Players)
             {
                 var toOpponent = Vector.Difference(opponent.Position, target);
 
-                var k = Vector.DotProduct(toFrom, toOpponent) / toFrom.Length;
-                var interposeTarget = Vector.Sum(target, toFrom.Resized(k));
+                var k = Vector.DotProduct(toBall, toOpponent) / toBall.Length;
+                var interposeTarget = Vector.Sum(target, toBall.Resized(k));
+                var opponentToInterposeDist = Vector.DistanceBetween(opponent.Position, interposeTarget);
 
-                if (k > toFrom.Length || k <= 0)
+                var opponentToKickablePosition = new Vector(opponent.Position, interposeTarget, 
+                    Math.Max(0, opponentToInterposeDist - FootballBall.MinDistanceForKick));
+
+                var kickablePosition = Vector.Sum(opponent.Position, opponentToKickablePosition);
+
+                if (k > toBall.Length || k <= 0)
                     continue; // safe
 
-                var controllingToInterpose = Vector.DistanceBetween(from.Position, interposeTarget);
+                var ballToInterposeDist = Vector.DistanceBetween(ball.Position, interposeTarget);
 
-                var t1 = ball.TimeToCoverDistance(controllingToInterpose, from.MaxKickSpeed);
-                var t2 = opponent.TimeToGetToTarget(interposeTarget);
+                var t1 = ball.TimeToCoverDistance(ballToInterposeDist, from.MaxKickSpeed);
+                var t2 = opponent.TimeToGetToTarget(kickablePosition);
 
                 if (t2 < t1)
                     return false;
@@ -274,6 +281,30 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             }
 
             return target != null;
+        }
+
+        public Player GetPredictedNearestPlayerToPosition(Vector position, double time, params Player[] skippedPlayers)
+        {
+            var minPlayer = Players.FirstOrDefault(p => !skippedPlayers.Contains(p));
+            if (minPlayer == null)
+                return null; // all players are skipped
+
+            var minDistSq = Vector.DistanceBetweenSquared(minPlayer.PredictedPositionInTime(time), position);
+
+            foreach (var player in Players)
+            {
+                if (skippedPlayers.Contains(player))
+                    continue;
+
+                var distSq = Vector.DistanceBetweenSquared(player.PredictedPositionInTime(time), position);
+                if (minDistSq > distSq)
+                {
+                    minDistSq = distSq;
+                    minPlayer = player;
+                }
+            }
+
+            return minPlayer;
         }
     }
 }

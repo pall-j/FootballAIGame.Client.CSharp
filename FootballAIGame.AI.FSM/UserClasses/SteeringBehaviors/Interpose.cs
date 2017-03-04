@@ -11,9 +11,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 {
     class Interpose : SteeringBehavior
     {
-        private MovableEntity First { get; set; }
+        public MovableEntity First { get; set; }
 
-        private MovableEntity Second { get; set; }
+        public MovableEntity Second { get; set; }
 
         private Arrive Arrive { get; set; }
 

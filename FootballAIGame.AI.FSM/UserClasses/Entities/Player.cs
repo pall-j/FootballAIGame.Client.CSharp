@@ -42,21 +42,26 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         {
             get
             {
-                return Vector.DistanceBetween(Ai.Instance.OpponentTeam.GetNearestPlayerToPosition(
-                    Position).Position, Position) < Parameters.DangerRange;
+                var nearest = Ai.Instance.OpponentTeam.GetNearestPlayerToPosition(Position);
+
+                var predictedPosition = PredictedPositionInTime(1);
+                var predictedNearest = Ai.Instance.OpponentTeam.GetPredictedNearestPlayerToPosition(predictedPosition, 1);
+
+                return Vector.DistanceBetween(nearest.Position, Position) < Parameters.DangerRange ||
+                       Vector.DistanceBetween(predictedNearest.Position, predictedPosition) < Parameters.DangerRange;
             }
         }
 
         protected Player(FootballPlayer player) : base(player.Id)
         {
-            this.Position = player.Position;
-            this.Movement = player.Movement;
-            this.KickVector = player.KickVector;
+            Position = player.Position;
+            Movement = player.Movement;
+            KickVector = player.KickVector;
 
-            this.Speed = player.Speed;
-            this.KickPower = player.KickPower;
-            this.Possession = player.Possession;
-            this.Precision = player.Precision;
+            Speed = player.Speed;
+            KickPower = player.KickPower;
+            Possession = player.Possession;
+            Precision = player.Precision;
 
             SteeringBehaviorsManager = new SteeringBehaviorsManager(this);
         }

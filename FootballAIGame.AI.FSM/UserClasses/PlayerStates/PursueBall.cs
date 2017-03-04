@@ -32,7 +32,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             }
 
             var nearestToBall = Ai.Instance.MyTeam.NearestPlayerToBall;
-            if (Player != nearestToBall)
+            if (Player != nearestToBall && !(nearestToBall is GoalKeeper))
             {
                 Player.StateMachine.ChangeState(new MoveToHomeRegion(Player));
                 MessageDispatcher.Instance.SendMessage(new PursueBallMessage(), nearestToBall);

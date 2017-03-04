@@ -37,7 +37,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             {
                 Player.KickBall(Ai.Instance.Ball, target);
                 Player.StateMachine.ChangeState(new Default(Player));
-
                 return;
             }
            
@@ -47,7 +46,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
                 var passTarget = Player.PassBall(Ai.Instance.Ball, passPlayerTarget);
                 MessageDispatcher.Instance.SendMessage(new ReceivePassMessage(passTarget), passPlayerTarget);
                 Player.StateMachine.ChangeState(new Default(Player));
-
                 return;
             }
             

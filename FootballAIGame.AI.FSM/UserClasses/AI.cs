@@ -59,8 +59,8 @@ namespace FootballAIGame.AI.FSM.UserClasses
             // AI entities (wrappers of SimulationEntities) are set accordingly
             CurrentState = gameState;
             Ball.LoadState(gameState);
+            OpponentTeam.LoadState(gameState, false); // must be loaded before my team!
             MyTeam.LoadState(gameState, true);
-            OpponentTeam.LoadState(gameState, false);
             SupportPositionsManager.Instance.Update();
 
             // new action

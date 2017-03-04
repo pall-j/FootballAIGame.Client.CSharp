@@ -89,7 +89,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         /// </value>
         public double MaxKickSpeed
         {
-            get { return (10 + KickPower*5) * GameClient.StepInterval / 1000.0; }
+            get { return (15 + KickPower*5) * GameClient.StepInterval / 1000.0; }
         }
 
         public bool CanKickBall(FootballBall ball)
@@ -127,6 +127,8 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             // todo this is only approx. (continuous acceleration)
 
             var toTarget = Vector.Difference(target, Position);
+            if (toTarget.Length < 0.001)
+                return 0;
 
             var v0 = Vector.DotProduct(toTarget, Movement) / toTarget.Length;
             var v1 = MaxSpeed;

@@ -19,7 +19,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
         public override void Enter()
         {
-            MoveToHomeRegionArrive = new Arrive(Player, 1, 1, Player.HomeRegion.Center);
+            MoveToHomeRegionArrive = new Arrive(Player, 3, 1, Player.HomeRegion.Center);
             Player.SteeringBehaviorsManager.AddBehavior(MoveToHomeRegionArrive);
         }
 
