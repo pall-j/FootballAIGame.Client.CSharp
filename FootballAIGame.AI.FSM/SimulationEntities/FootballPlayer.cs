@@ -54,9 +54,8 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
 
         public FootballPlayer(int id)
         {
-            Id = id;
-            Movement = new Vector();
             KickVector = new Vector();
+            Id = id;
         }
 
         /// <summary>
@@ -124,7 +123,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
 
         public double TimeToGetToTarget(Vector target)
         {
-            // todo this is only approx. (continuous acceleration)
+            // this is only approx. (continuous acceleration)
 
             var toTarget = Vector.Difference(target, Position);
             if (toTarget.Length < 0.001)

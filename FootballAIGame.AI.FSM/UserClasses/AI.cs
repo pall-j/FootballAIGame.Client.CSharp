@@ -11,8 +11,6 @@ namespace FootballAIGame.AI.FSM.UserClasses
     /// </summary>
     class Ai : IFootballAi
     {
-        private GameState CurrentState { get; set; }
-
         public static Random Random { get; set; }
 
         public Ball Ball { get; set; }
@@ -20,6 +18,8 @@ namespace FootballAIGame.AI.FSM.UserClasses
         public Team MyTeam { get; set; }
 
         public Team OpponentTeam { get; set; }
+
+        private GameState CurrentState { get; set; }
 
         private static Ai _instance;
 
@@ -53,7 +53,7 @@ namespace FootballAIGame.AI.FSM.UserClasses
             {
                 Ball = new Ball(gameState.Ball);
                 MyTeam = new Team(GetParameters());
-                OpponentTeam = new Team(GetParameters()); // ~ expect him to have same parameters
+                OpponentTeam = new Team(GetParameters()); // expect opponent to have the same parameters
             }
 
             // AI entities (wrappers of SimulationEntities) are set accordingly

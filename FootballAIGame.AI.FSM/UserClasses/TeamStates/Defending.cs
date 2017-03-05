@@ -16,7 +16,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
     {
         private List<Interpose> Interposes { get; set; }
 
-
         public override void Enter()
         {
             SetHomeRegions(Team);

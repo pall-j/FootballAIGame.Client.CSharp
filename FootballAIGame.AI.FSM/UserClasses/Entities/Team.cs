@@ -237,7 +237,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             if (firstTeam && state.KickOff)
             {
                 IsOnLeft = GoalKeeper.Position.X < 55;
-                StateMachine.ChangeState(new Kickoff(this)); // todo maybe change to message
+                StateMachine.ChangeState(new Kickoff(this));
             }
 
         }

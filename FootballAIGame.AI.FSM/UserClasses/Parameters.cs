@@ -15,6 +15,16 @@ namespace FootballAIGame.AI.FSM.UserClasses
         public const double GoalKeeperInterceptRange = 20;
         public const int NumberOfGeneratedShotTargets = 10;
         public const int DangerRange = 6;
+        public const double MaxGoalkeeperSupportingDistance = 10;
 
+        /* Support position evaluation parameters */
+
+        public const double PassSafeFromControllingPlayerWeight = 3.0;
+        public const double DistanceFromControllingPlayerWeight = 0.5;
+        public const double ShotOnGoalPossibleWeight = 2.0;
+        public const double DistanceFromOpponentGoalWeight = 0.5;
+
+        public const double OptimalDistanceFromControlling = 20;
+        public const double MaxValuedDifferenceFromOptimal = 50;
     }
 }

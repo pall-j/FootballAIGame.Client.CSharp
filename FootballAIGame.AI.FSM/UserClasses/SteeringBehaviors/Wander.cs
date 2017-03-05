@@ -49,9 +49,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 
             if (Player.CurrentSpeed > 0.001)
             {
-                //var alpha = -Math.Acos(Vector.DotProduct(Player.Movement.Normalized, new Vector(1, 0)));
-                //target.X = WanderTarget.X*Math.Cos(alpha) + WanderTarget.Y*Math.Sin(alpha);
-                //target.Y = -WanderTarget.X*Math.Sin(alpha) + WanderTarget.Y*Math.Cos(alpha);
                 var m = Player.Movement.Normalized;
                 target.X = WanderTarget.X*m.X - WanderTarget.Y*m.Y;
                 target.Y = WanderTarget.X*m.Y + WanderTarget.Y*m.X;

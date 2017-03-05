@@ -110,6 +110,13 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
             return res;
         }
 
+        public Vector Truncated(double maxLength)
+        {
+            var res = new Vector(X, Y);
+            res.Truncate(maxLength);
+            return res;
+        }
+
         /// <summary>
         /// Normalizes this instance.
         /// </summary>
@@ -155,6 +162,17 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
         }
 
         /// <summary>
+        /// Returns the squared distance between the given vectors.
+        /// </summary>
+        /// <param name="firstVector">The first vector.</param>
+        /// <param name="secondVector">The second vector.</param>
+        /// <returns></returns>
+        public static double DistanceBetweenSquared(Vector firstVector, Vector secondVector)
+        {
+            return Math.Pow(firstVector.X - secondVector.X, 2) + Math.Pow(firstVector.Y - secondVector.Y, 2);
+        }
+
+        /// <summary>
         /// Gets the dot product of the given vectors.
         /// </summary>
         /// <param name="firstVector">The first vector.</param>
@@ -163,17 +181,6 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
         public static double DotProduct(Vector firstVector, Vector secondVector)
         {
             return firstVector.X * secondVector.X + firstVector.Y * secondVector.Y;
-        }
-
-        /// <summary>
-        /// Returns the distance between the given vectors squared.
-        /// </summary>
-        /// <param name="firstVector">The first vector.</param>
-        /// <param name="secondVector">The second vector.</param>
-        /// <returns></returns>
-        public static double DistanceBetweenSquared(Vector firstVector, Vector secondVector)
-        {
-            return Math.Pow(firstVector.X - secondVector.X, 2) + Math.Pow(firstVector.Y - secondVector.Y, 2);
         }
 
         /// <summary>
@@ -198,11 +205,5 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
             return new Vector(first.X + second.X, first.Y + second.Y);
         }
 
-        public Vector Truncated(double maxLength)
-        {
-            var res = new Vector(X, Y);
-            res.Truncate(maxLength);
-            return res;
-        }
     }
 }

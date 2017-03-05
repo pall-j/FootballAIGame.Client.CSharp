@@ -27,29 +27,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
 
         public bool KickOff { get; set; }
 
-        public FootballPlayer NearestPlayerToBall
-        {
-            get
-            {
-                var smallestDistance = double.MaxValue;
-                FootballPlayer nearestPlayer = null;
-
-                foreach (var footballPlayer in FootballPlayers)
-                {
-                    var dist = Vector.DistanceBetween(footballPlayer.Position, Ball.Position);
-
-                    if (dist < smallestDistance)
-                    {
-                        smallestDistance = dist;
-                        nearestPlayer = footballPlayer;
-                    }
-                }
-
-                return nearestPlayer;;
-            }
-        }
-
-        /// <summary>
+      /// <summary>
         /// Parses the specified binary representation of the game state.
         /// </summary>
         /// <param name="data">The binary representation of the game state.</param>
@@ -59,10 +37,11 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             var floatData = new float[92];
             var stepData = new int[1];
 
+            if (data.Length != floatData.Length * 4 + 4 + 1)
+                throw new ArgumentException("Invalid game state data.");
+
             Buffer.BlockCopy(data, 0, stepData, 0, 4);
             Buffer.BlockCopy(data, 5, floatData, 0, (data.Length - 5));
-
-            //Buffer.BlockCopy(data, 0, floatData, 0, data.Length);
 
             var players = new FootballPlayer[22];
             for (var i = 0; i < 22; i++)
@@ -92,6 +71,5 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         }
 
     }
-
     
 }

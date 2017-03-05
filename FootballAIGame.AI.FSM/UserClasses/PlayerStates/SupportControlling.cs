@@ -13,8 +13,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 {
     class SupportControlling : PlayerState
     {
-        private const double MaxGoalkeeperSupportingDistance = 10;
-
         private Arrive Arrive { get; set; }
 
         public SupportControlling(Player player) : base(player)
@@ -38,7 +36,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
             // goalkeeper shouldn't go too far from his home region
             if (Player is GoalKeeper &&
-                Vector.DistanceBetween(Arrive.Target, Player.HomeRegion.Center) > MaxGoalkeeperSupportingDistance)
+                Vector.DistanceBetween(Arrive.Target, Player.HomeRegion.Center) > Parameters.MaxGoalkeeperSupportingDistance)
             {
                 MessageDispatcher.Instance.SendMessage(new SupportControllingMessage(), nearest);
                 Player.StateMachine.ChangeState(new Default(Player));
