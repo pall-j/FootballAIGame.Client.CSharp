@@ -5,7 +5,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
 {
     class FootballBall : MovableEntity
     {
-        public const double MinDistanceForKick = 1.5; // [m]
+        public const double MaxDistanceForKick = 1.5; // [m]
 
         /// <summary>
         /// Gets the ball's deceleration in meters per simulation step squared.
@@ -51,7 +51,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
             if (Math.Abs(CurrentSpeed) < 0.001)
                 return Position;
 
-            if (finalSpeed < 0)
+            if (finalSpeed < 0 || double.IsInfinity(time))
                 time = CurrentSpeed / BallDeceleration; // time to stop
 
             var diff = Vector.Sum(Movement.Multiplied(time),

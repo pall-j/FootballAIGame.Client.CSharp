@@ -25,17 +25,17 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             if (Vector.DistanceBetween(Player.Position, From) >= SafeDistance)
                 return new Vector(0, 0);
 
-            var desiredMovemnet = Vector.Difference(Player.Movement, From);
+            var desiredMovement = Vector.Difference(Player.Movement, From);
 
-            if (Math.Abs(desiredMovemnet.LengthSquared) < 0.01)
-                desiredMovemnet = new Vector(1, 0);
+            if (Math.Abs(desiredMovement.LengthSquared) < 0.01)
+                desiredMovement = new Vector(1, 0);
 
-            desiredMovemnet.Resize(Player.MaxSpeed);
+            desiredMovement.Resize(Player.MaxSpeed);
 
-            var acceleration = Vector.Difference(desiredMovemnet, Player.Movement);
+            var acceleration = Vector.Difference(desiredMovement, Player.Movement);
             acceleration.Truncate(Player.MaxAcceleration);
 
-            return acceleration; ;
+            return acceleration;
         }
     }
 }

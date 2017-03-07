@@ -10,6 +10,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
     class Kickoff : TeamState
     {
+        public Kickoff(Team team) : base(team)
+        {
+        }
+
         public override void Enter()
         {
             Team.ControllingPlayer = null;
@@ -36,17 +40,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
         {
         }
 
-        public override bool ProcessMessage(Message message)
-        {
-            return false;
-        }
-
-        public override void SetHomeRegions(Team team)
+        public override void SetHomeRegions()
         {
         }
 
-        public Kickoff(Team team) : base(team)
-        {
-        }
     }
 }

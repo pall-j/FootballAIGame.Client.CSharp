@@ -19,9 +19,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 
         protected SteeringBehavior(Player player, int priority, double weight)
         {
+            Player = player;
             Priority = priority;
             Weight = weight;
-            Player = player;
         }
     }
 }

@@ -11,11 +11,11 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
     {
         protected Team Team { get; set; }
 
-        public abstract void SetHomeRegions(Team team);
-
         protected TeamState(Team team) : base(team)
         {
             Team = team;
         }
+
+        public abstract void SetHomeRegions();
     }
 }

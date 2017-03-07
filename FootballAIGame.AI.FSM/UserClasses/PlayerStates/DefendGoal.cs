@@ -27,7 +27,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
             Interpose = new Interpose(Player, 1, 1.0, Ai.Instance.Ball, goalCenter)
             {
-                DistanceFromSecond = Parameters.DefendGoalDistance
+                PreferredDistanceFromSecond = Parameters.DefendGoalDistance
             };
 
             Player.SteeringBehaviorsManager.AddBehavior(Interpose);

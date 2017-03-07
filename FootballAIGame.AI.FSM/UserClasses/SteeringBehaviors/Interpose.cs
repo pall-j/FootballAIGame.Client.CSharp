@@ -17,7 +17,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 
         private Arrive Arrive { get; set; }
 
-        public double DistanceFromSecond { get; set; }
+        public double PreferredDistanceFromSecond { get; set; }
 
         public Interpose(Player player, int priority, double weight, 
             MovableEntity first, MovableEntity second) : base(player, priority, weight)
@@ -25,7 +25,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             First = first;
             Second = second;
             Arrive = new Arrive(player, priority, weight, player.Position);
-            DistanceFromSecond = Vector.DistanceBetween(Second.Position, First.Position)/2.0;
+            PreferredDistanceFromSecond = Vector.DistanceBetween(Second.Position, First.Position)/2.0;
         }
 
         public Interpose(Player player, int priority, double weight,
@@ -34,27 +34,15 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             First = first;
             Second = new Ball(new FootballBall()) // artificial movable entity for representing second
             {
-                Position =
-                {
-                    X = secondPosition.X,
-                    Y = secondPosition.Y
-                }
+                Position = secondPosition
             };
+
             Arrive = new Arrive(player, priority, weight, player.Position);
-            DistanceFromSecond = Vector.DistanceBetween(Second.Position, First.Position) / 2.0;
+            PreferredDistanceFromSecond = Vector.DistanceBetween(Second.Position, First.Position) / 2.0;
         }
 
         public override Vector CalculateAccelerationVector()
         {
-            /*
-            var midpoint = Vector.Sum(First.Position, Second.Position).Multiplied(1/2.0);
-            var time = Player.TimeToGetToTarget(midpoint);
-            var firstPredictedPos = First.PredictedPositionInTime(time);
-            var secondPredictedPos = Second.PredictedPositionInTime(time);
-
-            midpoint = Vector.Sum(firstPredictedPos, secondPredictedPos).Multiplied(1/2.0);
-            Arrive.Target = midpoint;
-            */
 
             var firstToSecond = new Vector(First.Position, Second.Position);
             var firstToPlayer = new Vector(First.Position, Player.Position);
@@ -71,10 +59,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 
             var playerToTargetDistance = Vector.DistanceBetween(Arrive.Target, Player.Position);
 
-            if (playerToTargetDistance < 0.01 && firstToSecond.Length > DistanceFromSecond)
+            if (playerToTargetDistance < 0.01 && firstToSecond.Length > PreferredDistanceFromSecond)
             {
                 // move player to meet DistanceFromSecond condition
-                Arrive.Target = Vector.Sum(First.Position, firstToSecond.Resized(firstToSecond.Length - DistanceFromSecond));
+                Arrive.Target = Vector.Sum(First.Position, firstToSecond.Resized(firstToSecond.Length - PreferredDistanceFromSecond));
             }
 
 

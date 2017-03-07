@@ -12,11 +12,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
 {
     class SupportPositionsManager
     {
-        private SupportPositionsManager()
-        {
-            CreateSupportPositions();
-        }
-
         private static SupportPositionsManager _instance;
 
         public static SupportPositionsManager Instance
@@ -24,17 +19,16 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
             get { return _instance ?? (_instance = new SupportPositionsManager()); }
         }
 
+        private SupportPositionsManager()
+        {
+            CreateSupportPositions();
+        }
+
         private List<SupportPosition> LeftSupportPositions { get; set; }
 
         private List<SupportPosition> RightSupportPositions { get; set; }
 
         private List<SupportPosition> SupportPositions { get; set; }
-
-        public void Update()
-        {
-            foreach (var supportPosition in SupportPositions)
-                UpdatePosition(supportPosition);
-        }
 
         public Vector BestSupportPosition
         {
@@ -50,6 +44,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
                 //Console.WriteLine(string.Format("Score {0}, DistanceS {1}, SafePassS {2}, ShotScore {3}", bestPosition.Score, bestPosition.DistanceScore, bestPosition.PassScore, bestPosition.ShootScore));
                 return bestPosition.Position;
             }
+        }
+
+        public void Update()
+        {
+            foreach (var supportPosition in SupportPositions)
+                UpdatePosition(supportPosition);
         }
 
         private void UpdatePosition(SupportPosition supportPosition)
@@ -91,15 +91,11 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
         {
             // we expect the lowest possible max kicking power of the player
 
-            var target = Ai.Instance.MyTeam.IsOnLeft ? 
-                new Vector(GameClient.FieldHeight/2.0, GameClient.FieldWidth) : 
-                new Vector(GameClient.FieldHeight/2.0, 0);
+            var artificialPlayer = new FootballPlayer(0) {Position = position};
+            var artificialBall = new FootballBall() {Position = position};
 
-            var distance = Vector.DistanceBetween(target, position);
-
-            var ball = new FootballBall() { Position = position };
-
-            return !double.IsInfinity(ball.TimeToCoverDistance(distance, new FootballPlayer(0).MaxKickSpeed));
+            Vector shotTarget;
+            return (Ai.Instance.MyTeam.TryGetShotOnGoal(artificialPlayer, out shotTarget, artificialBall));
         }
 
         private double GetDistanceFromControllingScore(Vector position)

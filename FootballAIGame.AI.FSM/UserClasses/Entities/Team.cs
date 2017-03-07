@@ -41,8 +41,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             get
             {
                 return IsOnLeft
-                    ? new Vector(0, GameClient.FieldHeight/2)
-                    : new Vector(GameClient.FieldWidth, GameClient.FieldHeight/2);
+                    ? new Vector(0, GameClient.FieldHeight / 2)
+                    : new Vector(GameClient.FieldWidth, GameClient.FieldHeight / 2);
             }
         }
 
@@ -126,90 +126,11 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 Players[i] = forward;
             }
 
-        }
-
-        public PlayerAction[] GetActions()
-        {
-            if (InitialEnter)
-            {
-                StateMachine.GlobalState.Enter();
-
-                foreach (var player in Players)
-                {
-                    player.StateMachine.GlobalState.Enter();
-                }
-
-                InitialEnter = false;
-            }
-
-            // update team
-            StateMachine.Update();
-
-            // update players
-            foreach (var player in Players)
-                player.StateMachine.Update();
-
-            // retrieve actions
-            var actions = new PlayerAction[11];
-            for (int i = 0; i < 11; i++)
-                actions[i] = Players[i].GetAction();
-
-            return actions;
-        }
-
-        public void ProcessMessage(Message message)
-        {
-            StateMachine.ProcessMessage(this, message);
-        }
-
-        public void UpdateHomeRegions()
-        {
-            var currentState = StateMachine.CurrentState;
-            var teamState = currentState as TeamState;
-            Debug.Assert(teamState != null, "currentState is TeamState");
-            teamState.SetHomeRegions(this);
-        }
-
-        public bool IsPassFromControllingSafe(Vector target)
-        {
-            return IsKickSafe(ControllingPlayer, target);
-        }
-
-        public bool IsKickSafe(Player from, Vector target)
-        {
-            var ball = Ai.Instance.Ball;
-
-            if (from == null)
-                return false;
-
-            var toBall = Vector.Difference(ball.Position, target);
-
-            foreach (var opponent in Ai.Instance.OpponentTeam.Players)
-            {
-                var toOpponent = Vector.Difference(opponent.Position, target);
-
-                var k = Vector.DotProduct(toBall, toOpponent) / toBall.Length;
-                var interposeTarget = Vector.Sum(target, toBall.Resized(k));
-                var opponentToInterposeDist = Vector.DistanceBetween(opponent.Position, interposeTarget);
-
-                var opponentToKickablePosition = new Vector(opponent.Position, interposeTarget, 
-                    Math.Max(0, opponentToInterposeDist - FootballBall.MinDistanceForKick));
-
-                var kickablePosition = Vector.Sum(opponent.Position, opponentToKickablePosition);
-
-                if (k > toBall.Length || k <= 0)
-                    continue; // safe
-
-                var ballToInterposeDist = Vector.DistanceBetween(ball.Position, interposeTarget);
-
-                var t1 = ball.TimeToCoverDistance(ballToInterposeDist, from.MaxKickSpeed);
-                var t2 = opponent.TimeToGetToTarget(kickablePosition);
-
-                if (t2 < t1)
-                    return false;
-            }
-
-            return true;
+            // important because enter method of the players state is called before team state enter method
+            // in GetActions function during initial enter
+            var teamState = StateMachine.CurrentState as TeamState;
+            if (teamState != null)
+                teamState.SetHomeRegions();
         }
 
         public void LoadState(GameState state, bool firstTeam)
@@ -237,23 +158,120 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             if (firstTeam && state.KickOff)
             {
                 IsOnLeft = GoalKeeper.Position.X < 55;
-                StateMachine.ChangeState(new Kickoff(this));
+                if (!InitialEnter)
+                    StateMachine.ChangeState(new Kickoff(this));
             }
 
         }
 
-        public bool TryGetShotOnGoal(Player player, out Vector shotTarget)
+        public PlayerAction[] GetActions()
         {
-            // try 10 random positions
+            if (InitialEnter)
+            {
+                // first players, then team
 
+                foreach (var player in Players)
+                {
+                    player.StateMachine.GlobalState.Enter();
+                    player.StateMachine.CurrentState.Enter();
+                }
+
+                StateMachine.GlobalState.Enter();
+                StateMachine.CurrentState.Enter();
+
+                InitialEnter = false;
+            }
+
+            // update team
+            StateMachine.Update();
+
+            // update players
+            foreach (var player in Players)
+                player.StateMachine.Update();
+
+            // retrieve actions
+            var actions = new PlayerAction[11];
+            for (int i = 0; i < 11; i++)
+            {
+                actions[i] = Players[i].GetAction();
+                if (double.IsInfinity(actions[i].Kick.X) || double.IsNaN(actions[i].Kick.X) ||
+                    double.IsInfinity(actions[i].Kick.Y) || double.IsNaN(actions[i].Kick.Y) ||
+                    double.IsInfinity(actions[i].Movement.X) || double.IsNaN(actions[i].Movement.X) ||
+                    double.IsInfinity(actions[i].Movement.Y) || double.IsNaN(actions[i].Movement.Y))
+                    Console.WriteLine("HERE");
+            }
+
+            return actions;
+        }
+
+        public void ProcessMessage(Message message)
+        {
+            StateMachine.ProcessMessage(this, message);
+        }
+
+        public bool IsPassFromControllingSafe(Vector target)
+        {
+            return IsKickSafe(ControllingPlayer, target);
+        }
+
+        public bool IsKickSafe(FootballPlayer from, Vector target)
+        {
+            var ball = Ai.Instance.Ball;
+
+            if (from == null)
+                return false;
+
+            var toBall = Vector.Difference(ball.Position, target);
+
+            foreach (var opponent in Ai.Instance.OpponentTeam.Players)
+            {
+                var toOpponent = Vector.Difference(opponent.Position, target);
+
+                var k = Vector.DotProduct(toBall, toOpponent) / toBall.Length;
+                var interposeTarget = Vector.Sum(target, toBall.Resized(k));
+                var opponentToInterposeDist = Vector.DistanceBetween(opponent.Position, interposeTarget);
+
+                var opponentToKickablePosition = new Vector(opponent.Position, interposeTarget,
+                    Math.Max(0, opponentToInterposeDist - FootballBall.MaxDistanceForKick));
+
+                var kickablePosition = Vector.Sum(opponent.Position, opponentToKickablePosition);
+
+                if (k > toBall.Length || k <= 0)
+                    continue; // safe
+
+                var ballToInterposeDist = Vector.DistanceBetween(ball.Position, interposeTarget);
+
+                var t1 = ball.TimeToCoverDistance(ballToInterposeDist, from.MaxKickSpeed);
+                var t2 = opponent.TimeToGetToTarget(kickablePosition);
+
+                if (t2 < t1)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public bool IsKickPossible(FootballPlayer player, Vector target, FootballBall ball)
+        {
+            return !double.IsInfinity(
+                ball.TimeToCoverDistance(Vector.DistanceBetween(ball.Position, target), player.MaxKickSpeed));
+        }
+
+        public bool TryGetShotOnGoal(FootballPlayer player, out Vector shotTarget)
+        {
+            return TryGetShotOnGoal(player, out shotTarget, Ai.Instance.Ball);
+        }
+
+        public bool TryGetShotOnGoal(FootballPlayer player, out Vector shotTarget, FootballBall ball)
+        {
             for (int i = 0; i < Parameters.NumberOfGeneratedShotTargets; i++)
             {
                 var target =
-                    new Vector(0, GameClient.FieldHeight/2.0 + (Ai.Random.NextDouble() - 0.5) * 7.32 / 2);
+                    new Vector(0, GameClient.FieldHeight / 2.0 + (Ai.Random.NextDouble() - 0.5) * 7.32 / 2);
                 if (IsOnLeft)
                     target.X = GameClient.FieldWidth;
 
-                if (IsKickSafe(player, target))
+                if (IsKickPossible(player, target, ball) && IsKickSafe(player, target))
                 {
                     shotTarget = target;
                     return true;
@@ -266,17 +284,25 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public bool TryGetSafePass(Player player, out Player target)
         {
+            return TryGetSafePass(player, out target, Ai.Instance.Ball);
+        }
+
+        public bool TryGetSafePass(Player player, out Player target, Ball ball)
+        {
             target = null;
 
             foreach (var otherPlayer in Players)
             {
                 if (player == otherPlayer)
                     continue;
-                if (IsKickSafe(player, otherPlayer.Position))
+
+                if (IsKickPossible(player, otherPlayer.Position, ball) && IsKickSafe(player, otherPlayer.Position))
                 {
                     if (target == null || (IsOnLeft && target.Position.X < otherPlayer.Position.X) ||
                         (!IsOnLeft && target.Position.X > otherPlayer.Position.X))
+                    {
                         target = otherPlayer;
+                    }
                 }
             }
 

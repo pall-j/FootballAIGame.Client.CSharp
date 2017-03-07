@@ -133,7 +133,8 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
         /// <param name="newLength">The new length.</param>
         public void Resize(double newLength)
         {
-            Normalize();
+            if (Math.Abs(Length) > 0.00001)
+                Normalize();
             X *= newLength;
             Y *= newLength;
         }

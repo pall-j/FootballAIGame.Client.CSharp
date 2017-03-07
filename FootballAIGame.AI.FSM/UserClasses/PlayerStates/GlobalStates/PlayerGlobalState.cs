@@ -12,6 +12,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
     class PlayerGlobalState : PlayerState
     {
+        public PlayerGlobalState(Player entity) : base(entity)
+        {
+        }
+
         public override void Run()
         {
         }
@@ -44,6 +48,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 
                 var time = ball.TimeToCoverDistance(Vector.DistanceBetween(target.Position, ball.Position),
                     Player.MaxKickSpeed);
+
+                if (double.IsInfinity(time)) // pass not possible
+                    return true;
+
                 var predictedTargetPosition = target.PredictedPositionInTime(time);
 
                 if (Player.CanKickBall(ball))
@@ -72,8 +80,5 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
             return false;
         }
 
-        public PlayerGlobalState(Player entity) : base(entity)
-        {
-        }
     }
 }

@@ -9,8 +9,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 {
     class Wander : SteeringBehavior
     {
-        private Random Random { get; set; }
-
         private Vector WanderTarget { get; set; }
 
         private Seek Seek { get; set; }
@@ -50,6 +48,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             if (Player.CurrentSpeed > 0.001)
             {
                 var m = Player.Movement.Normalized;
+
                 target.X = WanderTarget.X*m.X - WanderTarget.Y*m.Y;
                 target.Y = WanderTarget.X*m.Y + WanderTarget.Y*m.X;
             }

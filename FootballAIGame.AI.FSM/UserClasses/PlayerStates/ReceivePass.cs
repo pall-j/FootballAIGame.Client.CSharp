@@ -10,7 +10,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 {
     class ReceivePass : PlayerState
     {
-        private SteeringBehavior SteeringBehaviour { get; set; }
+        private SteeringBehavior SteeringBehavior { get; set; }
 
         private Vector PassTarget { get; set; }
 
@@ -23,8 +23,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         {
             Ai.Instance.MyTeam.PassReceiver = Player;
             Ai.Instance.MyTeam.ControllingPlayer = Player;
-            SteeringBehaviour = new Arrive(Player, 1, 1.0, PassTarget);
-            Player.SteeringBehaviorsManager.AddBehavior(SteeringBehaviour);
+            SteeringBehavior = new Arrive(Player, 1, 1.0, PassTarget);
+            Player.SteeringBehaviorsManager.AddBehavior(SteeringBehavior);
         }
 
         public override void Run()
@@ -64,20 +64,20 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             if (nearestOpponent.TimeToGetToTarget(PassTarget) < timeToReceive || 
                 Player.TimeToGetToTarget(PassTarget) > timeToReceive)
             {
-                if (SteeringBehaviour is Arrive)
+                if (SteeringBehavior is Arrive)
                 {
-                    Player.SteeringBehaviorsManager.RemoveBehavior(SteeringBehaviour);
-                    SteeringBehaviour = new Pursuit(Player, SteeringBehaviour.Priority, SteeringBehaviour.Weight, ball);
-                    Player.SteeringBehaviorsManager.AddBehavior(SteeringBehaviour);
+                    Player.SteeringBehaviorsManager.RemoveBehavior(SteeringBehavior);
+                    SteeringBehavior = new Pursuit(Player, SteeringBehavior.Priority, SteeringBehavior.Weight, ball);
+                    Player.SteeringBehaviorsManager.AddBehavior(SteeringBehavior);
                 }
             }
             else
             {
-                if (SteeringBehaviour is Pursuit)
+                if (SteeringBehavior is Pursuit)
                 {
-                    Player.SteeringBehaviorsManager.RemoveBehavior(SteeringBehaviour);
-                    SteeringBehaviour = new Arrive(Player, SteeringBehaviour.Priority, SteeringBehaviour.Weight, PassTarget);
-                    Player.SteeringBehaviorsManager.AddBehavior(SteeringBehaviour);
+                    Player.SteeringBehaviorsManager.RemoveBehavior(SteeringBehavior);
+                    SteeringBehavior = new Arrive(Player, SteeringBehavior.Priority, SteeringBehavior.Weight, PassTarget);
+                    Player.SteeringBehaviorsManager.AddBehavior(SteeringBehavior);
 
                 }
             }
@@ -90,14 +90,14 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             var time = ball.TimeToCoverDistance(Vector.DistanceBetween(PassTarget, ball.Position), ball.CurrentSpeed);
             PassTarget = ball.PredictedPositionInTime(time);
 
-            var arrive = SteeringBehaviour as Arrive;
+            var arrive = SteeringBehavior as Arrive;
             if (arrive != null)
                 arrive.Target = PassTarget;
         }
 
         public override void Exit()
         {
-            Player.SteeringBehaviorsManager.RemoveBehavior(SteeringBehaviour);
+            Player.SteeringBehaviorsManager.RemoveBehavior(SteeringBehavior);
             if (Player == Ai.Instance.MyTeam.PassReceiver)
                 Ai.Instance.MyTeam.PassReceiver = null;
         }

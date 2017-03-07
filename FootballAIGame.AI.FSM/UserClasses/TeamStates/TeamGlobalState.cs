@@ -9,6 +9,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
     class TeamGlobalState : State<Team>
     {
+        public TeamGlobalState(Team team) : base(team)
+        {
+        }
+
         public override void Run()
         {
         }
@@ -18,8 +22,5 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             return false;
         }
 
-        public TeamGlobalState(Team team) : base(team)
-        {
-        }
     }
 }

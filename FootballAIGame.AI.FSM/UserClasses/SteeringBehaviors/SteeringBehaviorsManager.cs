@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
@@ -30,9 +31,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 
         public void RemoveBehavior(SteeringBehavior behavior)
         {
-            var list = SteeringBehaviors.FirstOrDefault(kv => kv.Key == behavior.Priority);
-            if (list.Value != null)
-                list.Value.Remove(behavior);
+            List<SteeringBehavior> list;
+            if (SteeringBehaviors.TryGetValue(behavior.Priority, out list))
+                list.Remove(behavior);
         }
 
         public void RemoveAllbehaviorsOfType<T>()
@@ -86,6 +87,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
                 if (accelerationRemaining <= 0)
                     break;
             }
+
+            var nextMovement = Vector.Sum(Player.Movement, acceleration);
+            nextMovement.Truncate(Player.MaxSpeed);
+            acceleration = Vector.Difference(nextMovement, Player.Movement);
 
             return acceleration;
         }

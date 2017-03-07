@@ -12,9 +12,13 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
     class Attacking : TeamState
     {
+        public Attacking(Team team) : base(team)
+        {
+        }
+
         public override void Enter()
         {
-            SetHomeRegions(Team);
+            SetHomeRegions();
         }
 
         public override void Run()
@@ -33,40 +37,32 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             }
         }
 
-        public override bool ProcessMessage(Message message)
+        public override void SetHomeRegions()
         {
-            return false;
-        }
+            Team.GoalKeeper.HomeRegion = Region.GetRegion(7, 4);
 
-        public override void SetHomeRegions(Team team)
-        {
-            team.GoalKeeper.HomeRegion = Region.GetRegion(7, 4);
+            Team.Defenders[0].HomeRegion = Region.GetRegion(6, 4);
+            Team.Defenders[1].HomeRegion = Region.GetRegion(5, 3);
+            Team.Defenders[2].HomeRegion = Region.GetRegion(4, 2);
+            Team.Defenders[3].HomeRegion = Region.GetRegion(4, 6);
 
-            team.Defenders[0].HomeRegion = Region.GetRegion(6, 4);
-            team.Defenders[3].HomeRegion = Region.GetRegion(5, 3);
-            team.Defenders[1].HomeRegion = Region.GetRegion(4, 2);
-            team.Defenders[2].HomeRegion = Region.GetRegion(4, 6);
+            Team.Midfielders[0].HomeRegion = Region.GetRegion(3, 4);
+            Team.Midfielders[1].HomeRegion = Region.GetRegion(2, 2);
+            Team.Midfielders[2].HomeRegion = Region.GetRegion(2, 4);
+            Team.Midfielders[3].HomeRegion = Region.GetRegion(2, 6);
 
-            team.Midfielders[0].HomeRegion = Region.GetRegion(3, 4);
-            team.Midfielders[1].HomeRegion = Region.GetRegion(2, 2);
-            team.Midfielders[2].HomeRegion = Region.GetRegion(2, 4);
-            team.Midfielders[3].HomeRegion = Region.GetRegion(2, 6);
+            Team.Forwards[0].HomeRegion = Region.GetRegion(1, 2);
+            Team.Forwards[1].HomeRegion = Region.GetRegion(1, 6);
 
-            team.Forwards[0].HomeRegion = Region.GetRegion(1, 2);
-            team.Forwards[1].HomeRegion = Region.GetRegion(1, 6);
-
-            if (!team.IsOnLeft) return;
+            if (!Team.IsOnLeft) return;
 
             // team is on the left side -> mirror image
-            foreach (var player in team.Players)
+            foreach (var player in Team.Players)
             {
                 player.HomeRegion = Region.GetRegion(
                     (Region.NumberOfColumns - 1) - player.HomeRegion.X, player.HomeRegion.Y);
             }
         }
 
-        public Attacking(Team entity) : base(entity)
-        {
-        }
     }
 }

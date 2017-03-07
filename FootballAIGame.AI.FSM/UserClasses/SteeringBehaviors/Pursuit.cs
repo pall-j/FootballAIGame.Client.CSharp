@@ -10,7 +10,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 {
     class Pursuit : SteeringBehavior
     {
-        private Arrive TargetSeek { get; set; }
+        private Arrive TargetArrive { get; set; }
 
         public MovableEntity Target { get; set; }
 
@@ -18,7 +18,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             base(player, priority, weight)
         {
             Target = target;
-            TargetSeek = new Arrive(Player, priority, weight, target.Position);
+            TargetArrive = new Arrive(Player, priority, weight, target.Position);
         }
 
         public override Vector CalculateAccelerationVector()
@@ -29,9 +29,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             if (Player.CurrentSpeed + Target.CurrentSpeed > 0)
                 lookAheadTime = distance /(Player.CurrentSpeed + Target.CurrentSpeed);
 
-            TargetSeek.Target = Target.PredictedPositionInTime(lookAheadTime);
+            TargetArrive.Target = Target.PredictedPositionInTime(lookAheadTime);
 
-            return TargetSeek.CalculateAccelerationVector();
+            return TargetArrive.CalculateAccelerationVector();
         }
     }
 }
