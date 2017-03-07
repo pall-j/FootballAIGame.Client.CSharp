@@ -46,32 +46,23 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
 
         public override Vector PredictedPositionInTime(double time)
         {
-            var finalSpeed = CurrentSpeed - BallDeceleration*time;
-
-            if (Math.Abs(CurrentSpeed) < 0.001)
-                return Position;
-
-            if (finalSpeed < 0 || double.IsInfinity(time))
-                time = CurrentSpeed / BallDeceleration; // time to stop
-
-            var diff = Vector.Sum(Movement.Multiplied(time),
-                Movement.Resized(-1/2.0*BallDeceleration*time*time));
-
-            return Vector.Sum(Position, diff);
+            return PredictedPositionInTimeAfterKick(time, Movement);
         }
 
-        public Vector PredictedPositionInTimeAfterKick(double time, double kickSpeed)
+        public Vector PredictedPositionInTimeAfterKick(double time, Vector kick)
         {
+            var kickSpeed = kick.Length;
+
             var finalSpeed = kickSpeed - BallDeceleration * time;
 
             if (Math.Abs(kickSpeed) < 0.001)
                 return Position;
 
-            if (finalSpeed < 0)
+            if (finalSpeed < 0 || double.IsInfinity(time))
                 time = kickSpeed / BallDeceleration; // time to stop
 
-            var diff = Vector.Sum(Movement.Resized(time * kickSpeed),
-                Movement.Resized(-1 / 2.0 * BallDeceleration * time * time));
+            var diff = Vector.Sum(kick.Resized(time * kickSpeed),
+                kick.Resized(-1 / 2.0 * BallDeceleration * time * time));
 
             return Vector.Sum(Position, diff);
         }

@@ -88,7 +88,7 @@ namespace FootballAIGame.AI.FSM.SimulationEntities
         /// </value>
         public double MaxKickSpeed
         {
-            get { return (10 + KickPower*5) * GameClient.StepInterval / 1000.0; }
+            get { return (15 + KickPower*5) * GameClient.StepInterval / 1000.0; }
         }
 
         public bool CanKickBall(FootballBall ball)

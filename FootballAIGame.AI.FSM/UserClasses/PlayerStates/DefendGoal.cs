@@ -38,7 +38,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             if (Ai.Instance.MyTeam.StateMachine.CurrentState is Defending &&
                 Vector.DistanceBetween(Ai.Instance.Ball.Position, Ai.Instance.MyTeam.GoalCenter) < Parameters.GoalKeeperInterceptRange)
             {
-                Player.StateMachine.ChangeState(new MoveToHomeRegion(Player));
+                Player.StateMachine.ChangeState(new InterceptBall(Player));
             }
         }
 
