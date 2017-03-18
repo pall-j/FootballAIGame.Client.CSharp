@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FootballAIGame.AI.FSM.SimulationEntities;
-using FootballAIGame.AI.FSM.UserClasses.Messaging;
+﻿using FootballAIGame.AI.FSM.SimulationEntities;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     abstract class FieldPlayer : Player
     {
-        protected FieldPlayer(FootballPlayer player) : 
-            base(player)
+        protected FieldPlayer(FootballPlayer player, Ai ai) : 
+            base(player, ai)
         {
         }
     }

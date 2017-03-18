@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FootballAIGame.AI.FSM.CustomDataTypes;
-using FootballAIGame.AI.FSM.UserClasses.Entities;
+﻿using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
 using FootballAIGame.AI.FSM.UserClasses.Messaging.Messages;
 using FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors;
@@ -18,7 +13,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         /// Initializes a new instance of the <see cref="Default"/> class.
         /// </summary>
         /// <param name="player">The player.</param>
-        public Default(Player player) : base(player)
+        public Default(Player player, Ai ai) : base(player, ai)
         {
         }
 
@@ -30,12 +25,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
         public override void Run()
         {
-            var controlling = Ai.Instance.MyTeam.ControllingPlayer;
-            var team = Ai.Instance.MyTeam;
+            var controlling = Ai.MyTeam.ControllingPlayer;
+            var team = Ai.MyTeam;
 
             if (Player is GoalKeeper)
             {
-                Player.StateMachine.ChangeState(new DefendGoal(Player));
+                Player.StateMachine.ChangeState(new DefendGoal(Player, Ai));
                 return;
             }
 
@@ -48,7 +43,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             }
             else if (!Player.IsAtHomeRegion)
             {
-                Player.StateMachine.ChangeState(new MoveToHomeRegion(Player));
+                Player.StateMachine.ChangeState(new MoveToHomeRegion(Player, Ai));
             }
         }
 

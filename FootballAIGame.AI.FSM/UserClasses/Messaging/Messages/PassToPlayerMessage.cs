@@ -2,7 +2,7 @@
 
 namespace FootballAIGame.AI.FSM.UserClasses.Messaging.Messages
 {
-    class PassToPlayerMessage : Message
+    class PassToPlayerMessage : IMessage
     {
         public Player Receiver { get; set; }
 

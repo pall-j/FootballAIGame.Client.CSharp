@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FootballAIGame.AI.FSM.CustomDataTypes;
+﻿using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors;
 
@@ -14,50 +10,50 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
         private Vector PassTarget { get; set; }
 
-        public ReceivePass(Player player, Vector passTarget) : base(player)
+        public ReceivePass(Player player, Ai ai, Vector passTarget) : base(player, ai)
         {
             PassTarget = passTarget;
         }
 
         public override void Enter()
         {
-            Ai.Instance.MyTeam.PassReceiver = Player;
-            Ai.Instance.MyTeam.ControllingPlayer = Player;
+            Ai.MyTeam.PassReceiver = Player;
+            Ai.MyTeam.ControllingPlayer = Player;
             SteeringBehavior = new Arrive(Player, 1, 1.0, PassTarget);
             Player.SteeringBehaviorsManager.AddBehavior(SteeringBehavior);
         }
 
         public override void Run()
         {
-            if (Ai.Instance.MyTeam.PassReceiver != Player)
+            if (Ai.MyTeam.PassReceiver != Player)
             {
-                Player.StateMachine.ChangeState(new Default(Player));
+                Player.StateMachine.ChangeState(new Default(Player, Ai));
                 return;
             }
 
             // lost control
-            if (Ai.Instance.OpponentTeam.PlayerInBallRange != null && Ai.Instance.MyTeam.PlayerInBallRange == null)
+            if (Ai.OpponentTeam.PlayerInBallRange != null && Ai.MyTeam.PlayerInBallRange == null)
             {
-                Player.StateMachine.ChangeState(new Default(Player));
+                Player.StateMachine.ChangeState(new Default(Player, Ai));
                 return;
             }
 
-            if (Player.CanKickBall(Ai.Instance.Ball))
+            if (Player.CanKickBall(Ai.Ball))
             {
-                Player.StateMachine.ChangeState(new KickBall(Player));
+                Player.StateMachine.ChangeState(new KickBall(Player, Ai));
                 return;
             }
 
-            if (Vector.DistanceBetween(Ai.Instance.Ball.Position, Player.Position) < Parameters.BallReceivingRange)
+            if (Vector.DistanceBetween(Ai.Ball.Position, Player.Position) < Parameters.BallReceivingRange)
             {
-                Player.StateMachine.ChangeState(new PursueBall(Player));
+                Player.StateMachine.ChangeState(new PursueBall(Player, Ai));
                 return;
             }
 
             UpdatePassTarget();
 
-            var nearestOpponent = Ai.Instance.OpponentTeam.GetNearestPlayerToPosition(Player.Position);
-            var ball = Ai.Instance.Ball;
+            var nearestOpponent = Ai.OpponentTeam.GetNearestPlayerToPosition(Player.Position);
+            var ball = Ai.Ball;
 
             var timeToReceive = ball.TimeToCoverDistance(Vector.DistanceBetween(ball.Position, PassTarget), ball.CurrentSpeed);
 
@@ -86,7 +82,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
         private void UpdatePassTarget()
         {
-            var ball = Ai.Instance.Ball;
+            var ball = Ai.Ball;
             var time = ball.TimeToCoverDistance(Vector.DistanceBetween(PassTarget, ball.Position), ball.CurrentSpeed);
             PassTarget = ball.PredictedPositionInTime(time);
 
@@ -98,8 +94,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         public override void Exit()
         {
             Player.SteeringBehaviorsManager.RemoveBehavior(SteeringBehavior);
-            if (Player == Ai.Instance.MyTeam.PassReceiver)
-                Ai.Instance.MyTeam.PassReceiver = null;
+            if (Player == Ai.MyTeam.PassReceiver)
+                Ai.MyTeam.PassReceiver = null;
         }
     }
 }

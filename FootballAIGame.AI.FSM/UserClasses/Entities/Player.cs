@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FootballAIGame.AI.FSM.CustomDataTypes;
+﻿using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.SimulationEntities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
 using FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors;
@@ -11,6 +7,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     abstract class Player : FootballPlayer
     {
+        protected Ai Ai { get; set; }
+
         public FiniteStateMachine<Player> StateMachine { get; set; }
 
         public Region HomeRegion { get; set; }
@@ -28,7 +26,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             return action;
         }
 
-        public abstract void ProcessMessage(Message message);
+        public abstract void ProcessMessage(IMessage message);
 
         public bool IsAtHomeRegion
         {
@@ -42,18 +40,20 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         {
             get
             {
-                var nearest = Ai.Instance.OpponentTeam.GetNearestPlayerToPosition(Position);
+                var nearest = Ai.OpponentTeam.GetNearestPlayerToPosition(Position);
 
                 var predictedPosition = PredictedPositionInTime(1);
-                var predictedNearest = Ai.Instance.OpponentTeam.GetPredictedNearestPlayerToPosition(predictedPosition, 1);
+                var predictedNearest = Ai.OpponentTeam.GetPredictedNearestPlayerToPosition(predictedPosition, 1);
 
                 return Vector.DistanceBetween(nearest.Position, Position) < Parameters.DangerRange ||
                        Vector.DistanceBetween(predictedNearest.Position, predictedPosition) < Parameters.DangerRange;
             }
         }
 
-        protected Player(FootballPlayer player) : base(player.Id)
+        protected Player(FootballPlayer player, Ai ai) : base(player.Id)
         {
+            Ai = ai;
+
             Position = player.Position;
             Movement = player.Movement;
             KickVector = player.KickVector;

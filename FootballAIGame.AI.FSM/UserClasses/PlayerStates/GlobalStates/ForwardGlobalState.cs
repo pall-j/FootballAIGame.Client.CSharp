@@ -7,9 +7,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
     {
         private FieldPlayerGlobalState FieldPlayerGlobalState { get; set; }
 
-        public ForwardGlobalState(Player player) : base(player)
+        public ForwardGlobalState(Player player, Ai ai) : base(player, ai)
         {
-            FieldPlayerGlobalState = new FieldPlayerGlobalState(player);
+            FieldPlayerGlobalState = new FieldPlayerGlobalState(player, ai);
         }
 
         public override void Run()
@@ -17,7 +17,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
             FieldPlayerGlobalState.Run();
         }
 
-        public override bool ProcessMessage(Message message)
+        public override bool ProcessMessage(IMessage message)
         {
             return FieldPlayerGlobalState.ProcessMessage(message);
         }

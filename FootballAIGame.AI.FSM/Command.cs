@@ -15,9 +15,4 @@
         /// </summary>
         public byte[] Data { get; set; }
     }
-
-    enum CommandType
-    {
-        GetParameters, GetAction
-    }
 }

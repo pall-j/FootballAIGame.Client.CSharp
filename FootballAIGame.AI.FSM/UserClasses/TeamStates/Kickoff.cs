@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
-using FootballAIGame.AI.FSM.UserClasses.Messaging;
 using FootballAIGame.AI.FSM.UserClasses.PlayerStates;
 
 namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
     class Kickoff : TeamState
     {
-        public Kickoff(Team team) : base(team)
+        public Kickoff(Team team, Ai ai) : base(team, ai)
         {
         }
 
@@ -22,17 +18,17 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             foreach (var teamPlayer in Team.Players)
             {
                 teamPlayer.SteeringBehaviorsManager.Reset();
-                teamPlayer.StateMachine.ChangeState(new Default(teamPlayer));
+                teamPlayer.StateMachine.ChangeState(new Default(teamPlayer, Ai));
             }
 
 
             if (Team.PlayerInBallRange == null)
             {
-                Team.StateMachine.ChangeState(new Defending(Team));
+                Team.StateMachine.ChangeState(new Defending(Team, Ai));
             }
             else
             {
-                Team.StateMachine.ChangeState(new Attacking(Team));
+                Team.StateMachine.ChangeState(new Attacking(Team, Ai));
             }
         }
 

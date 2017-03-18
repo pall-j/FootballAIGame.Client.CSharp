@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 
 namespace FootballAIGame.AI.FSM.CustomDataTypes
 {
@@ -36,8 +35,8 @@ namespace FootballAIGame.AI.FSM.CustomDataTypes
         /// <param name="y">The y.</param>
         public Vector(double x, double y)
         {
-            this.X = x;
-            this.Y = y;
+            X = x;
+            Y = y;
         }
 
         public Vector(Vector from, Vector to, double size)

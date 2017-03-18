@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using FootballAIGame.AI.FSM.CustomDataTypes;
+﻿using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
 using FootballAIGame.AI.FSM.UserClasses.Messaging.Messages;
@@ -12,7 +7,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
     class PlayerGlobalState : PlayerState
     {
-        public PlayerGlobalState(Player entity) : base(entity)
+        public PlayerGlobalState(Player entity, Ai ai) : base(entity, ai)
         {
         }
 
@@ -20,30 +15,30 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
         {
         }
 
-        public override bool ProcessMessage(Message message)
+        public override bool ProcessMessage(IMessage message)
         {
             if (message is ReturnToHomeMessage)
             {
-                Player.StateMachine.ChangeState(new MoveToHomeRegion(Player));
+                Player.StateMachine.ChangeState(new MoveToHomeRegion(Player, Ai));
                 return true;
             }
 
             if (message is SupportControllingMessage)
             {
                 if (!(Player.StateMachine.CurrentState is SupportControlling))
-                    Player.StateMachine.ChangeState(new SupportControlling(Player));
+                    Player.StateMachine.ChangeState(new SupportControlling(Player, Ai));
                 return true;
             }
 
             if (message is GoDefaultMessage)
             {
-                Player.StateMachine.ChangeState(new Default(Player));
+                Player.StateMachine.ChangeState(new Default(Player, Ai));
                 return true;
             }
 
             if (message is PassToPlayerMessage)
             {
-                var ball = Ai.Instance.Ball;
+                var ball = Ai.Ball;
                 var target = ((PassToPlayerMessage) message).Receiver;
 
                 var time = ball.TimeToCoverDistance(Vector.DistanceBetween(target.Position, ball.Position),
@@ -58,7 +53,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
                 {
                     Player.KickBall(ball, predictedTargetPosition);
                     MessageDispatcher.Instance.SendMessage(new ReceivePassMessage(predictedTargetPosition));
-                    Player.StateMachine.ChangeState(new Default(Player));
+                    Player.StateMachine.ChangeState(new Default(Player, Ai));
                 }
 
                 return true;
@@ -67,13 +62,13 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
             if (message is ReceivePassMessage)
             {
                 var msg = (ReceivePassMessage) message;
-                Player.StateMachine.ChangeState(new ReceivePass(Player, msg.PassTarget));
+                Player.StateMachine.ChangeState(new ReceivePass(Player, Ai, msg.PassTarget));
                 return true;
             }
 
             if (message is PursueBallMessage)
             {
-                Player.StateMachine.ChangeState(new PursueBall(Player));
+                Player.StateMachine.ChangeState(new PursueBall(Player, Ai));
                 return true;
             }
 

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FootballAIGame.AI.FSM.CustomDataTypes;
+﻿using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
 using FootballAIGame.AI.FSM.UserClasses.Messaging.Messages;
-using FootballAIGame.AI.FSM.UserClasses.PlayerStates;
 
 namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
     class Attacking : TeamState
     {
-        public Attacking(Team team) : base(team)
+        public Attacking(Team team, Ai ai) : base(team, ai)
         {
         }
 
@@ -24,14 +19,14 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
         public override void Run()
         {
             if (Team.PlayerInBallRange == null &&
-                Ai.Instance.OpponentTeam.PlayerInBallRange != null)
+                Ai.OpponentTeam.PlayerInBallRange != null)
             {
-                Team.StateMachine.ChangeState(new Defending(Team));
+                Team.StateMachine.ChangeState(new Defending(Team, Ai));
             }
             
             if (Team.SupportingPlayers.Count == 0 && Team.ControllingPlayer != null)
             {
-                var bestPos = Utilities.SupportPositionsManager.Instance.BestSupportPosition;
+                var bestPos = Ai.SupportPositionsManager.BestSupportPosition;
                 var bestSupporter = Team.GetNearestPlayerToPosition(bestPos, Team.ControllingPlayer);
                 MessageDispatcher.Instance.SendMessage(new SupportControllingMessage(), bestSupporter);
             }

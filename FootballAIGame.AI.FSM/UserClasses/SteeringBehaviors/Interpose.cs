@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using FootballAIGame.AI.FSM.CustomDataTypes;
+﻿using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.SimulationEntities;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 

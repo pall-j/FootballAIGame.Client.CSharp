@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FootballAIGame.AI.FSM.CustomDataTypes;
+﻿using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
-using FootballAIGame.AI.FSM.UserClasses.Messaging;
-using FootballAIGame.AI.FSM.UserClasses.Messaging.Messages;
 using FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors;
 using FootballAIGame.AI.FSM.UserClasses.TeamStates;
 
@@ -15,17 +9,17 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
     {
         private Interpose Interpose { get; set; }
 
-        public DefendGoal(Player player) : base(player)
+        public DefendGoal(Player player, Ai ai) : base(player, ai)
         {
         }
 
         public override void Enter()
         {
             var goalCenter = new Vector(0, GameClient.FieldHeight / 2);
-            if (!Ai.Instance.MyTeam.IsOnLeft)
+            if (!Ai.MyTeam.IsOnLeft)
                 goalCenter.X = GameClient.FieldWidth;
 
-            Interpose = new Interpose(Player, 1, 1.0, Ai.Instance.Ball, goalCenter)
+            Interpose = new Interpose(Player, 1, 1.0, Ai.Ball, goalCenter)
             {
                 PreferredDistanceFromSecond = Parameters.DefendGoalDistance
             };
@@ -35,10 +29,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 
         public override void Run()
         {
-            if (Ai.Instance.MyTeam.StateMachine.CurrentState is Defending &&
-                Vector.DistanceBetween(Ai.Instance.Ball.Position, Ai.Instance.MyTeam.GoalCenter) < Parameters.GoalKeeperInterceptRange)
+            if (Ai.MyTeam.StateMachine.CurrentState is Defending &&
+                Vector.DistanceBetween(Ai.Ball.Position, Ai.MyTeam.GoalCenter) < Parameters.GoalKeeperInterceptRange)
             {
-                Player.StateMachine.ChangeState(new InterceptBall(Player));
+                Player.StateMachine.ChangeState(new InterceptBall(Player, Ai));
             }
         }
 

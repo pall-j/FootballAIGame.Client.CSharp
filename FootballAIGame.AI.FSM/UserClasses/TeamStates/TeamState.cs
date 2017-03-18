@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FootballAIGame.AI.FSM.UserClasses.Entities;
-using FootballAIGame.AI.FSM.UserClasses.Messaging;
+﻿using FootballAIGame.AI.FSM.UserClasses.Entities;
 
 namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
@@ -11,7 +6,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
     {
         protected Team Team { get; set; }
 
-        protected TeamState(Team team) : base(team)
+        protected TeamState(Team team, Ai ai) : base(team, ai)
         {
             Team = team;
         }

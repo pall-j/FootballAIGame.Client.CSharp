@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FootballAIGame.AI.FSM.UserClasses.Messaging;
+﻿using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses
 {
@@ -10,9 +6,12 @@ namespace FootballAIGame.AI.FSM.UserClasses
     {
         protected TEntity Entity { get; set; }
 
-        protected State(TEntity entity)
+        protected Ai Ai { get; set; }
+
+        protected State(TEntity entity, Ai ai)
         {
             Entity = entity;
+            Ai = ai;
         }
 
         public virtual void Enter() { }
@@ -21,7 +20,7 @@ namespace FootballAIGame.AI.FSM.UserClasses
 
         public virtual void Exit() { }
 
-        public virtual bool ProcessMessage(Message message)
+        public virtual bool ProcessMessage(IMessage message)
         {
             return false;
         }

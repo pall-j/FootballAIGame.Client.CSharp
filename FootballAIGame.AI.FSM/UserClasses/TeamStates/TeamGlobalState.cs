@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FootballAIGame.AI.FSM.UserClasses.Entities;
+﻿using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
     class TeamGlobalState : State<Team>
     {
-        public TeamGlobalState(Team team) : base(team)
+        public TeamGlobalState(Team team, Ai ai) : base(team, ai)
         {
         }
 
@@ -17,7 +13,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
         {
         }
 
-        public override bool ProcessMessage(Message message)
+        public override bool ProcessMessage(IMessage message)
         {
             return false;
         }

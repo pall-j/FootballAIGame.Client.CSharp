@@ -1,6 +1,6 @@
 ﻿namespace FootballAIGame.AI.FSM.UserClasses.Messaging.Messages
 {
-    class ReturnToHomeMessage : Message
+    class ReturnToHomeMessage : IMessage
     {
     }
 }

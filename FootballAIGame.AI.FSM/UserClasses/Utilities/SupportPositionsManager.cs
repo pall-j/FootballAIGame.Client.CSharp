@@ -1,28 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Net.Sockets;
-using System.Text;
 using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.SimulationEntities;
-using FootballAIGame.AI.FSM.UserClasses.Entities;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Utilities
 {
     class SupportPositionsManager
     {
-        private static SupportPositionsManager _instance;
 
-        public static SupportPositionsManager Instance
-        {
-            get { return _instance ?? (_instance = new SupportPositionsManager()); }
-        }
-
-        private SupportPositionsManager()
-        {
-            CreateSupportPositions();
-        }
+        private Ai Ai { get; set; }
 
         private List<SupportPosition> LeftSupportPositions { get; set; }
 
@@ -46,6 +33,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
             }
         }
 
+        public SupportPositionsManager(Ai ai)
+        {
+            Ai = ai;
+            CreateSupportPositions();
+        }
+
         public void Update()
         {
             foreach (var supportPosition in SupportPositions)
@@ -61,10 +54,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
             supportPosition.DistanceScore = 0;
             supportPosition.PassScore = 0;
 
-            var controlling = Ai.Instance.MyTeam.ControllingPlayer;
+            var controlling = Ai.MyTeam.ControllingPlayer;
             if (controlling != null)
             {
-                if (Ai.Instance.MyTeam.IsPassFromControllingSafe(supportPosition.Position))
+                if (Ai.MyTeam.IsPassFromControllingSafe(supportPosition.Position))
                 {
                     supportPosition.Score += Parameters.PassSafeFromControllingPlayerWeight;
                     supportPosition.PassScore += Parameters.PassSafeFromControllingPlayerWeight;
@@ -83,8 +76,6 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
             }
 
             // distance from opponent
-            
-
         }
 
         private bool IsShotOnGoalPossible(Vector position)
@@ -95,12 +86,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
             var artificialBall = new FootballBall() {Position = position};
 
             Vector shotTarget;
-            return (Ai.Instance.MyTeam.TryGetShotOnGoal(artificialPlayer, out shotTarget, artificialBall));
+            return (Ai.MyTeam.TryGetShotOnGoal(artificialPlayer, out shotTarget, artificialBall));
         }
 
         private double GetDistanceFromControllingScore(Vector position)
         {
-            double distance = Vector.DistanceBetween(position, Ai.Instance.MyTeam.ControllingPlayer.Position);
+            double distance = Vector.DistanceBetween(position, Ai.MyTeam.ControllingPlayer.Position);
 
             var diff = Math.Abs(distance - Parameters.OptimalDistanceFromControlling);
 

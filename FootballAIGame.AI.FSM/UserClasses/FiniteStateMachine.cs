@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FootballAIGame.AI.FSM.UserClasses.Entities;
-using FootballAIGame.AI.FSM.UserClasses.Messaging;
-using FootballAIGame.AI.FSM.UserClasses.TeamStates;
+﻿using FootballAIGame.AI.FSM.UserClasses.Messaging;
 
 namespace FootballAIGame.AI.FSM.UserClasses
 {
@@ -41,7 +35,7 @@ namespace FootballAIGame.AI.FSM.UserClasses
                 CurrentState.Run();
         }
 
-        public void ProcessMessage(TEntity entity, Message message)
+        public void ProcessMessage(TEntity entity, IMessage message)
         {
             if (CurrentState != null && CurrentState.ProcessMessage(message))
                 return;

@@ -1,5 +1,4 @@
 ﻿using System;
-using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.SimulationEntities;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
 using FootballAIGame.AI.FSM.UserClasses.Utilities;
@@ -19,18 +18,7 @@ namespace FootballAIGame.AI.FSM.UserClasses
 
         public Team OpponentTeam { get; set; }
 
-        private GameState CurrentState { get; set; }
-
-        private static Ai _instance;
-
-        public static Ai Instance
-        {
-            get { return _instance ?? (_instance = new Ai()); }
-        }
-
-        private Ai()
-        {
-        }
+        public SupportPositionsManager SupportPositionsManager { get; set; }
 
         /// <summary>
         /// Called every time the new match simulation with this AI starts.<para />
@@ -40,6 +28,7 @@ namespace FootballAIGame.AI.FSM.UserClasses
         {
             if (Random == null)
                 Random = new Random();
+            SupportPositionsManager = new SupportPositionsManager(this);
         }
 
         /// <summary>
@@ -52,16 +41,15 @@ namespace FootballAIGame.AI.FSM.UserClasses
             if (gameState.Step == 0 || MyTeam == null)
             {
                 Ball = new Ball(gameState.Ball);
-                MyTeam = new Team(GetParameters());
-                OpponentTeam = new Team(GetParameters()); // expect opponent to have the same parameters
+                MyTeam = new Team(GetParameters(), this);
+                OpponentTeam = new Team(GetParameters(), this); // expect opponent to have the same parameters
             }
 
             // AI entities (wrappers of SimulationEntities) are set accordingly
-            CurrentState = gameState;
             Ball.LoadState(gameState);
             OpponentTeam.LoadState(gameState, false); // must be loaded before my team!
             MyTeam.LoadState(gameState, true);
-            SupportPositionsManager.Instance.Update();
+            SupportPositionsManager.Update();
 
             // new action
             var currentAction = new GameAction

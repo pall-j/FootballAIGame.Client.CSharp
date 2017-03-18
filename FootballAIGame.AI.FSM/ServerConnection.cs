@@ -136,7 +136,7 @@ namespace FootballAIGame.AI.FSM
                 //waitHandle.WaitOne();
                 //NetworkStream.EndRead(asyncReader);
 
-                if (buffer[0] == (int)'\n')
+                if (buffer[0] == '\n')
                     break;
                 bytes.Add(buffer[0]);
             }
@@ -160,7 +160,7 @@ namespace FootballAIGame.AI.FSM
             }
 
             var byteArray = new byte[data.Length * 4 + 4];
-            var numArray = new int[1] { action.Step };
+            var numArray = new [] { action.Step };
 
             Buffer.BlockCopy(numArray, 0, byteArray, 0, 4);
             Buffer.BlockCopy(data, 0, byteArray, 4, data.Length * 4);

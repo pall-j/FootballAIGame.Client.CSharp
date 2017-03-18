@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using FootballAIGame.AI.FSM.CustomDataTypes;
 using FootballAIGame.AI.FSM.UserClasses.Entities;
-using FootballAIGame.AI.FSM.UserClasses.Messaging;
-using FootballAIGame.AI.FSM.UserClasses.Messaging.Messages;
-using FootballAIGame.AI.FSM.UserClasses.PlayerStates;
 using FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors;
 
 namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
@@ -16,7 +9,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
     {
         private List<Interpose> Interposes { get; set; }
 
-        public Defending(Team team) : base(team)
+        public Defending(Team team, Ai ai) : base(team, ai)
         {
         }
 
@@ -26,12 +19,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 
             Interposes = new List<Interpose>();
 
-            var controllingOpponent = Ai.Instance.OpponentTeam.NearestPlayerToBall;
+            var controllingOpponent = Ai.OpponentTeam.NearestPlayerToBall;
 
-            var firstNearestToControlling = Ai.Instance.OpponentTeam.GetNearestPlayerToPosition(
+            var firstNearestToControlling = Ai.OpponentTeam.GetNearestPlayerToPosition(
                 controllingOpponent.Position, controllingOpponent);
 
-            var secondNearestToControlling = Ai.Instance.OpponentTeam.GetNearestPlayerToPosition(
+            var secondNearestToControlling = Ai.OpponentTeam.GetNearestPlayerToPosition(
                 controllingOpponent.Position, controllingOpponent, firstNearestToControlling);
 
             var interpose1 = new Interpose(Team.Forwards[0], 2, 0.8, controllingOpponent, firstNearestToControlling);
@@ -46,9 +39,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 
         public override void Run()
         {
-            if (Team.PlayerInBallRange != null && Ai.Instance.OpponentTeam.PlayerInBallRange == null)
+            if (Team.PlayerInBallRange != null && Ai.OpponentTeam.PlayerInBallRange == null)
             {
-                Team.StateMachine.ChangeState(new Attacking(Team));
+                Team.StateMachine.ChangeState(new Attacking(Team, Ai));
                 return;
             }
 
@@ -57,12 +50,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 
         private void UpdateSteeringBehaviors()
         {
-            var controllingOpponent = Ai.Instance.OpponentTeam.NearestPlayerToBall;
+            var controllingOpponent = Ai.OpponentTeam.NearestPlayerToBall;
 
-            var firstNearestToControlling = Ai.Instance.OpponentTeam.GetNearestPlayerToPosition(
+            var firstNearestToControlling = Ai.OpponentTeam.GetNearestPlayerToPosition(
                 controllingOpponent.Position, controllingOpponent);
 
-            var secondNearestToControlling = Ai.Instance.OpponentTeam.GetNearestPlayerToPosition(
+            var secondNearestToControlling = Ai.OpponentTeam.GetNearestPlayerToPosition(
                 controllingOpponent.Position, controllingOpponent, firstNearestToControlling);
 
             Interposes[0].First = controllingOpponent;

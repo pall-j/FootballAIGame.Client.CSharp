@@ -1,6 +1,5 @@
 ﻿using System;
 using FootballAIGame.AI.FSM.CustomDataTypes;
-using FootballAIGame.AI.FSM.UserClasses.TeamStates;
 
 namespace FootballAIGame.AI.FSM.SimulationEntities
 {

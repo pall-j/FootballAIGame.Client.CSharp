@@ -7,30 +7,30 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
     {
         private PlayerGlobalState PlayerGlobalState { get; set; }
 
-        public FieldPlayerGlobalState(Player player) : base(player)
+        public FieldPlayerGlobalState(Player player, Ai ai) : base(player, ai)
         {
-            PlayerGlobalState = new PlayerGlobalState(player);
+            PlayerGlobalState = new PlayerGlobalState(player, ai);
         }
 
         public override void Run()
         {
-            var team = Ai.Instance.MyTeam;
+            var team = Ai.MyTeam;
 
-            if (Player.CanKickBall(Ai.Instance.Ball))
+            if (Player.CanKickBall(Ai.Ball))
             {
-                Player.StateMachine.ChangeState(new KickBall(Player));
+                Player.StateMachine.ChangeState(new KickBall(Player, Ai));
             }
             else if (team.NearestPlayerToBall == Player &&
                      team.PassReceiver == null)
             {
-                Player.StateMachine.ChangeState(new PursueBall(Player));
+                Player.StateMachine.ChangeState(new PursueBall(Player, Ai));
             }
 
 
             PlayerGlobalState.Run();   
         }
 
-        public override bool ProcessMessage(Message message)
+        public override bool ProcessMessage(IMessage message)
         {
             return PlayerGlobalState.ProcessMessage(message);
         }

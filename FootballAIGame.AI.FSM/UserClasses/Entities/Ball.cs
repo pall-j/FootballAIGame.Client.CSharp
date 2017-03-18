@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FootballAIGame.AI.FSM.SimulationEntities;
+﻿using FootballAIGame.AI.FSM.SimulationEntities;
 
 namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {

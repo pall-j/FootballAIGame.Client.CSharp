@@ -57,9 +57,9 @@ namespace FootballAIGame.AI.FSM
         /// <param name="ai">The AI.</param>
         public GameClient(IPAddress serverAddress, int port, IFootballAi ai)
         {
-            this.ServerAddress = serverAddress;
-            this.ServerPort = port;
-            this.Ai = ai;
+            ServerAddress = serverAddress;
+            ServerPort = port;
+            Ai = ai;
         }
 
         /// <summary>
@@ -71,6 +71,9 @@ namespace FootballAIGame.AI.FSM
             {
                 Console.WriteLine("Enter user name and AI name separated by whitespace.");
                 var line = Console.ReadLine();
+
+                if (line == null)
+                    break;
 
                 Debug.Assert(line != null, "line != null");
                 var tokens = line.Split();
