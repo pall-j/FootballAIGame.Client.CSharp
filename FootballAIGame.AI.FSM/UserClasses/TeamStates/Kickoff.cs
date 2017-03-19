@@ -6,7 +6,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
     class Kickoff : TeamState
     {
-        public Kickoff(Team team, Ai ai) : base(team, ai)
+        public Kickoff(Team team, FootballAI footballAI) : base(team, footballAI)
         {
         }
 
@@ -18,17 +18,17 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
             foreach (var teamPlayer in Team.Players)
             {
                 teamPlayer.SteeringBehaviorsManager.Reset();
-                teamPlayer.StateMachine.ChangeState(new Default(teamPlayer, Ai));
+                teamPlayer.StateMachine.ChangeState(new Default(teamPlayer, AI));
             }
 
 
             if (Team.PlayerInBallRange == null)
             {
-                Team.StateMachine.ChangeState(new Defending(Team, Ai));
+                Team.StateMachine.ChangeState(new Defending(Team, AI));
             }
             else
             {
-                Team.StateMachine.ChangeState(new Attacking(Team, Ai));
+                Team.StateMachine.ChangeState(new Attacking(Team, AI));
             }
         }
 

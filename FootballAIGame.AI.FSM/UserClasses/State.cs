@@ -6,12 +6,12 @@ namespace FootballAIGame.AI.FSM.UserClasses
     {
         protected TEntity Entity { get; set; }
 
-        protected Ai Ai { get; set; }
+        protected FootballAI AI { get; set; }
 
-        protected State(TEntity entity, Ai ai)
+        protected State(TEntity entity, FootballAI footballAI)
         {
             Entity = entity;
-            Ai = ai;
+            AI = footballAI;
         }
 
         public virtual void Enter() { }

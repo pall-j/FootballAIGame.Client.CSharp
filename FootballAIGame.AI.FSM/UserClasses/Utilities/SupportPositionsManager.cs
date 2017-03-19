@@ -9,7 +9,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
     class SupportPositionsManager
     {
 
-        private Ai Ai { get; set; }
+        private FootballAI AI { get; set; }
 
         private List<SupportPosition> LeftSupportPositions { get; set; }
 
@@ -33,9 +33,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
             }
         }
 
-        public SupportPositionsManager(Ai ai)
+        public SupportPositionsManager(FootballAI footballAI)
         {
-            Ai = ai;
+            AI = footballAI;
             CreateSupportPositions();
         }
 
@@ -54,10 +54,10 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
             supportPosition.DistanceScore = 0;
             supportPosition.PassScore = 0;
 
-            var controlling = Ai.MyTeam.ControllingPlayer;
+            var controlling = AI.MyTeam.ControllingPlayer;
             if (controlling != null)
             {
-                if (Ai.MyTeam.IsPassFromControllingSafe(supportPosition.Position))
+                if (AI.MyTeam.IsPassFromControllingSafe(supportPosition.Position))
                 {
                     supportPosition.Score += Parameters.PassSafeFromControllingPlayerWeight;
                     supportPosition.PassScore += Parameters.PassSafeFromControllingPlayerWeight;
@@ -86,12 +86,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.Utilities
             var artificialBall = new FootballBall() {Position = position};
 
             Vector shotTarget;
-            return (Ai.MyTeam.TryGetShotOnGoal(artificialPlayer, out shotTarget, artificialBall));
+            return (AI.MyTeam.TryGetShotOnGoal(artificialPlayer, out shotTarget, artificialBall));
         }
 
         private double GetDistanceFromControllingScore(Vector position)
         {
-            double distance = Vector.DistanceBetween(position, Ai.MyTeam.ControllingPlayer.Position);
+            double distance = Vector.DistanceBetween(position, AI.MyTeam.ControllingPlayer.Position);
 
             var diff = Math.Abs(distance - Parameters.OptimalDistanceFromControlling);
 

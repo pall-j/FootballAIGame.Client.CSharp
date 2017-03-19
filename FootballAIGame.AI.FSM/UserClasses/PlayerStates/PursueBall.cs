@@ -9,28 +9,28 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
     {
         private Pursuit BallPursuit { get; set; }
 
-        public PursueBall(Player player, Ai ai) : base(player, ai)
+        public PursueBall(Player player, FootballAI footballAI) : base(player, footballAI)
         {
         }
 
         public override void Enter()
         {
-            BallPursuit = new Pursuit(Player, 1, 1.0, Ai.Ball);
+            BallPursuit = new Pursuit(Player, 1, 1.0, AI.Ball);
             Player.SteeringBehaviorsManager.AddBehavior(BallPursuit);
         }
 
         public override void Run()
         {
-            if (Player.CanKickBall(Ai.Ball))
+            if (Player.CanKickBall(AI.Ball))
             {
-                Player.StateMachine.ChangeState(new KickBall(Player, Ai));
+                Player.StateMachine.ChangeState(new KickBall(Player, AI));
                 return;
             }
 
-            var nearestToBall = Ai.MyTeam.NearestPlayerToBall;
+            var nearestToBall = AI.MyTeam.NearestPlayerToBall;
             if (Player != nearestToBall && !(nearestToBall is GoalKeeper))
             {
-                Player.StateMachine.ChangeState(new MoveToHomeRegion(Player, Ai));
+                Player.StateMachine.ChangeState(new MoveToHomeRegion(Player, AI));
                 MessageDispatcher.Instance.SendMessage(new PursueBallMessage(), nearestToBall);
             }
         }

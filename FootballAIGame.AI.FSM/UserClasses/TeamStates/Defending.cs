@@ -9,7 +9,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
     {
         private List<Interpose> Interposes { get; set; }
 
-        public Defending(Team team, Ai ai) : base(team, ai)
+        public Defending(Team team, FootballAI footballAI) : base(team, footballAI)
         {
         }
 
@@ -19,12 +19,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 
             Interposes = new List<Interpose>();
 
-            var controllingOpponent = Ai.OpponentTeam.NearestPlayerToBall;
+            var controllingOpponent = AI.OpponentTeam.NearestPlayerToBall;
 
-            var firstNearestToControlling = Ai.OpponentTeam.GetNearestPlayerToPosition(
+            var firstNearestToControlling = AI.OpponentTeam.GetNearestPlayerToPosition(
                 controllingOpponent.Position, controllingOpponent);
 
-            var secondNearestToControlling = Ai.OpponentTeam.GetNearestPlayerToPosition(
+            var secondNearestToControlling = AI.OpponentTeam.GetNearestPlayerToPosition(
                 controllingOpponent.Position, controllingOpponent, firstNearestToControlling);
 
             var interpose1 = new Interpose(Team.Forwards[0], 2, 0.8, controllingOpponent, firstNearestToControlling);
@@ -39,9 +39,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 
         public override void Run()
         {
-            if (Team.PlayerInBallRange != null && Ai.OpponentTeam.PlayerInBallRange == null)
+            if (Team.PlayerInBallRange != null && AI.OpponentTeam.PlayerInBallRange == null)
             {
-                Team.StateMachine.ChangeState(new Attacking(Team, Ai));
+                Team.StateMachine.ChangeState(new Attacking(Team, AI));
                 return;
             }
 
@@ -50,12 +50,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 
         private void UpdateSteeringBehaviors()
         {
-            var controllingOpponent = Ai.OpponentTeam.NearestPlayerToBall;
+            var controllingOpponent = AI.OpponentTeam.NearestPlayerToBall;
 
-            var firstNearestToControlling = Ai.OpponentTeam.GetNearestPlayerToPosition(
+            var firstNearestToControlling = AI.OpponentTeam.GetNearestPlayerToPosition(
                 controllingOpponent.Position, controllingOpponent);
 
-            var secondNearestToControlling = Ai.OpponentTeam.GetNearestPlayerToPosition(
+            var secondNearestToControlling = AI.OpponentTeam.GetNearestPlayerToPosition(
                 controllingOpponent.Position, controllingOpponent, firstNearestToControlling);
 
             Interposes[0].First = controllingOpponent;

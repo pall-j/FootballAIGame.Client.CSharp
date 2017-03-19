@@ -37,9 +37,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
 
         public void RemoveAllBehaviorsOfType<T>()
         {
-            foreach (var keyValuePair in SteeringBehaviors)
+            foreach (var keyValuePfootballAIr in SteeringBehaviors)
             {
-                var list = keyValuePair.Value;
+                var list = keyValuePfootballAIr.Value;
                 list.RemoveAll(sb => sb.GetType() == typeof(T));
             }
         }
@@ -48,9 +48,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
         {
             var result = new List<SteeringBehavior>();
 
-            foreach (var keyValuePair in SteeringBehaviors)
+            foreach (var keyValuePfootballAIr in SteeringBehaviors)
             {
-                var list = keyValuePair.Value;
+                var list = keyValuePfootballAIr.Value;
                 result.AddRange(list.Where(sb => sb.GetType() == typeof(T)));
             }
 
@@ -62,28 +62,28 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
             // Weighted Prioritized Truncated Sum method used
 
             var acceleration = new Vector(0, 0);
-            var accelerationRemaining = Player.MaxAcceleration;
+            var accelerationRemfootballAIning = Player.MaxAcceleration;
 
-            foreach (var keyValuePair in SteeringBehaviors)
+            foreach (var keyValuePfootballAIr in SteeringBehaviors)
             {
-                var list = keyValuePair.Value;
+                var list = keyValuePfootballAIr.Value;
 
                 foreach (var steeringbehavior in list)
                 {
                     var behaviorAccel = steeringbehavior.CalculateAccelerationVector();
                     behaviorAccel.Multiply(steeringbehavior.Weight);
 
-                    if (accelerationRemaining - behaviorAccel.Length < 0)
-                        behaviorAccel.Resize(accelerationRemaining);
-                    accelerationRemaining -= behaviorAccel.Length;
+                    if (accelerationRemfootballAIning - behaviorAccel.Length < 0)
+                        behaviorAccel.Resize(accelerationRemfootballAIning);
+                    accelerationRemfootballAIning -= behaviorAccel.Length;
 
                     acceleration = Vector.Sum(acceleration, behaviorAccel);
 
-                    if (accelerationRemaining <= 0)
+                    if (accelerationRemfootballAIning <= 0)
                         break;
                 }
 
-                if (accelerationRemaining <= 0)
+                if (accelerationRemfootballAIning <= 0)
                     break;
             }
 

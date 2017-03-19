@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FootballAIGame.AI.FSM</RootNamespace>
     <AssemblyName>FootballAIGame.AI.FSM</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -38,7 +38,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
-    <LangVersion>3</LangVersion>
+    <LangVersion>default</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +49,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -59,7 +61,7 @@
     <Compile Include="CustomDataTypes\Region.cs" />
     <Compile Include="CustomDataTypes\Vector.cs" />
     <Compile Include="GameClient.cs" />
-    <Compile Include="IFootballAi.cs" />
+    <Compile Include="IFootballAI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerConnection.cs" />
@@ -69,7 +71,7 @@
     <Compile Include="SimulationEntities\GameState.cs" />
     <Compile Include="SimulationEntities\MovableEntity.cs" />
     <Compile Include="SimulationEntities\PlayerAction.cs" />
-    <Compile Include="UserClasses\Ai.cs" />
+    <Compile Include="UserClasses\AI.cs" />
     <Compile Include="UserClasses\Entities\Ball.cs" />
     <Compile Include="UserClasses\Entities\Defender.cs" />
     <Compile Include="UserClasses\Entities\FieldPlayer.cs" />

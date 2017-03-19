@@ -7,7 +7,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
     class Attacking : TeamState
     {
-        public Attacking(Team team, Ai ai) : base(team, ai)
+        public Attacking(Team team, FootballAI footballAI) : base(team, footballAI)
         {
         }
 
@@ -19,14 +19,14 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
         public override void Run()
         {
             if (Team.PlayerInBallRange == null &&
-                Ai.OpponentTeam.PlayerInBallRange != null)
+                AI.OpponentTeam.PlayerInBallRange != null)
             {
-                Team.StateMachine.ChangeState(new Defending(Team, Ai));
+                Team.StateMachine.ChangeState(new Defending(Team, AI));
             }
             
             if (Team.SupportingPlayers.Count == 0 && Team.ControllingPlayer != null)
             {
-                var bestPos = Ai.SupportPositionsManager.BestSupportPosition;
+                var bestPos = AI.SupportPositionsManager.BestSupportPosition;
                 var bestSupporter = Team.GetNearestPlayerToPosition(bestPos, Team.ControllingPlayer);
                 MessageDispatcher.Instance.SendMessage(new SupportControllingMessage(), bestSupporter);
             }

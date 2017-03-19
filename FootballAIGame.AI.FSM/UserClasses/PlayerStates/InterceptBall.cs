@@ -9,23 +9,23 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
     {
         private Pursuit BallPursuit { get; set; }
 
-        public InterceptBall(Player player, Ai ai) : base(player, ai)
+        public InterceptBall(Player player, FootballAI footballAI) : base(player, footballAI)
         {
         }
 
         public override void Enter()
         {
-            BallPursuit = new Pursuit(Player, 1, 1.0, Ai.Ball);
+            BallPursuit = new Pursuit(Player, 1, 1.0, AI.Ball);
             Player.SteeringBehaviorsManager.AddBehavior(BallPursuit);
         }
 
         public override void Run()
         {
-            if (Ai.MyTeam.StateMachine.CurrentState is Attacking ||
-                Vector.DistanceBetween(Player.Position, Ai.MyTeam.GoalCenter) >
+            if (AI.MyTeam.StateMachine.CurrentState is Attacking ||
+                Vector.DistanceBetween(Player.Position, AI.MyTeam.GoalCenter) >
                 Parameters.GoalKeeperInterceptRange)
             {
-                Player.StateMachine.ChangeState(new DefendGoal(Player, Ai));
+                Player.StateMachine.ChangeState(new DefendGoal(Player, AI));
             }
         }
 

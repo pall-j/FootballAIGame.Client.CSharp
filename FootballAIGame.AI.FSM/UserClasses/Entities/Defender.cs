@@ -7,9 +7,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     class Defender : FieldPlayer
     {
-        public Defender(FootballPlayer player, Ai ai) : base(player, ai)
+        public Defender(FootballPlayer player, FootballAI footballAI) : base(player, footballAI)
         {
-            StateMachine = new FiniteStateMachine<Player>(this, new Default(this, Ai), new DefenderGlobalState(this, Ai));
+            StateMachine = new FiniteStateMachine<Player>(this, new Default(this, AI), new DefenderGlobalState(this, AI));
         }
 
         public override void ProcessMessage(IMessage message)

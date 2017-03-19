@@ -6,7 +6,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
     {
         protected Team Team { get; set; }
 
-        protected TeamState(Team team, Ai ai) : base(team, ai)
+        protected TeamState(Team team, FootballAI footballAI) : base(team, footballAI)
         {
             Team = team;
         }

@@ -7,7 +7,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
 {
     class PlayerGlobalState : PlayerState
     {
-        public PlayerGlobalState(Player entity, Ai ai) : base(entity, ai)
+        public PlayerGlobalState(Player entity, FootballAI footballAI) : base(entity, footballAI)
         {
         }
 
@@ -19,26 +19,26 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
         {
             if (message is ReturnToHomeMessage)
             {
-                Player.StateMachine.ChangeState(new MoveToHomeRegion(Player, Ai));
+                Player.StateMachine.ChangeState(new MoveToHomeRegion(Player, AI));
                 return true;
             }
 
             if (message is SupportControllingMessage)
             {
                 if (!(Player.StateMachine.CurrentState is SupportControlling))
-                    Player.StateMachine.ChangeState(new SupportControlling(Player, Ai));
+                    Player.StateMachine.ChangeState(new SupportControlling(Player, AI));
                 return true;
             }
 
             if (message is GoDefaultMessage)
             {
-                Player.StateMachine.ChangeState(new Default(Player, Ai));
+                Player.StateMachine.ChangeState(new Default(Player, AI));
                 return true;
             }
 
             if (message is PassToPlayerMessage)
             {
-                var ball = Ai.Ball;
+                var ball = AI.Ball;
                 var target = ((PassToPlayerMessage) message).Receiver;
 
                 var time = ball.TimeToCoverDistance(Vector.DistanceBetween(target.Position, ball.Position),
@@ -53,7 +53,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
                 {
                     Player.KickBall(ball, predictedTargetPosition);
                     MessageDispatcher.Instance.SendMessage(new ReceivePassMessage(predictedTargetPosition));
-                    Player.StateMachine.ChangeState(new Default(Player, Ai));
+                    Player.StateMachine.ChangeState(new Default(Player, AI));
                 }
 
                 return true;
@@ -62,13 +62,13 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
             if (message is ReceivePassMessage)
             {
                 var msg = (ReceivePassMessage) message;
-                Player.StateMachine.ChangeState(new ReceivePass(Player, Ai, msg.PassTarget));
+                Player.StateMachine.ChangeState(new ReceivePass(Player, AI, msg.PassTarget));
                 return true;
             }
 
             if (message is PursueBallMessage)
             {
-                Player.StateMachine.ChangeState(new PursueBall(Player, Ai));
+                Player.StateMachine.ChangeState(new PursueBall(Player, AI));
                 return true;
             }
 

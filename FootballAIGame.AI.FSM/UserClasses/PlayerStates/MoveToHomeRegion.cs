@@ -8,7 +8,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
     {
         private Arrive MoveToHomeRegionArrive { get; set; }
 
-        public MoveToHomeRegion(Player player, Ai ai) : base(player, ai)
+        public MoveToHomeRegion(Player player, FootballAI footballAI) : base(player, footballAI)
         {
         }
 
@@ -22,7 +22,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
         {
             MoveToHomeRegionArrive.Target = Player.HomeRegion.Center;
             if (Player.IsAtHomeRegion && Math.Abs(Player.CurrentSpeed) < 0.00001)
-                Player.StateMachine.ChangeState(new Default(Player, Ai));
+                Player.StateMachine.ChangeState(new Default(Player, AI));
 
         }
 

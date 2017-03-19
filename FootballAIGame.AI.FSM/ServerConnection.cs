@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Remoting;
@@ -37,13 +38,13 @@ namespace FootballAIGame.AI.FSM
         /// <param name="address">The game server IP address.</param>
         /// <param name="port">The game server port.</param>
         /// <param name="userName">Name of the user.</param>
-        /// <param name="aiName">Desired name of the AI.</param>
+        /// <param name="footballAIName">Desired name of the AI.</param>
         /// <returns></returns>
         /// <exception cref="ServerException">
         /// Thrown if an error has occurred while connecting to the server.
         /// </exception>
         public static ServerConnection Connect(IPAddress address, int port,
-            string userName, string aiName)
+            string userName, string footballAIName)
         {
             var connection = new ServerConnection { ServerTcpClient = new TcpClient { NoDelay = true } };
 
@@ -51,10 +52,10 @@ namespace FootballAIGame.AI.FSM
             {
                 var connect = connection.ServerTcpClient.BeginConnect(address, port, null, null);
                 var waitHandle = connect.AsyncWaitHandle;
-                var succesfull = waitHandle.WaitOne(5000);
+                var successful = waitHandle.WaitOne(5000);
                 connection.ServerTcpClient.EndConnect(connect);
 
-                if (!succesfull || !connection.ServerTcpClient.Connected)
+                if (!successful || !connection.ServerTcpClient.Connected)
                     throw new ServerException("Server is not responding.");
             }
             catch (SocketException)
@@ -64,7 +65,7 @@ namespace FootballAIGame.AI.FSM
 
             connection.ServerTcpClient.NoDelay = true;
             connection.NetworkStream = connection.ServerTcpClient.GetStream();
-            connection.Send(string.Format("LOGIN {0} {1}", userName, aiName));
+            connection.Send(string.Format("LOGIN {0} {1}", userName, footballAIName));
 
             var message = connection.ReceiveMessage();
 
@@ -130,11 +131,11 @@ namespace FootballAIGame.AI.FSM
 
             while (true)
             {
-                buffer[0] = (byte)NetworkStream.ReadByte();
-                //var asyncReader = NetworkStream.BeginRead(buffer, 0, 1, null, null);
-                //var waitHandle = asyncReader.AsyncWaitHandle;
-                //waitHandle.WaitOne();
-                //NetworkStream.EndRead(asyncReader);
+                var next = NetworkStream.ReadByte();
+                if (next == -1)
+                    throw new IOException();
+
+                buffer[0] = (byte)next;
 
                 if (buffer[0] == '\n')
                     break;
@@ -153,14 +154,14 @@ namespace FootballAIGame.AI.FSM
             var data = new float[44];
             for (var i = 0; i < 11; i++)
             {
-                data[4*i] = (float)action.PlayerActions[i].Movement.X;
+                data[4 * i] = (float)action.PlayerActions[i].Movement.X;
                 data[4 * i + 1] = (float)action.PlayerActions[i].Movement.Y;
                 data[4 * i + 2] = (float)action.PlayerActions[i].Kick.X;
                 data[4 * i + 3] = (float)action.PlayerActions[i].Kick.Y;
             }
 
             var byteArray = new byte[data.Length * 4 + 4];
-            var numArray = new [] { action.Step };
+            var numArray = new[] { action.Step };
 
             Buffer.BlockCopy(numArray, 0, byteArray, 0, 4);
             Buffer.BlockCopy(data, 0, byteArray, 4, data.Length * 4);

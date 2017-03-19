@@ -7,19 +7,19 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
 {
     class KickBall : PlayerState
     {
-        public KickBall(Player player, Ai ai) : base(player, ai)
+        public KickBall(Player player, FootballAI footballAI) : base(player, footballAI)
         {
         }
 
         public override void Enter()
         {
-            Ai.MyTeam.ControllingPlayer = Player;
+            AI.MyTeam.ControllingPlayer = Player;
             Run(); // run immediately
         }
 
         public override void Run()
         {
-            var team = Ai.MyTeam;
+            var team = AI.MyTeam;
 
             if (team.PassReceiver != null)
             {
@@ -29,27 +29,27 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates
             Vector target;
             if (team.TryGetShotOnGoal(Player, out target))
             {
-                Player.KickBall(Ai.Ball, target);
-                Player.StateMachine.ChangeState(new Default(Player, Ai));
+                Player.KickBall(AI.Ball, target);
+                Player.StateMachine.ChangeState(new Default(Player, AI));
                 return;
             }
            
             Player passPlayerTarget;
             if (Player.IsInDanger && team.TryGetSafePass(Player, out passPlayerTarget))
             {
-                var passTarget = Player.PassBall(Ai.Ball, passPlayerTarget);
+                var passTarget = Player.PassBall(AI.Ball, passPlayerTarget);
                 MessageDispatcher.Instance.SendMessage(new ReceivePassMessage(passTarget), passPlayerTarget);
-                Player.StateMachine.ChangeState(new Default(Player, Ai));
+                Player.StateMachine.ChangeState(new Default(Player, AI));
                 return;
             }
             
-            Player.StateMachine.ChangeState(new Dribble(Player, Ai));
+            Player.StateMachine.ChangeState(new Dribble(Player, AI));
         }
 
         public override void Exit()
         {
-            if (Ai.MyTeam.ControllingPlayer == Player)
-                Ai.MyTeam.ControllingPlayer = null;
+            if (AI.MyTeam.ControllingPlayer == Player)
+                AI.MyTeam.ControllingPlayer = null;
         }
     }
 }

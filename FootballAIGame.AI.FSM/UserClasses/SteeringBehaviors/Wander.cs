@@ -32,7 +32,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.SteeringBehaviors
         {
             // we are working in local space (Player heading = x-coordinate)
 
-            var diff = new Vector((Ai.Random.NextDouble() - 0.5), (Ai.Random.NextDouble() - 0.5), WanderJitter);
+            var diff = new Vector((FootballAI.Random.NextDouble() - 0.5), (FootballAI.Random.NextDouble() - 0.5), WanderJitter);
 
             WanderTarget = Vector.Sum(WanderTarget, diff);
             WanderTarget.Resize(WanderRadius);

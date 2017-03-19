@@ -5,7 +5,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.TeamStates
 {
     class TeamGlobalState : State<Team>
     {
-        public TeamGlobalState(Team team, Ai ai) : base(team, ai)
+        public TeamGlobalState(Team team, FootballAI footballAI) : base(team, footballAI)
         {
         }
 

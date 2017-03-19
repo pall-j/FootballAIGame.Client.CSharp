@@ -47,19 +47,19 @@ namespace FootballAIGame.AI.FSM
         /// <summary>
         /// Gets or sets AI instance that will process the game server commands.
         /// </summary>
-        private IFootballAi Ai { get; set; }
+        private IFootballAI AI { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameClient" /> class.
         /// </summary>
         /// <param name="serverAddress">The game server IP address.</param>
         /// <param name="port">The game server port.</param>
-        /// <param name="ai">The AI.</param>
-        public GameClient(IPAddress serverAddress, int port, IFootballAi ai)
+        /// <param name="footballAI">The AI.</param>
+        public GameClient(IPAddress serverAddress, int port, IFootballAI footballAI)
         {
             ServerAddress = serverAddress;
             ServerPort = port;
-            Ai = ai;
+            AI = footballAI;
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace FootballAIGame.AI.FSM
         }
 
         /// <summary>
-        /// Processes the specified command. Calls appropriate <see cref="IFootballAi"/> methods.
+        /// Processes the specified command. Calls appropriate <see cref="IFootballAI"/> methods.
         /// </summary>
         /// <param name="command">The game server command.</param>
         private void Process(Command command)
@@ -131,13 +131,13 @@ namespace FootballAIGame.AI.FSM
                     //Console.WriteLine("Action received");
                     var state = GameState.Parse(command.Data);
                     //Console.WriteLine($"Step {state.Step} received.");
-                    Connection.Send(Ai.GetAction(state));
+                    Connection.Send(AI.GetAction(state));
                     //Console.WriteLine($"Step {state.Step} action sent.");
                     //Console.WriteLine("response sent");
                     break;
                 case CommandType.GetParameters:
-                    Ai.Initialize();
-                    Connection.SendParameters(Ai.GetParameters());
+                    AI.Initialize();
+                    Connection.SendParameters(AI.GetParameters());
                     break;
             }
         }

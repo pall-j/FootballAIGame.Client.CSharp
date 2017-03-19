@@ -12,7 +12,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
     {
         private bool InitialEnter { get; set; }
 
-        public Ai Ai { get; set; }
+        public FootballAI AI { get; set; }
 
         public FiniteStateMachine<Team> StateMachine { get; set; }
 
@@ -77,7 +77,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
         {
             get
             {
-                return GetNearestPlayerToPosition(Ai.Ball.Position);
+                return GetNearestPlayerToPosition(AI.Ball.Position);
             }
         }
 
@@ -89,9 +89,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 return player.Position.X < otherPlayer.Position.X;
         }
 
-        public Team(IList<FootballPlayer> footballPlayers, Ai ai)
+        public Team(IList<FootballPlayer> footballPlayers, FootballAI ai)
         {
-            Ai = ai;
+            AI = ai;
 
             StateMachine = new FiniteStateMachine<Team>(this, new Kickoff(this, ai), new TeamGlobalState(this, ai));
             InitialEnter = true;
@@ -145,7 +145,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
                 Players[i].Position = state.FootballPlayers[i + diff].Position;
                 Players[i].KickVector = new Vector(0, 0);
 
-                var distToBall = Vector.DistanceBetween(Players[i].Position, Ai.Ball.Position);
+                var distToBall = Vector.DistanceBetween(Players[i].Position, AI.Ball.Position);
 
                 if (distToBall < Parameters.BallRange &&
                     (PlayerInBallRange == null || bestDist > distToBall))
@@ -159,7 +159,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             {
                 IsOnLeft = GoalKeeper.Position.X < 55;
                 if (!InitialEnter)
-                    StateMachine.ChangeState(new Kickoff(this, Ai));
+                    StateMachine.ChangeState(new Kickoff(this, AI));
             }
 
         }
@@ -216,14 +216,14 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public bool IsKickSafe(FootballPlayer from, Vector target)
         {
-            var ball = Ai.Ball;
+            var ball = AI.Ball;
 
             if (from == null)
                 return false;
 
             var toBall = Vector.Difference(ball.Position, target);
 
-            foreach (var opponent in Ai.OpponentTeam.Players)
+            foreach (var opponent in AI.OpponentTeam.Players)
             {
                 var toOpponent = Vector.Difference(opponent.Position, target);
 
@@ -259,7 +259,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public bool TryGetShotOnGoal(FootballPlayer player, out Vector shotTarget)
         {
-            return TryGetShotOnGoal(player, out shotTarget, Ai.Ball);
+            return TryGetShotOnGoal(player, out shotTarget, AI.Ball);
         }
 
         public bool TryGetShotOnGoal(FootballPlayer player, out Vector shotTarget, FootballBall ball)
@@ -267,7 +267,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
             for (int i = 0; i < Parameters.NumberOfGeneratedShotTargets; i++)
             {
                 var target =
-                    new Vector(0, GameClient.FieldHeight / 2.0 + (Ai.Random.NextDouble() - 0.5) * 7.32 / 2);
+                    new Vector(0, GameClient.FieldHeight / 2.0 + (FootballAI.Random.NextDouble() - 0.5) * 7.32 / 2);
                 if (IsOnLeft)
                     target.X = GameClient.FieldWidth;
 
@@ -284,7 +284,7 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 
         public bool TryGetSafePass(Player player, out Player target)
         {
-            return TryGetSafePass(player, out target, Ai.Ball);
+            return TryGetSafePass(player, out target, AI.Ball);
         }
 
         public bool TryGetSafePass(Player player, out Player target, Ball ball)

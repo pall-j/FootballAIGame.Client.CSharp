@@ -9,19 +9,19 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
     {
         private PlayerGlobalState PlayerGlobalState { get; set; }
 
-        public GoalKeeperGlobalState(Player player, Ai ai) : base(player, ai)
+        public GoalKeeperGlobalState(Player player, FootballAI footballAI) : base(player, footballAI)
         {
-            PlayerGlobalState = new PlayerGlobalState(player, ai);
+            PlayerGlobalState = new PlayerGlobalState(player, footballAI);
         }
 
         public override void Run()
         {
-            if (Player.CanKickBall(Ai.Ball))
+            if (Player.CanKickBall(AI.Ball))
             {
                 Player passTargetPlayer;
-                if (Ai.MyTeam.TryGetSafePass(Player, out passTargetPlayer))
+                if (AI.MyTeam.TryGetSafePass(Player, out passTargetPlayer))
                 {
-                    var passTarget = Player.PassBall(Ai.Ball, passTargetPlayer);
+                    var passTarget = Player.PassBall(AI.Ball, passTargetPlayer);
                     MessageDispatcher.Instance.SendMessage(new ReceivePassMessage(passTarget), passTargetPlayer);
                 }
                 else
@@ -33,9 +33,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
                     for (int y = 10; y < GameClient.FieldHeight; y += 5)
                     {
                         var target = new Vector(x, y);
-                        if (Ai.MyTeam.IsKickSafe(Player, target))
+                        if (AI.MyTeam.IsKickSafe(Player, target))
                         {
-                            Player.KickBall(Ai.Ball, target);
+                            Player.KickBall(AI.Ball, target);
                             safeDirectionFound = true;
                             break;
                         }
@@ -44,8 +44,8 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
                     if (!safeDirectionFound)
                     {
                         // kick randomly
-                        var target = new Vector(x, Ai.Random.Next(1, (int)GameClient.FieldHeight - 1));
-                        Player.KickBall(Ai.Ball, target);
+                        var target = new Vector(x, FootballAI.Random.Next(1, (int)GameClient.FieldHeight - 1));
+                        Player.KickBall(AI.Ball, target);
                     }
                 }
             }
@@ -56,12 +56,12 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
         {
             if (message is ReceivePassMessage)
             {
-                Player.StateMachine.ChangeState(new InterceptBall(Player, Ai));
+                Player.StateMachine.ChangeState(new InterceptBall(Player, AI));
                 return true;
             }
             if (message is GoDefaultMessage)
             {
-                Player.StateMachine.ChangeState(new DefendGoal(Player, Ai));
+                Player.StateMachine.ChangeState(new DefendGoal(Player, AI));
                 return true;
             }
 

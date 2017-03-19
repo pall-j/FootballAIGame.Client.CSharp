@@ -7,9 +7,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     class Forward : FieldPlayer
     {
-        public Forward(FootballPlayer player, Ai ai) : base(player, ai)
+        public Forward(FootballPlayer player, FootballAI footballAI) : base(player, footballAI)
         {
-            StateMachine = new FiniteStateMachine<Player>(this, new Default(this, ai), new ForwardGlobalState(this, ai));
+            StateMachine = new FiniteStateMachine<Player>(this, new Default(this, footballAI), new ForwardGlobalState(this, footballAI));
         }
 
         public override void ProcessMessage(IMessage message)

@@ -2,7 +2,7 @@
 
 namespace FootballAIGame.AI.FSM
 {
-    interface IFootballAi
+    interface IFootballAI
     {
         /// <summary>
         /// Called every time the new match simulation with the AI starts.<para />

@@ -7,9 +7,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.Entities
 {
     class GoalKeeper : Player
     {
-        public GoalKeeper(FootballPlayer player, Ai ai) : base(player, ai)
+        public GoalKeeper(FootballPlayer player, FootballAI footballAI) : base(player, footballAI)
         {
-            StateMachine = new FiniteStateMachine<Player>(this, new Default(this, ai), new GoalKeeperGlobalState(this, ai));
+            StateMachine = new FiniteStateMachine<Player>(this, new Default(this, footballAI), new GoalKeeperGlobalState(this, footballAI));
         }
 
         public override void ProcessMessage(IMessage message)

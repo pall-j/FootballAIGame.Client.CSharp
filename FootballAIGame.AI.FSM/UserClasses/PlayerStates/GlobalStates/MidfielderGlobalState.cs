@@ -7,9 +7,9 @@ namespace FootballAIGame.AI.FSM.UserClasses.PlayerStates.GlobalStates
     {
         private FieldPlayerGlobalState FieldPlayerGlobalState { get; set; }
 
-        public MidfielderGlobalState(Player player, Ai ai) : base(player, ai)
+        public MidfielderGlobalState(Player player, FootballAI footballAI) : base(player, footballAI)
         {
-            FieldPlayerGlobalState = new FieldPlayerGlobalState(player, ai);
+            FieldPlayerGlobalState = new FieldPlayerGlobalState(player, footballAI);
         }
 
         public override void Run()

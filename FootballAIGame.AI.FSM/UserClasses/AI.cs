@@ -6,9 +6,9 @@ using FootballAIGame.AI.FSM.UserClasses.Utilities;
 namespace FootballAIGame.AI.FSM.UserClasses
 {
     /// <summary>
-    /// The main AI class where the AI behavior is defined. Singleton class.
+    /// The football AI class where the AI behavior is defined.
     /// </summary>
-    class Ai : IFootballAi
+    class FootballAI : IFootballAI
     {
         public static Random Random { get; set; }
 
