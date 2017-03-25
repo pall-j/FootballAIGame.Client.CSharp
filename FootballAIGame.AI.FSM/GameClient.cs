@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Runtime.Remoting;
 using FootballAIGame.AI.FSM.SimulationEntities;
+using FootballAIGame.AI.FSM.UserClasses;
 
 namespace FootballAIGame.AI.FSM
 {
@@ -63,39 +64,65 @@ namespace FootballAIGame.AI.FSM
         }
 
         /// <summary>
-        /// Starts this instance. Starts logging in process.
+        /// Starts the logging in process.
         /// </summary>
         public void Start()
         {
             while (true)
             {
-                Console.WriteLine("Enter user name and AI name separated by whitespace.");
+                Console.WriteLine("Enter user name, AI name and access key separated by whitespace.");
                 var line = Console.ReadLine();
 
                 if (line == null)
                     break;
 
-                Debug.Assert(line != null, "line != null");
                 var tokens = line.Split();
-                if (tokens.Length != 2)
+                if (tokens.Length != 3)
                 {
                     Console.WriteLine("Invalid format!");
                     continue;
                 }
 
-                try
-                {
-                    Connection = ServerConnection.Connect(ServerAddress, ServerPort,
-                        tokens[0], tokens[1]);
-                    Console.WriteLine("Connected.");
-                    StartProcessing();
+                TryStart(tokens[0], tokens[1], tokens[2]);
+            }
+        }
+
+        public void Start(string userName, string accessKey)
+        {
+            while (true)
+            {
+                Console.WriteLine("Enter AI name.");
+                var line = Console.ReadLine();
+
+                if (line == null)
                     break;
 
-                }
-                catch (ServerException ex)
+                var tokens = line.Split();
+                if (tokens.Length != 1)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Invalid format!");
+                    continue;
                 }
+
+                TryStart(userName, tokens[0], accessKey);
+            }
+        }
+
+        public void TryStart(string userName, string aiName, string accessKey)
+        {
+            string errorMessage;
+            ServerConnection connection;
+
+            if ((errorMessage = ServerConnection.TryConnect(ServerAddress, ServerPort,
+                    userName, aiName, accessKey, out connection)) == null)
+            {
+                Console.WriteLine("Connected.");
+                Connection = connection;
+                StartProcessing();
+            }
+            else
+            {
+                Console.WriteLine(errorMessage);
             }
         }
 

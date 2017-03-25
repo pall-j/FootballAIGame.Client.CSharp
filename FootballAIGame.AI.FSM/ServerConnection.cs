@@ -33,20 +33,19 @@ namespace FootballAIGame.AI.FSM
         private NetworkStream NetworkStream { get; set; }
 
         /// <summary>
-        /// Connects to the game server.
+        /// Try to connect to the game server.
         /// </summary>
         /// <param name="address">The game server IP address.</param>
         /// <param name="port">The game server port.</param>
         /// <param name="userName">Name of the user.</param>
         /// <param name="footballAIName">Desired name of the AI.</param>
-        /// <returns></returns>
-        /// <exception cref="ServerException">
-        /// Thrown if an error has occurred while connecting to the server.
-        /// </exception>
-        public static ServerConnection Connect(IPAddress address, int port,
-            string userName, string footballAIName)
+        /// <param name="accessKey">The access key.</param>
+        /// <param name="connection">The output connection.</param>
+        /// <returns>Null if an authenticated connection has been successfully established; otherwise returns the error message.</returns>
+        public static string TryConnect(IPAddress address, int port, string userName, string footballAIName, string accessKey, 
+            out ServerConnection connection)
         {
-            var connection = new ServerConnection { ServerTcpClient = new TcpClient { NoDelay = true } };
+            connection = new ServerConnection { ServerTcpClient = new TcpClient { NoDelay = true } };
 
             try
             {
@@ -56,26 +55,24 @@ namespace FootballAIGame.AI.FSM
                 connection.ServerTcpClient.EndConnect(connect);
 
                 if (!successful || !connection.ServerTcpClient.Connected)
-                    throw new ServerException("Server is not responding.");
+                    return "Server is not responding.";
             }
             catch (SocketException)
             {
-                throw new ServerException("Server is not responding.");
+                return "Server is not responding.";
             }
 
             connection.ServerTcpClient.NoDelay = true;
             connection.NetworkStream = connection.ServerTcpClient.GetStream();
-            connection.Send(string.Format("LOGIN {0} {1}", userName, footballAIName));
+            connection.Send(string.Format("LOGIN {0} {1} {2}", userName, footballAIName, accessKey));
 
             var message = connection.ReceiveMessage();
 
             if (message == "CONNECTED")
-                return connection;
-            else
-            {
-                connection.Dispose();
-                throw new ServerException(message);
-            }
+                return null;
+
+            connection.ServerTcpClient.Close();
+            return message;
         }
 
         /// <summary>

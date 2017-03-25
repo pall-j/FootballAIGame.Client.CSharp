@@ -14,8 +14,10 @@ namespace FootballAIGame.AI.FSM
         private static void Main()
         {
             var client = new GameClient(IPAddress.Parse("13.69.197.216"), 50030, new FootballAI());
-            //var client = new GameClient(IPAddress.Parse("127.0.0.1"), 50030, new FootballAI());
+            //var client = new GameClient(IPAddress.Loopback, 50030, new FootballAI());
+
             client.Start();
+            //client.Start("Serillan", null); // fixed user with his access key (suitable for local simulators)
         }
 
     }
