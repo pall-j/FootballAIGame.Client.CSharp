@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{196B511E-39CE-4EA4-8ED9-0A7C97D0BB37}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FootballAIGame.Client</RootNamespace>
+    <AssemblyName>FootballAIGame.Client</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>2</WarningLevel>
+    <LangVersion>default</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AIs\Basic\BasicAI.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="CommandType.cs" />
+    <Compile Include="CustomDataTypes\Region.cs" />
+    <Compile Include="CustomDataTypes\Vector.cs" />
+    <Compile Include="GameClient.cs" />
+    <Compile Include="IFootballAI.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerConnection.cs" />
+    <Compile Include="SimulationEntities\FootballBall.cs" />
+    <Compile Include="SimulationEntities\FootballPlayer.cs" />
+    <Compile Include="SimulationEntities\GameAction.cs" />
+    <Compile Include="SimulationEntities\GameState.cs" />
+    <Compile Include="SimulationEntities\MovableEntity.cs" />
+    <Compile Include="SimulationEntities\PlayerAction.cs" />
+    <Compile Include="AIs\Fsm\FsmAI.cs" />
+    <Compile Include="AIs\Fsm\Entities\Ball.cs" />
+    <Compile Include="AIs\Fsm\Entities\Defender.cs" />
+    <Compile Include="AIs\Fsm\Entities\FieldPlayer.cs" />
+    <Compile Include="AIs\Fsm\Entities\Forward.cs" />
+    <Compile Include="AIs\Fsm\Entities\GoalKeeper.cs" />
+    <Compile Include="AIs\Fsm\Entities\Midfielder.cs" />
+    <Compile Include="AIs\Fsm\Entities\Player.cs" />
+    <Compile Include="AIs\Fsm\Entities\Team.cs" />
+    <Compile Include="AIs\Fsm\FiniteStateMachine.cs" />
+    <Compile Include="AIs\Fsm\Messaging\IMessage.cs" />
+    <Compile Include="AIs\Fsm\Messaging\MessageDispatcher.cs" />
+    <Compile Include="AIs\Fsm\Messaging\Messages\PursueBallMessage.cs" />
+    <Compile Include="AIs\Fsm\Messaging\Messages\PassToPlayerMessage.cs" />
+    <Compile Include="AIs\Fsm\Messaging\Messages\ReceivePassMessage.cs" />
+    <Compile Include="AIs\Fsm\Messaging\Messages\ReturnToHomeMessage.cs" />
+    <Compile Include="AIs\Fsm\Messaging\Messages\SupportControllingMessage.cs" />
+    <Compile Include="AIs\Fsm\Messaging\Messages\GoDefaultMessage.cs" />
+    <Compile Include="AIs\Fsm\Parameters.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\DefendGoal.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\InterceptBall.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\PursueBall.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\Dribble.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\GlobalStates\DefenderGlobalState.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\GlobalStates\FieldPlayerGlobalState.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\GlobalStates\ForwardGlobalState.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\GlobalStates\GoalKeeperGlobalState.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\GlobalStates\MidfielderGlobalState.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\GlobalStates\PlayerGlobalState.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\KickBall.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\MoveToHomeRegion.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\PlayerState.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\ReceivePass.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\SupportControlling.cs" />
+    <Compile Include="AIs\Fsm\PlayerStates\Default.cs" />
+    <Compile Include="AIs\Fsm\State.cs" />
+    <Compile Include="AIs\Fsm\SteeringBehaviors\Arrive.cs" />
+    <Compile Include="AIs\Fsm\SteeringBehaviors\Evade.cs" />
+    <Compile Include="AIs\Fsm\SteeringBehaviors\Flee.cs" />
+    <Compile Include="AIs\Fsm\SteeringBehaviors\Interpose.cs" />
+    <Compile Include="AIs\Fsm\SteeringBehaviors\Pursuit.cs" />
+    <Compile Include="AIs\Fsm\SteeringBehaviors\Seek.cs" />
+    <Compile Include="AIs\Fsm\SteeringBehaviors\SteeringBehavior.cs" />
+    <Compile Include="AIs\Fsm\SteeringBehaviors\SteeringBehaviorsManager.cs" />
+    <Compile Include="AIs\Fsm\SteeringBehaviors\Wander.cs" />
+    <Compile Include="AIs\Fsm\TeamStates\Attacking.cs" />
+    <Compile Include="AIs\Fsm\TeamStates\Defending.cs" />
+    <Compile Include="AIs\Fsm\TeamStates\Kickoff.cs" />
+    <Compile Include="AIs\Fsm\TeamStates\TeamGlobalState.cs" />
+    <Compile Include="AIs\Fsm\TeamStates\TeamState.cs" />
+    <Compile Include="AIs\Fsm\Utilities\SupportPositionsManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
