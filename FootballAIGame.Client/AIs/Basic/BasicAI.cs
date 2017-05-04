@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using FootballAIGame.Client.CustomDataTypes;
 using FootballAIGame.Client.SimulationEntities;
 
@@ -33,11 +34,11 @@ namespace FootballAIGame.Client.AIs.Basic
         }
 
         /// <summary>
-        /// Gets the <see cref="GameAction" /> for the specified <see cref="GameState" />.
+        /// Gets the <see cref="AIAction" /> for the specified <see cref="GameState" />.
         /// </summary>
         /// <param name="gameState">State of the game.</param>
-        /// <returns>The <see cref="GameAction" /> for the specified <see cref="GameState" />.</returns>
-        public GameAction GetAction(GameState gameState)
+        /// <returns>The <see cref="AIAction" /> for the specified <see cref="GameState" />.</returns>
+        public AIAction GetAction(GameState gameState)
         {
             if (gameState.Step == 0)
                 IsOnLeft = gameState.FootballPlayers[0].Position.X < 55;
@@ -45,7 +46,7 @@ namespace FootballAIGame.Client.AIs.Basic
             if (gameState.Step == 750) // switch
                 IsOnLeft = !IsOnLeft;
 
-            var action = new GameAction { PlayerActions = new PlayerAction[11], Step = gameState.Step };
+            var action = new AIAction { PlayerActions = new PlayerAction[11], Step = gameState.Step };
 
             for (var i = 0; i < 11; i++)
             {
@@ -105,6 +106,7 @@ namespace FootballAIGame.Client.AIs.Basic
             if (Players != null) return Players;
 
             Players = new FootballPlayer[11];
+
             for (var i = 0; i < 11; i++)
             {
                 Players[i] = new FootballPlayer(i)

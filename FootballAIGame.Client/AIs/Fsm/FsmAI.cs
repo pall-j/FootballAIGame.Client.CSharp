@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using FootballAIGame.Client.AIs.Fsm.Entities;
 using FootballAIGame.Client.AIs.Fsm.Utilities;
 using FootballAIGame.Client.SimulationEntities;
@@ -32,11 +33,11 @@ namespace FootballAIGame.Client.AIs.Fsm
         }
 
         /// <summary>
-        /// Gets the <see cref="GameAction" /> for the specified <see cref="GameState" />.
+        /// Gets the <see cref="AIAction" /> for the specified <see cref="GameState" />.
         /// </summary>
         /// <param name="gameState">State of the game.</param>
-        /// <returns>The <see cref="GameAction" /> for the specified <see cref="GameState" />.</returns>
-        public GameAction GetAction(GameState gameState)
+        /// <returns>The <see cref="AIAction" /> for the specified <see cref="GameState" />.</returns>
+        public AIAction GetAction(GameState gameState)
         {
             if (gameState.Step == 0 || MyTeam == null)
             {
@@ -49,10 +50,11 @@ namespace FootballAIGame.Client.AIs.Fsm
             Ball.LoadState(gameState);
             OpponentTeam.LoadState(gameState, false); // must be loaded before my team!
             MyTeam.LoadState(gameState, true);
+
             SupportPositionsManager.Update();
 
             // new action
-            var currentAction = new GameAction
+            var currentAction = new AIAction
             {
                 Step = gameState.Step,
                 PlayerActions = MyTeam.GetActions()

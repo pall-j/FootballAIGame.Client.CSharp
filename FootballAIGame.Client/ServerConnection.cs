@@ -145,11 +145,31 @@ namespace FootballAIGame.Client
         /// Sends the specified game action to the game server.
         /// </summary>
         /// <param name="action">The action.</param>
-        public void Send(GameAction action)
+        public void Send(AIAction action)
         {
+            if (action?.PlayerActions == null)
+            {
+                Console.Error.WriteLine("Sending action error: Null action.");
+                return;
+            }
+
+            if (action.PlayerActions.Length < 11)
+            {
+                Console.Error.WriteLine("Sending action error: Invalid number of PlayerActions.");
+                return;
+            }
+
             var data = new float[44];
+
             for (var i = 0; i < 11; i++)
             {
+
+                if (action.PlayerActions[i] == null)
+                {
+                    Console.Error.WriteLine($"Sending action error: Player{i}'s action is null.");
+                    return;
+                }
+
                 data[4 * i] = (float)action.PlayerActions[i].Movement.X;
                 data[4 * i + 1] = (float)action.PlayerActions[i].Movement.Y;
                 data[4 * i + 2] = (float)action.PlayerActions[i].Kick.X;
@@ -174,9 +194,28 @@ namespace FootballAIGame.Client
         /// <param name="players">The players with their parameters set.</param>
         public void SendParameters(FootballPlayer[] players)
         {
+            if (players == null)
+            {
+                Console.Error.WriteLine("Sending parameters errors: Null array of players.");
+                return;
+            }
+
+            if (players.Length < 11)
+            {
+                Console.Error.WriteLine("Sending parameters error: Invalid length of the player.");
+                return;
+            }
+
             var data = new float[44];
+
             for (int i = 0; i < 11; i++)
             {
+                if (players[i] == null)
+                {
+                    Console.Error.WriteLine($"Sending parameters error: Player{i} is null.");
+                    return;
+                }
+
                 data[4 * i] = players[i].Speed;
                 data[4 * i + 1] = players[i].Precision;
                 data[4 * i + 2] = players[i].Possession;

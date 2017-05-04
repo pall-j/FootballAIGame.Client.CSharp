@@ -5,7 +5,7 @@ namespace FootballAIGame.Client.SimulationEntities
     /// <summary>
     /// Represents the AI action that consists of the football players actions.
     /// </summary>
-    class GameAction
+    class AIAction
     {
         /// <summary>
         /// Gets or sets the player's actions. When this instance is sent to the server, there should be 11

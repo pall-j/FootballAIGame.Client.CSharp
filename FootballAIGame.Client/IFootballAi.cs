@@ -11,11 +11,11 @@ namespace FootballAIGame.Client
         void Initialize();
 
         /// <summary>
-        /// Gets the <see cref="GameAction"/> for the specified <see cref="GameState"/>.
+        /// Gets the <see cref="AIAction"/> for the specified <see cref="GameState"/>.
         /// </summary>
         /// <param name="gameState">State of the game.</param>
-        /// <returns>The <see cref="GameAction" /> for the specified <see cref="GameState" />.</returns>
-        GameAction GetAction(GameState gameState);
+        /// <returns>The <see cref="AIAction" /> for the specified <see cref="GameState" />.</returns>
+        AIAction GetAction(GameState gameState);
 
         /// <summary>
         /// Gets the player parameters. Position and moving vector properties are ignored.

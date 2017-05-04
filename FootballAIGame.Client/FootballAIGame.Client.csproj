@@ -68,7 +68,7 @@
     <Compile Include="ServerConnection.cs" />
     <Compile Include="SimulationEntities\FootballBall.cs" />
     <Compile Include="SimulationEntities\FootballPlayer.cs" />
-    <Compile Include="SimulationEntities\GameAction.cs" />
+    <Compile Include="SimulationEntities\AIAction.cs" />
     <Compile Include="SimulationEntities\GameState.cs" />
     <Compile Include="SimulationEntities\MovableEntity.cs" />
     <Compile Include="SimulationEntities\PlayerAction.cs" />
