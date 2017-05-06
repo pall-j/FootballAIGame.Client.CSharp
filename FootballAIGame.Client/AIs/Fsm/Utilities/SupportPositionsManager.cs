@@ -91,7 +91,7 @@ namespace FootballAIGame.Client.AIs.Fsm.Utilities
 
         private double GetDistanceFromControllingScore(Vector position)
         {
-            double distance = Vector.DistanceBetween(position, AI.MyTeam.ControllingPlayer.Position);
+            double distance = Vector.GetDistanceBetween(position, AI.MyTeam.ControllingPlayer.Position);
 
             var diff = Math.Abs(distance - Parameters.OptimalDistanceFromControlling);
 

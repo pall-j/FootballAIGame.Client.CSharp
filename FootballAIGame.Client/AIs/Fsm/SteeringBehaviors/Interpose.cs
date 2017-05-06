@@ -20,7 +20,7 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
             First = first;
             Second = second;
             Arrive = new Arrive(player, priority, weight, player.Position);
-            PreferredDistanceFromSecond = Vector.DistanceBetween(Second.Position, First.Position)/2.0;
+            PreferredDistanceFromSecond = Vector.GetDistanceBetween(Second.Position, First.Position)/2.0;
         }
 
         public Interpose(Player player, int priority, double weight,
@@ -33,35 +33,35 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
             };
 
             Arrive = new Arrive(player, priority, weight, player.Position);
-            PreferredDistanceFromSecond = Vector.DistanceBetween(Second.Position, First.Position) / 2.0;
+            PreferredDistanceFromSecond = Vector.GetDistanceBetween(Second.Position, First.Position) / 2.0;
         }
 
-        public override Vector CalculateAccelerationVector()
+        public override Vector GetAccelerationVector()
         {
 
             var firstToSecond = new Vector(First.Position, Second.Position);
             var firstToPlayer = new Vector(First.Position, Player.Position);
 
-            var firstToTargetDistance = Vector.DotProduct(firstToPlayer, firstToSecond)/firstToSecond.Length;
+            var firstToTargetDistance = Vector.GetDotProduct(firstToPlayer, firstToSecond)/firstToSecond.Length;
 
             if (firstToTargetDistance < 0 || firstToTargetDistance > firstToSecond.Length)
             {
-                Arrive.Target = Vector.Sum(First.Position, firstToSecond.Multiplied(1/2.0)); // go to midpoint
-                return Arrive.CalculateAccelerationVector();
+                Arrive.Target = Vector.GetSum(First.Position, firstToSecond.GetMultiplied(1/2.0)); // go to midpoint
+                return Arrive.GetAccelerationVector();
             }
 
-            Arrive.Target = Vector.Sum(First.Position, firstToSecond.Resized(firstToTargetDistance));
+            Arrive.Target = Vector.GetSum(First.Position, firstToSecond.GetResized(firstToTargetDistance));
 
-            var playerToTargetDistance = Vector.DistanceBetween(Arrive.Target, Player.Position);
+            var playerToTargetDistance = Vector.GetDistanceBetween(Arrive.Target, Player.Position);
 
             if (playerToTargetDistance < 0.01 && firstToSecond.Length > PreferredDistanceFromSecond)
             {
                 // move player to meet DistanceFromSecond condition
-                Arrive.Target = Vector.Sum(First.Position, firstToSecond.Resized(firstToSecond.Length - PreferredDistanceFromSecond));
+                Arrive.Target = Vector.GetSum(First.Position, firstToSecond.GetResized(firstToSecond.Length - PreferredDistanceFromSecond));
             }
 
 
-            return Arrive.CalculateAccelerationVector();
+            return Arrive.GetAccelerationVector();
         }
     }
 }

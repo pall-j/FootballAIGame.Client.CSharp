@@ -17,17 +17,17 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
             TargetArrive = new Arrive(Player, priority, weight, target.Position);
         }
 
-        public override Vector CalculateAccelerationVector()
+        public override Vector GetAccelerationVector()
         {
-            var distance = Vector.DistanceBetween(Player.Position, Target.Position);
+            var distance = Vector.GetDistanceBetween(Player.Position, Target.Position);
 
             double lookAheadTime = 0;
             if (Player.CurrentSpeed + Target.CurrentSpeed > 0)
                 lookAheadTime = distance /(Player.CurrentSpeed + Target.CurrentSpeed);
 
-            TargetArrive.Target = Target.PredictedPositionInTime(lookAheadTime);
+            TargetArrive.Target = Target.PredictPositionInTime(lookAheadTime);
 
-            return TargetArrive.CalculateAccelerationVector();
+            return TargetArrive.GetAccelerationVector();
         }
     }
 }

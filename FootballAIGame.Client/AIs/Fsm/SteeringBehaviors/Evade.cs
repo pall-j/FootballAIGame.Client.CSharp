@@ -23,20 +23,20 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
             FleeFromTarget = new Flee(player, priority, weight, Target.Position, safeDistance);
         }
 
-        public override Vector CalculateAccelerationVector()
+        public override Vector GetAccelerationVector()
         {
-            var distance = Vector.DistanceBetween(Player.Position, Target.Position);
+            var distance = Vector.GetDistanceBetween(Player.Position, Target.Position);
 
             double lookAheadTime = 0;
             if (Player.CurrentSpeed + Target.CurrentSpeed > 0)
                 lookAheadTime = distance / (Player.CurrentSpeed + Target.CurrentSpeed);
 
-            var predictedPosition = Vector.Sum(Target.Position,
-                Target.Movement.Multiplied(lookAheadTime));
+            var predictedPosition = Vector.GetSum(Target.Position,
+                Target.Movement.GetMultiplied(lookAheadTime));
 
             FleeFromTarget.From = predictedPosition;
 
-            return FleeFromTarget.CalculateAccelerationVector();
+            return FleeFromTarget.GetAccelerationVector();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         {
             var action = new PlayerAction
             {
-                Movement = Vector.Sum(SteeringBehaviorsManager.CalculateAccelerationVector(), Movement),
+                Movement = Vector.GetSum(SteeringBehaviorsManager.GetAccelerationVector(), Movement),
                 Kick = KickVector
             };
 
@@ -32,7 +32,7 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         {
             get
             {
-                return Vector.DistanceBetween(HomeRegion.Center, Position) <= Parameters.PlayerInHomeRegionRange;
+                return Vector.GetDistanceBetween(HomeRegion.Center, Position) <= Parameters.PlayerInHomeRegionRange;
             }    
         }
 
@@ -42,11 +42,11 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
             {
                 var nearest = AI.OpponentTeam.GetNearestPlayerToPosition(Position);
 
-                var predictedPosition = PredictedPositionInTime(1);
-                var predictedNearest = AI.OpponentTeam.GetPredictedNearestPlayerToPosition(predictedPosition, 1);
+                var predictedPosition = PredictPositionInTime(1);
+                var predictedNearest = AI.OpponentTeam.PredictNearestPlayerToPosition(predictedPosition, 1);
 
-                return Vector.DistanceBetween(nearest.Position, Position) < Parameters.DangerRange ||
-                       Vector.DistanceBetween(predictedNearest.Position, predictedPosition) < Parameters.DangerRange;
+                return Vector.GetDistanceBetween(nearest.Position, Position) < Parameters.DangerRange ||
+                       Vector.GetDistanceBetween(predictedNearest.Position, predictedPosition) < Parameters.DangerRange;
             }
         }
 

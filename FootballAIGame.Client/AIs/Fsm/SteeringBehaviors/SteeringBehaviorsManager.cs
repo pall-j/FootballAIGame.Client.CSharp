@@ -57,7 +57,7 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
             return result;
         }
 
-        public Vector CalculateAccelerationVector()
+        public Vector GetAccelerationVector()
         {
             // Weighted Prioritized Truncated Sum method used
 
@@ -70,14 +70,14 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
 
                 foreach (var steeringbehavior in list)
                 {
-                    var behaviorAccel = steeringbehavior.CalculateAccelerationVector();
+                    var behaviorAccel = steeringbehavior.GetAccelerationVector();
                     behaviorAccel.Multiply(steeringbehavior.Weight);
 
                     if (accelerationRemfootballAIning - behaviorAccel.Length < 0)
                         behaviorAccel.Resize(accelerationRemfootballAIning);
                     accelerationRemfootballAIning -= behaviorAccel.Length;
 
-                    acceleration = Vector.Sum(acceleration, behaviorAccel);
+                    acceleration = Vector.GetSum(acceleration, behaviorAccel);
 
                     if (accelerationRemfootballAIning <= 0)
                         break;
@@ -87,9 +87,9 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
                     break;
             }
 
-            var nextMovement = Vector.Sum(Player.Movement, acceleration);
+            var nextMovement = Vector.GetSum(Player.Movement, acceleration);
             nextMovement.Truncate(Player.MaxSpeed);
-            acceleration = Vector.Difference(nextMovement, Player.Movement);
+            acceleration = Vector.GetDifference(nextMovement, Player.Movement);
 
             return acceleration;
         }

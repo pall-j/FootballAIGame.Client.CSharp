@@ -17,19 +17,19 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
             SafeDistance = safeDistance;
         }
 
-        public override Vector CalculateAccelerationVector()
+        public override Vector GetAccelerationVector()
         {
-            if (Vector.DistanceBetween(Player.Position, From) >= SafeDistance)
+            if (Vector.GetDistanceBetween(Player.Position, From) >= SafeDistance)
                 return new Vector(0, 0);
 
-            var desiredMovement = Vector.Difference(Player.Movement, From);
+            var desiredMovement = Vector.GetDifference(Player.Movement, From);
 
             if (Math.Abs(desiredMovement.LengthSquared) < 0.01)
                 desiredMovement = new Vector(1, 0);
 
             desiredMovement.Resize(Player.MaxSpeed);
 
-            var acceleration = Vector.Difference(desiredMovement, Player.Movement);
+            var acceleration = Vector.GetDifference(desiredMovement, Player.Movement);
             acceleration.Truncate(Player.MaxAcceleration);
 
             return acceleration;

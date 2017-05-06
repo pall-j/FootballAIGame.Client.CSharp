@@ -11,7 +11,7 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
 
         public double Weight { get; set; }
 
-        public abstract Vector CalculateAccelerationVector();
+        public abstract Vector GetAccelerationVector();
 
         protected SteeringBehavior(Player player, int priority, double weight)
         {

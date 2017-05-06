@@ -14,17 +14,17 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
             Target = target;
         }
 
-        public override Vector CalculateAccelerationVector()
+        public override Vector GetAccelerationVector()
         {
-            var distance = Vector.DistanceBetween(Player.Position, Target);
+            var distance = Vector.GetDistanceBetween(Player.Position, Target);
 
-            var desiredMovement = Vector.Difference(Target, Player.Position);
+            var desiredMovement = Vector.GetDifference(Target, Player.Position);
             desiredMovement.Truncate(Player.MaxSpeed);
 
-            var acceleration = Vector.Difference(desiredMovement, Player.Movement);
+            var acceleration = Vector.GetDifference(desiredMovement, Player.Movement);
             acceleration.Truncate(Player.MaxAcceleration);
 
-            desiredMovement = Vector.Sum(Player.Movement, acceleration);
+            desiredMovement = Vector.GetSum(Player.Movement, acceleration);
             double speed = desiredMovement.Length;
 
             // calculation (k == 0 -> next step will be stop)
@@ -42,7 +42,7 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
             else
                 desiredMovement = new Vector(0, 0);
 
-            acceleration = Vector.Difference(desiredMovement, Player.Movement);
+            acceleration = Vector.GetDifference(desiredMovement, Player.Movement);
             if (acceleration.Length > Player.MaxAcceleration)
                 acceleration.Resize(Player.MaxAcceleration);
 

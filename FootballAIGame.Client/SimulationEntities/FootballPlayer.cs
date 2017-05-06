@@ -93,7 +93,7 @@ namespace FootballAIGame.Client.SimulationEntities
 
         public bool CanKickBall(FootballBall ball)
         {
-            return Vector.DistanceBetween(Position, ball.Position) <= FootballBall.MaxDistanceForKick;
+            return Vector.GetDistanceBetween(Position, ball.Position) <= FootballBall.MaxDistanceForKick;
         }
 
         public void KickBall(FootballBall ball, Vector target)
@@ -110,30 +110,25 @@ namespace FootballAIGame.Client.SimulationEntities
 
         public Vector PassBall(FootballBall ball, FootballPlayer passTarget)
         {
-            var time = ball.TimeToCoverDistance(Vector.DistanceBetween(ball.Position, passTarget.Position), MaxKickSpeed);
-            var nextPos = passTarget.PredictedPositionInTime(time);
+            var time = ball.GetTimeToCoverDistance(Vector.GetDistanceBetween(ball.Position, passTarget.Position), MaxKickSpeed);
+            var nextPos = passTarget.PredictPositionInTime(time);
             KickBall(ball, nextPos);
             return nextPos;
-        }
-
-        public static double DotProduct(Vector v1, Vector v2)
-        {
-            return v1.X*v2.X + v1.Y*v2.Y;
         }
 
         public double TimeToGetToTarget(Vector target)
         {
             // this is only approx. (continuous acceleration)
 
-            var toTarget = Vector.Difference(target, Position);
+            var toTarget = Vector.GetDifference(target, Position);
             if (toTarget.Length < 0.001)
                 return 0;
 
-            var v0 = Vector.DotProduct(toTarget, Movement) / toTarget.Length;
+            var v0 = Vector.GetDotProduct(toTarget, Movement) / toTarget.Length;
             var v1 = MaxSpeed;
             var a = MaxAcceleration;
             var t1 = (v1 - v0) / a;
-            var s = Vector.DistanceBetween(Position, target);
+            var s = Vector.GetDistanceBetween(Position, target);
 
             var s1 = v0*t1 + 1/2.0*a*t1*t1; // distance traveled during acceleration
             if (s1 >= s) // target reached during acceleration

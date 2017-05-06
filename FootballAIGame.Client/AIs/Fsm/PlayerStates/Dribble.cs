@@ -27,9 +27,9 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
             if (Player.Position.X < 21 && !AI.MyTeam.IsOnLeft)
                 target = new Vector(10, GameClient.FieldHeight / 2.0 + (FsmAI.Random.NextDouble() - 0.5) * 7.32);
 
-            var kickDirection = Vector.Difference(target, Player.Position);
-            var playerFutureMovement = Vector.Sum(Player.Movement, kickDirection.Resized(Player.MaxAcceleration)).Truncated(Player.MaxSpeed);
-            var futureSpeedInKickDirection = Vector.DotProduct(playerFutureMovement, kickDirection)/kickDirection.Length;
+            var kickDirection = Vector.GetDifference(target, Player.Position);
+            var playerFutureMovement = Vector.GetSum(Player.Movement, kickDirection.GetResized(Player.MaxAcceleration)).GetTruncated(Player.MaxSpeed);
+            var futureSpeedInKickDirection = Vector.GetDotProduct(playerFutureMovement, kickDirection)/kickDirection.Length;
 
             Player.KickBall(AI.Ball, target, futureSpeedInKickDirection);
 

@@ -27,7 +27,7 @@ namespace FootballAIGame.Client.SimulationEntities
             Movement = new Vector();
         }
 
-        public double TimeToCoverDistance(double distance, double kickPower)
+        public double GetTimeToCoverDistance(double distance, double kickPower)
         {
             var v0 = kickPower;
             var a = BallDeceleration;
@@ -44,12 +44,12 @@ namespace FootballAIGame.Client.SimulationEntities
             return t;
         }
 
-        public override Vector PredictedPositionInTime(double time)
+        public override Vector PredictPositionInTime(double time)
         {
-            return PredictedPositionInTimeAfterKick(time, Movement);
+            return PredictPositionInTimeAfterKick(time, Movement);
         }
 
-        public Vector PredictedPositionInTimeAfterKick(double time, Vector kick)
+        public Vector PredictPositionInTimeAfterKick(double time, Vector kick)
         {
             var kickSpeed = kick.Length;
 
@@ -61,10 +61,10 @@ namespace FootballAIGame.Client.SimulationEntities
             if (finalSpeed < 0 || double.IsInfinity(time))
                 time = kickSpeed / BallDeceleration; // time to stop
 
-            var diff = Vector.Sum(kick.Resized(time * kickSpeed),
-                kick.Resized(-1 / 2.0 * BallDeceleration * time * time));
+            var diff = Vector.GetSum(kick.GetResized(time * kickSpeed),
+                kick.GetResized(-1 / 2.0 * BallDeceleration * time * time));
 
-            return Vector.Sum(Position, diff);
+            return Vector.GetSum(Position, diff);
         }
 
     }

@@ -41,13 +41,13 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates.GlobalStates
                 var ball = AI.Ball;
                 var target = ((PassToPlayerMessage) message).Receiver;
 
-                var time = ball.TimeToCoverDistance(Vector.DistanceBetween(target.Position, ball.Position),
+                var time = ball.GetTimeToCoverDistance(Vector.GetDistanceBetween(target.Position, ball.Position),
                     Player.MaxKickSpeed);
 
                 if (double.IsInfinity(time)) // pass not possible
                     return true;
 
-                var predictedTargetPosition = target.PredictedPositionInTime(time);
+                var predictedTargetPosition = target.PredictPositionInTime(time);
 
                 if (Player.CanKickBall(ball))
                 {

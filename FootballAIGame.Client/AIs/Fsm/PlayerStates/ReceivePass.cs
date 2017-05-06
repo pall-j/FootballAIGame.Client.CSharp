@@ -44,7 +44,7 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
                 return;
             }
 
-            if (Vector.DistanceBetween(AI.Ball.Position, Player.Position) < Parameters.BallReceivingRange)
+            if (Vector.GetDistanceBetween(AI.Ball.Position, Player.Position) < Parameters.BallReceivingRange)
             {
                 Player.StateMachine.ChangeState(new PursueBall(Player, AI));
                 return;
@@ -55,7 +55,7 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
             var nearestOpponent = AI.OpponentTeam.GetNearestPlayerToPosition(Player.Position);
             var ball = AI.Ball;
 
-            var timeToReceive = ball.TimeToCoverDistance(Vector.DistanceBetween(ball.Position, PassTarget), ball.CurrentSpeed);
+            var timeToReceive = ball.GetTimeToCoverDistance(Vector.GetDistanceBetween(ball.Position, PassTarget), ball.CurrentSpeed);
 
             if (nearestOpponent.TimeToGetToTarget(PassTarget) < timeToReceive || 
                 Player.TimeToGetToTarget(PassTarget) > timeToReceive)
@@ -83,8 +83,8 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
         private void UpdatePassTarget()
         {
             var ball = AI.Ball;
-            var time = ball.TimeToCoverDistance(Vector.DistanceBetween(PassTarget, ball.Position), ball.CurrentSpeed);
-            PassTarget = ball.PredictedPositionInTime(time);
+            var time = ball.GetTimeToCoverDistance(Vector.GetDistanceBetween(PassTarget, ball.Position), ball.CurrentSpeed);
+            PassTarget = ball.PredictPositionInTime(time);
 
             var arrive = SteeringBehavior as Arrive;
             if (arrive != null)

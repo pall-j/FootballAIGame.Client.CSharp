@@ -81,9 +81,9 @@ namespace FootballAIGame.Client.AIs.Basic
                 }
 
                 // acceleration correction
-                var toNewMovement = Vector.Difference(playerAction.Movement, player.Movement);
+                var toNewMovement = Vector.GetDifference(playerAction.Movement, player.Movement);
                 toNewMovement.Truncate(player.MaxAcceleration);
-                playerAction.Movement = Vector.Sum(player.Movement, toNewMovement);
+                playerAction.Movement = Vector.GetSum(player.Movement, toNewMovement);
 
                 // speed correction
                 playerAction.Movement.Truncate(player.MaxSpeed);

@@ -28,15 +28,15 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
 
         }
 
-        public override Vector CalculateAccelerationVector()
+        public override Vector GetAccelerationVector()
         {
             // we are working in local space (Player heading = x-coordinate)
 
             var diff = new Vector((FsmAI.Random.NextDouble() - 0.5), (FsmAI.Random.NextDouble() - 0.5), WanderJitter);
 
-            WanderTarget = Vector.Sum(WanderTarget, diff);
+            WanderTarget = Vector.GetSum(WanderTarget, diff);
             WanderTarget.Resize(WanderRadius);
-            WanderTarget = Vector.Sum(WanderTarget, new Vector(WanderDistance, 0));
+            WanderTarget = Vector.GetSum(WanderTarget, new Vector(WanderDistance, 0));
 
             // change to world space
             var target = new Vector(WanderTarget.X, WanderTarget.Y);
@@ -49,11 +49,11 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
                 target.Y = WanderTarget.X*m.Y + WanderTarget.Y*m.X;
             }
 
-            target = Vector.Sum(Player.Position, target);
+            target = Vector.GetSum(Player.Position, target);
 
             Seek.Target = target;
 
-            return Seek.CalculateAccelerationVector();
+            return Seek.GetAccelerationVector();
         }
     }
 }

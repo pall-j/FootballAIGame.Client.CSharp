@@ -30,7 +30,7 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
         public override void Run()
         {
             if (AI.MyTeam.StateMachine.CurrentState is Defending &&
-                Vector.DistanceBetween(AI.Ball.Position, AI.MyTeam.GoalCenter) < Parameters.GoalKeeperInterceptRange)
+                Vector.GetDistanceBetween(AI.Ball.Position, AI.MyTeam.GoalCenter) < Parameters.GoalKeeperInterceptRange)
             {
                 Player.StateMachine.ChangeState(new InterceptBall(Player, AI));
             }

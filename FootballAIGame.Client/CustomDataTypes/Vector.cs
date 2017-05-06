@@ -94,7 +94,7 @@ namespace FootballAIGame.Client.CustomDataTypes
             }
         }
 
-        public Vector Multiplied(double scalar)
+        public Vector GetMultiplied(double scalar)
         {
             var result = new Vector(X, Y);
             result.Multiply(scalar);
@@ -102,14 +102,14 @@ namespace FootballAIGame.Client.CustomDataTypes
             return result;
         }
 
-        public Vector Resized(double newSize)
+        public Vector GetResized(double newSize)
         {
             var res = Normalized;
             res.Multiply(newSize);
             return res;
         }
 
-        public Vector Truncated(double maxLength)
+        public Vector GetTruncated(double maxLength)
         {
             var res = new Vector(X, Y);
             res.Truncate(maxLength);
@@ -156,18 +156,18 @@ namespace FootballAIGame.Client.CustomDataTypes
         /// <param name="firstVector">The first vector.</param>
         /// <param name="secondVector">The second vector.</param>
         /// <returns>The distance between the given vectors.</returns>
-        public static double DistanceBetween(Vector firstVector, Vector secondVector)
+        public static double GetDistanceBetween(Vector firstVector, Vector secondVector)
         {
             return Math.Sqrt(Math.Pow(firstVector.X - secondVector.X, 2) + Math.Pow(firstVector.Y - secondVector.Y, 2));
         }
 
         /// <summary>
-        /// Returns the squared distance between the given vectors.
+        /// Gets the squared distance between the given vectors.
         /// </summary>
         /// <param name="firstVector">The first vector.</param>
         /// <param name="secondVector">The second vector.</param>
         /// <returns></returns>
-        public static double DistanceBetweenSquared(Vector firstVector, Vector secondVector)
+        public static double GetDistanceBetweenSquared(Vector firstVector, Vector secondVector)
         {
             return Math.Pow(firstVector.X - secondVector.X, 2) + Math.Pow(firstVector.Y - secondVector.Y, 2);
         }
@@ -178,29 +178,29 @@ namespace FootballAIGame.Client.CustomDataTypes
         /// <param name="firstVector">The first vector.</param>
         /// <param name="secondVector">The second vector.</param>
         /// <returns>The dot product between the given vectors.</returns>
-        public static double DotProduct(Vector firstVector, Vector secondVector)
+        public static double GetDotProduct(Vector firstVector, Vector secondVector)
         {
             return firstVector.X * secondVector.X + firstVector.Y * secondVector.Y;
         }
 
         /// <summary>
-        /// Differences the to-from vector.
+        /// Gets the difference between the to-from vector.
         /// </summary>
         /// <param name="to">To.</param>
         /// <param name="from">From.</param>
         /// <returns></returns>
-        public static Vector Difference(Vector to, Vector from)
+        public static Vector GetDifference(Vector to, Vector from)
         {
             return new Vector(to.X - from.X, to.Y - from.Y);
         }
 
         /// <summary>
-        /// Returns the sum of the given vectors.
+        /// Gets the sum of the given vectors.
         /// </summary>
         /// <param name="first">The first vector.</param>
         /// <param name="second">The second vector.</param>
         /// <returns>The sum of the given vectors.</returns>
-        public static Vector Sum(Vector first, Vector second)
+        public static Vector GetSum(Vector first, Vector second)
         {
             return new Vector(first.X + second.X, first.Y + second.Y);
         }

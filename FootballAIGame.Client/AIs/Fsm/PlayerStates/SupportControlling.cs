@@ -31,7 +31,7 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
 
             // goalkeeper shouldn't go too far from his home region
             if (Player is GoalKeeper &&
-                Vector.DistanceBetween(Arrive.Target, Player.HomeRegion.Center) > Parameters.MaxGoalkeeperSupportingDistance)
+                Vector.GetDistanceBetween(Arrive.Target, Player.HomeRegion.Center) > Parameters.MaxGoalkeeperSupportingDistance)
             {
                 MessageDispatcher.Instance.SendMessage(new SupportControllingMessage(), nearest);
                 Player.StateMachine.ChangeState(new Default(Player, AI));

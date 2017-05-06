@@ -22,7 +22,7 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
         public override void Run()
         {
             if (AI.MyTeam.StateMachine.CurrentState is Attacking ||
-                Vector.DistanceBetween(Player.Position, AI.MyTeam.GoalCenter) >
+                Vector.GetDistanceBetween(Player.Position, AI.MyTeam.GoalCenter) >
                 Parameters.GoalKeeperInterceptRange)
             {
                 Player.StateMachine.ChangeState(new DefendGoal(Player, AI));

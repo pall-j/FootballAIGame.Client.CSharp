@@ -55,14 +55,14 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
             if (minPlayer == null)
                 return null; // all players are skipped
 
-            var minDistSq = Vector.DistanceBetweenSquared(minPlayer.Position, position);
+            var minDistSq = Vector.GetDistanceBetweenSquared(minPlayer.Position, position);
 
             foreach (var player in Players)
             {
                 if (skippedPlayers.Contains(player))
                     continue;
 
-                var distSq = Vector.DistanceBetweenSquared(player.Position, position);
+                var distSq = Vector.GetDistanceBetweenSquared(player.Position, position);
                 if (minDistSq > distSq)
                 {
                     minDistSq = distSq;
@@ -145,7 +145,7 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
                 Players[i].Position = state.FootballPlayers[i + diff].Position;
                 Players[i].KickVector = new Vector(0, 0);
 
-                var distToBall = Vector.DistanceBetween(Players[i].Position, AI.Ball.Position);
+                var distToBall = Vector.GetDistanceBetween(Players[i].Position, AI.Ball.Position);
 
                 if (distToBall < Parameters.BallRange &&
                     (PlayerInBallRange == null || bestDist > distToBall))
@@ -221,27 +221,27 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
             if (from == null)
                 return false;
 
-            var toBall = Vector.Difference(ball.Position, target);
+            var toBall = Vector.GetDifference(ball.Position, target);
 
             foreach (var opponent in AI.OpponentTeam.Players)
             {
-                var toOpponent = Vector.Difference(opponent.Position, target);
+                var toOpponent = Vector.GetDifference(opponent.Position, target);
 
-                var k = Vector.DotProduct(toBall, toOpponent) / toBall.Length;
-                var interposeTarget = Vector.Sum(target, toBall.Resized(k));
-                var opponentToInterposeDist = Vector.DistanceBetween(opponent.Position, interposeTarget);
+                var k = Vector.GetDotProduct(toBall, toOpponent) / toBall.Length;
+                var interposeTarget = Vector.GetSum(target, toBall.GetResized(k));
+                var opponentToInterposeDist = Vector.GetDistanceBetween(opponent.Position, interposeTarget);
 
                 var opponentToKickablePosition = new Vector(opponent.Position, interposeTarget,
                     Math.Max(0, opponentToInterposeDist - FootballBall.MaxDistanceForKick));
 
-                var kickablePosition = Vector.Sum(opponent.Position, opponentToKickablePosition);
+                var kickablePosition = Vector.GetSum(opponent.Position, opponentToKickablePosition);
 
                 if (k > toBall.Length || k <= 0)
                     continue; // safe
 
-                var ballToInterposeDist = Vector.DistanceBetween(ball.Position, interposeTarget);
+                var ballToInterposeDist = Vector.GetDistanceBetween(ball.Position, interposeTarget);
 
-                var t1 = ball.TimeToCoverDistance(ballToInterposeDist, from.MaxKickSpeed);
+                var t1 = ball.GetTimeToCoverDistance(ballToInterposeDist, from.MaxKickSpeed);
                 var t2 = opponent.TimeToGetToTarget(kickablePosition);
 
                 if (t2 < t1)
@@ -254,7 +254,7 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         public bool IsKickPossible(FootballPlayer player, Vector target, FootballBall ball)
         {
             return !double.IsInfinity(
-                ball.TimeToCoverDistance(Vector.DistanceBetween(ball.Position, target), player.MaxKickSpeed));
+                ball.GetTimeToCoverDistance(Vector.GetDistanceBetween(ball.Position, target), player.MaxKickSpeed));
         }
 
         public bool TryGetShotOnGoal(FootballPlayer player, out Vector shotTarget)
@@ -309,20 +309,20 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
             return target != null;
         }
 
-        public Player GetPredictedNearestPlayerToPosition(Vector position, double time, params Player[] skippedPlayers)
+        public Player PredictNearestPlayerToPosition(Vector position, double time, params Player[] skippedPlayers)
         {
             var minPlayer = Players.FirstOrDefault(p => !skippedPlayers.Contains(p));
             if (minPlayer == null)
                 return null; // all players are skipped
 
-            var minDistSq = Vector.DistanceBetweenSquared(minPlayer.PredictedPositionInTime(time), position);
+            var minDistSq = Vector.GetDistanceBetweenSquared(minPlayer.PredictPositionInTime(time), position);
 
             foreach (var player in Players)
             {
                 if (skippedPlayers.Contains(player))
                     continue;
 
-                var distSq = Vector.DistanceBetweenSquared(player.PredictedPositionInTime(time), position);
+                var distSq = Vector.GetDistanceBetweenSquared(player.PredictPositionInTime(time), position);
                 if (minDistSq > distSq)
                 {
                     minDistSq = distSq;

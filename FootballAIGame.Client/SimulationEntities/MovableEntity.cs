@@ -38,9 +38,9 @@ namespace FootballAIGame.Client.SimulationEntities
             Position = new Vector();
         }
 
-        public virtual Vector PredictedPositionInTime(double time)
+        public virtual Vector PredictPositionInTime(double time)
         {
-            return Vector.Sum(Position, Movement.Multiplied(time));
+            return Vector.GetSum(Position, Movement.GetMultiplied(time));
         }
 
     }

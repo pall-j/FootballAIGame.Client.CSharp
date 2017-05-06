@@ -13,16 +13,16 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
             Target = target;
         }
 
-        public override Vector CalculateAccelerationVector()
+        public override Vector GetAccelerationVector()
         {
             var acceleration = new Vector(0, 0);
 
             if (Target == null) return acceleration;
 
-            var desiredMovement = Vector.Difference(Target, Player.Position);
+            var desiredMovement = Vector.GetDifference(Target, Player.Position);
             desiredMovement.Truncate(Player.MaxSpeed);
 
-            acceleration = Vector.Difference(desiredMovement, Player.Movement);
+            acceleration = Vector.GetDifference(desiredMovement, Player.Movement);
             acceleration.Truncate(Player.MaxAcceleration);
 
             return acceleration;
