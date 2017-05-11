@@ -147,7 +147,7 @@ namespace FootballAIGame.Client
         /// <param name="action">The action.</param>
         public void Send(AIAction action)
         {
-            if (action?.PlayerActions == null)
+            if (action == null || action.PlayerActions == null)
             {
                 Console.Error.WriteLine("Sending action error: Null action.");
                 return;
@@ -166,7 +166,7 @@ namespace FootballAIGame.Client
 
                 if (action.PlayerActions[i] == null)
                 {
-                    Console.Error.WriteLine($"Sending action error: Player{i}'s action is null.");
+                    Console.Error.WriteLine("Sending action error: Player{0}'s action is null.", i);
                     return;
                 }
 
@@ -212,7 +212,7 @@ namespace FootballAIGame.Client
             {
                 if (players[i] == null)
                 {
-                    Console.Error.WriteLine($"Sending parameters error: Player{i} is null.");
+                    Console.Error.WriteLine("Sending parameters error: Player{0} is null.", i);
                     return;
                 }
 

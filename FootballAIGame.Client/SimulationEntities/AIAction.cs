@@ -3,7 +3,7 @@
 namespace FootballAIGame.Client.SimulationEntities
 {
     /// <summary>
-    /// Represents the AI action that consists of the football players actions.
+    /// Represents the AI action that consists of the football players' actions.
     /// </summary>
     class AIAction
     {

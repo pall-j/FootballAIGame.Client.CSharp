@@ -4,16 +4,40 @@ using FootballAIGame.Client.CustomDataTypes;
 
 namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
 {
+    /// <summary>
+    /// Represents the behavior where player is going to the specified target and smoothly slow down
+    /// as he approaches the target.
+    /// </summary>
+    /// <seealso cref="FootballAIGame.Client.AIs.Fsm.SteeringBehaviors.SteeringBehavior" />
     class Arrive : SteeringBehavior
     {
+        /// <summary>
+        /// Gets or sets the target.
+        /// </summary>
+        /// <value>
+        /// The target <see cref="Vector"/>.
+        /// </value>
         public Vector Target { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Arrive"/> class.
+        /// </summary>
+        /// <param name="player">The player.</param>
+        /// <param name="priority">The priority.</param>
+        /// <param name="weight">The weight.</param>
+        /// <param name="target">The target.</param>
         public Arrive(Player player, int priority, double weight, Vector target) : 
             base(player, priority, weight)
         {
             Target = target;
         }
 
+        /// <summary>
+        /// Gets the current acceleration vector of the behavior.
+        /// </summary>
+        /// <returns>
+        /// The acceleration <see cref="Vector" />.
+        /// </returns>
         public override Vector GetAccelerationVector()
         {
             var distance = Vector.GetDistanceBetween(Player.Position, Target);

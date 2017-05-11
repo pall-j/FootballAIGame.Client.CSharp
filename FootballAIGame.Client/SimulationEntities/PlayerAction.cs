@@ -10,11 +10,17 @@ namespace FootballAIGame.Client.SimulationEntities
         /// <summary>
         /// Gets or sets the desired movement vector of the player.
         /// </summary>
+        /// <value>
+        /// The movement <see cref="Vector"/>.
+        /// </value>
         public Vector Movement { get; set; }
 
         /// <summary>
         /// Gets or sets the desired kick vector of the player.
         /// </summary>
+        /// <value>
+        /// The kick <see cref="Vector"/>.
+        /// </value>
         public Vector Kick { get; set; }
 
         /// <summary>

@@ -3,8 +3,18 @@ using FootballAIGame.Client.CustomDataTypes;
 
 namespace FootballAIGame.Client.SimulationEntities
 {
+    /// <summary>
+    /// Represents the football player in the simulation.
+    /// </summary>
+    /// <seealso cref="FootballAIGame.Client.SimulationEntities.MovableEntity" />
     class FootballPlayer : MovableEntity
     {
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         public int Id { get; set; }
 
         /// <summary>
@@ -44,14 +54,18 @@ namespace FootballAIGame.Client.SimulationEntities
         public float KickPower { get; set; }
 
         /// <summary>
-        /// Gets or sets the kick vector of the player. It describes movement vector
+        /// Gets or sets the kick vector of the player. If describes movement vector
         /// that ball would get if the kick was done with 100% precision.
         /// </summary>
         /// <value>
-        /// The kick vector of the player.
+        /// The <see cref="Vector"/> representing a kick.
         /// </value>
         public Vector KickVector { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FootballPlayer"/> class.
+        /// </summary>
+        /// <param name="id">The player's identifier.</param>
         public FootballPlayer(int id)
         {
             KickVector = new Vector();
@@ -91,23 +105,47 @@ namespace FootballAIGame.Client.SimulationEntities
             get { return (15 + KickPower*5) * GameClient.StepInterval / 1000.0; }
         }
 
+        /// <summary>
+        /// Determines whether the player can kick the specified ball.
+        /// </summary>
+        /// <param name="ball">The ball.</param>
+        /// <returns>
+        ///   <c>true</c> if the player can kick the specified ball; otherwise, <c>false</c>.
+        /// </returns>
         public bool CanKickBall(FootballBall ball)
         {
             return Vector.GetDistanceBetween(Position, ball.Position) <= FootballBall.MaxDistanceForKick;
         }
 
+        /// <summary>
+        /// Kicks the ball to the specified target with the maximum kick speed. Sets the <see cref="KickVector"/> accordingly.
+        /// </summary>
+        /// <param name="ball">The ball.</param>
+        /// <param name="target">The kick target.</param>
         public void KickBall(FootballBall ball, Vector target)
         {
             KickBall(ball, target, MaxKickSpeed);
         }
 
-        public void KickBall(FootballBall ball, Vector target, double kickAcceleration)
+        /// <summary>
+        /// Kicks the ball to the specified target with the specified kick speed. Sets the kick vector accordingly.
+        /// </summary>
+        /// <param name="ball">The ball.</param>
+        /// <param name="target">The kick target.</param>
+        /// <param name="kickSpeed">The kick speed.</param>
+        public void KickBall(FootballBall ball, Vector target, double kickSpeed)
         {
-            if (kickAcceleration > MaxKickSpeed)
-                kickAcceleration = MaxKickSpeed;
-            KickVector = new Vector(ball.Position, target, kickAcceleration);
+            if (kickSpeed > MaxKickSpeed)
+                kickSpeed = MaxKickSpeed;
+            KickVector = new Vector(ball.Position, target, kickSpeed);
         }
 
+        /// <summary>
+        /// Passes the specified ball to the specified player. Sets the kick vector accordingly.
+        /// </summary>
+        /// <param name="ball">The ball.</param>
+        /// <param name="passTarget">The pass target player.</param>
+        /// <returns>The kick target.</returns>
         public Vector PassBall(FootballBall ball, FootballPlayer passTarget)
         {
             var time = ball.GetTimeToCoverDistance(Vector.GetDistanceBetween(ball.Position, passTarget.Position), MaxKickSpeed);
@@ -116,7 +154,12 @@ namespace FootballAIGame.Client.SimulationEntities
             return nextPos;
         }
 
-        public double TimeToGetToTarget(Vector target)
+        /// <summary>
+        /// Gets the approximated time to get to the specified position.
+        /// </summary>
+        /// <param name="target">The target position.</param>
+        /// <returns>The approximated time to get to target.</returns>
+        public double GetTimeToGetToTarget(Vector target)
         {
             // this is only approx. (continuous acceleration)
 

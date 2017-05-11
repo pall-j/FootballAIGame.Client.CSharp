@@ -5,16 +5,35 @@ using FootballAIGame.Client.CustomDataTypes;
 
 namespace FootballAIGame.Client.AIs.Fsm.PlayerStates.GlobalStates
 {
+    /// <summary>
+    /// Represents the player global state.
+    /// </summary>
+    /// <seealso cref="FootballAIGame.Client.AIs.Fsm.PlayerStates.PlayerState" />
     class PlayerGlobalState : PlayerState
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayerGlobalState"/> class.
+        /// </summary>
+        /// <param name="entity">The entity to which this instance belongs.</param>
+        /// <param name="footballAI">The <see cref="T:FootballAIGame.Client.AIs.Fsm.FsmAI" /> instance to which this player belongs.</param>
         public PlayerGlobalState(Player entity, FsmAI footballAI) : base(entity, footballAI)
         {
         }
 
+        /// <summary>
+        /// Occurs every simulation step while the entity is in this state.
+        /// </summary>
         public override void Run()
         {
         }
 
+        /// <summary>
+        /// Processes the specified message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified message was handled; otherwise, <c>false</c>
+        /// </returns>
         public override bool ProcessMessage(IMessage message)
         {
             if (message is ReturnToHomeMessage)

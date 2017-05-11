@@ -5,14 +5,38 @@ using FootballAIGame.Client.CustomDataTypes;
 
 namespace FootballAIGame.Client.AIs.Fsm.TeamStates
 {
+    /// <summary>
+    /// Represents team's defending state. The team stays in this state while the opponent team
+    /// is controlling the ball.
+    /// When the opponent team looses the ball and this team starts controlling the ball, 
+    /// the state is changed to <see cref="Attacking"/>.
+    /// While the team is in this state, the team's forwards are interposing themselves between
+    /// the opponent's controlling player and two of his nearest players 
+    /// to the controlling player.
+    /// </summary>
+    /// <seealso cref="FootballAIGame.Client.AIs.Fsm.TeamStates.TeamState" />
     class Defending : TeamState
     {
+        /// <summary>
+        /// Gets or sets the interposes.
+        /// </summary>
+        /// <value>
+        /// The interposes.
+        /// </value>
         private List<Interpose> Interposes { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Defending" /> class.
+        /// </summary>
+        /// <param name="team">The <see cref="Team" /> to which this instance belongs.</param>
+        /// <param name="footballAI">The <see cref="FsmAI" /> instance to which this instance belongs.</param>
         public Defending(Team team, FsmAI footballAI) : base(team, footballAI)
         {
         }
 
+        /// <summary>
+        /// Occurs when the entity enters to this state.
+        /// </summary>
         public override void Enter()
         {
             SetHomeRegions();
@@ -37,6 +61,9 @@ namespace FootballAIGame.Client.AIs.Fsm.TeamStates
             Team.Forwards[1].SteeringBehaviorsManager.AddBehavior(interpose2);
         }
 
+        /// <summary>
+        /// Occurs every simulation step while the entity is in this state.
+        /// </summary>
         public override void Run()
         {
             if (Team.PlayerInBallRange != null && AI.OpponentTeam.PlayerInBallRange == null)
@@ -45,10 +72,15 @@ namespace FootballAIGame.Client.AIs.Fsm.TeamStates
                 return;
             }
 
-            UpdateSteeringBehaviors();
+            UpdateInterposes();
         }
 
-        private void UpdateSteeringBehaviors()
+        /// <summary>
+        /// Updates the interposes of the team's forwards that interpose themselves between
+        /// the opponent's controlling player and two of his nearest players 
+        /// to the controlling player.
+        /// </summary>
+        private void UpdateInterposes()
         {
             var controllingOpponent = AI.OpponentTeam.NearestPlayerToBall;
 
@@ -65,12 +97,18 @@ namespace FootballAIGame.Client.AIs.Fsm.TeamStates
             Interposes[1].Second = secondNearestToControlling;
         }
 
+        /// <summary>
+        /// Occurs when the entity leaves this state.
+        /// </summary>
         public override void Exit()
         {
             for(int i = 0; i < 2; i++)
                 Team.Forwards[i].SteeringBehaviorsManager.RemoveBehavior(Interposes[i]);
         }
 
+        /// <summary>
+        /// Sets the home regions of the team's players.
+        /// </summary>
         public override void SetHomeRegions()
         {
             Team.GoalKeeper.HomeRegion = Region.GetRegion(0, 4);

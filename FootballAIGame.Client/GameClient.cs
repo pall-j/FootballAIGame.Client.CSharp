@@ -73,7 +73,7 @@ namespace FootballAIGame.Client
                 if (line == null)
                     break;
 
-                var tokens = line.Split();
+                var tokens = line.Trim().Split();
                 if (tokens.Length != 3)
                 {
                     Console.WriteLine("Invalid format!");
@@ -84,6 +84,11 @@ namespace FootballAIGame.Client
             }
         }
 
+        /// <summary>
+        /// Starts this instance. Starts logging in process. Uses the specified parameters for logging in.
+        /// </summary>
+        /// <param name="userName">The user name.</param>
+        /// <param name="accessKey">The access key.</param>
         public void Start(string userName, string accessKey)
         {
             while (true)
@@ -94,8 +99,8 @@ namespace FootballAIGame.Client
                 if (line == null)
                     break;
 
-                var tokens = line.Split();
-                if (tokens.Length != 1)
+                var tokens = line.Trim().Split();
+                if (tokens.Length != 1 || tokens[0].Length == 0)
                 {
                     Console.WriteLine("Invalid format!");
                     continue;
@@ -105,6 +110,12 @@ namespace FootballAIGame.Client
             }
         }
 
+        /// <summary>
+        /// Tries to start this instance by logging in to server with the specified parameters.
+        /// </summary>
+        /// <param name="userName">The user name.</param>
+        /// <param name="aiName">The AI name.</param>
+        /// <param name="accessKey">The access key.</param>
         public void TryStart(string userName, string aiName, string accessKey)
         {
             string errorMessage;

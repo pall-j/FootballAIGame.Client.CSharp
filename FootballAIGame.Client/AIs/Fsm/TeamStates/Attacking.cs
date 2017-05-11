@@ -5,17 +5,33 @@ using FootballAIGame.Client.CustomDataTypes;
 
 namespace FootballAIGame.Client.AIs.Fsm.TeamStates
 {
+    /// <summary>
+    /// Represents team's attacking state. The team stays in this state while its controlling the ball.
+    /// When the team looses the ball, the state is changed to <see cref="Defending"/>.
+    /// </summary>
+    /// <seealso cref="FootballAIGame.Client.AIs.Fsm.TeamStates.TeamState" />
     class Attacking : TeamState
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Attacking" /> class.
+        /// </summary>
+        /// <param name="team">The <see cref="Team" /> to which this instance belongs.</param>
+        /// <param name="footballAI">The <see cref="FsmAI" /> instance to which this instance belongs.</param>
         public Attacking(Team team, FsmAI footballAI) : base(team, footballAI)
         {
         }
 
+        /// <summary>
+        /// Occurs when the entity enters to this state.
+        /// </summary>
         public override void Enter()
         {
             SetHomeRegions();
         }
 
+        /// <summary>
+        /// Occurs every simulation step while the entity is in this state.
+        /// </summary>
         public override void Run()
         {
             if (Team.PlayerInBallRange == null &&
@@ -32,6 +48,9 @@ namespace FootballAIGame.Client.AIs.Fsm.TeamStates
             }
         }
 
+        /// <summary>
+        /// Sets the home regions of the team's players.
+        /// </summary>
         public override void SetHomeRegions()
         {
             Team.GoalKeeper.HomeRegion = Region.GetRegion(7, 4);

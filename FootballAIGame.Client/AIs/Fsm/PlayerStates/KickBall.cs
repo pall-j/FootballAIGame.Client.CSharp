@@ -5,18 +5,36 @@ using FootballAIGame.Client.CustomDataTypes;
 
 namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
 {
+    /// <summary>
+    /// Represents the player's kick ball state. Player in this state tries to find the
+    /// shot on goal. If there is not a safe shot and player is in danger, then he
+    /// tries to find a safe pass to other team's player. Otherwise
+    /// the player will go to <see cref="Dribble"/> state.
+    /// </summary>
+    /// <seealso cref="FootballAIGame.Client.AIs.Fsm.PlayerStates.PlayerState" />
     class KickBall : PlayerState
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KickBall"/> class.
+        /// </summary>
+        /// <param name="player">The player.</param>
+        /// <param name="footballAI">The <see cref="FsmAI" /> instance to which this instance belongs.</param>
         public KickBall(Player player, FsmAI footballAI) : base(player, footballAI)
         {
         }
 
+        /// <summary>
+        /// Occurs when the entity enters to this state.
+        /// </summary>
         public override void Enter()
         {
             AI.MyTeam.ControllingPlayer = Player;
             Run(); // run immediately
         }
 
+        /// <summary>
+        /// Occurs every simulation step while the entity is in this state.
+        /// </summary>
         public override void Run()
         {
             var team = AI.MyTeam;
@@ -46,6 +64,9 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
             Player.StateMachine.ChangeState(new Dribble(Player, AI));
         }
 
+        /// <summary>
+        /// Occurs when the entity leaves this state.
+        /// </summary>
         public override void Exit()
         {
             if (AI.MyTeam.ControllingPlayer == Player)

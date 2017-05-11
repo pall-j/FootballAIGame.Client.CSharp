@@ -3,18 +3,61 @@ using FootballAIGame.Client.CustomDataTypes;
 
 namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
 {
+    /// <summary>
+    /// Represents the behavior where the player is wandering around the specified position.
+    /// </summary>
+    /// <seealso cref="FootballAIGame.Client.AIs.Fsm.SteeringBehaviors.SteeringBehavior" />
     class Wander : SteeringBehavior
     {
+        /// <summary>
+        /// Gets or sets the wander target.
+        /// </summary>
+        /// <value>
+        /// The wander target.
+        /// </value>
         private Vector WanderTarget { get; set; }
 
+        /// <summary>
+        /// Gets or sets the seek to the wander target.
+        /// </summary>
+        /// <value>
+        /// The seek to the wander target.
+        /// </value>
         private Seek Seek { get; set; }
 
+        /// <summary>
+        /// Gets or sets the wander radius.
+        /// </summary>
+        /// <value>
+        /// The wander radius.
+        /// </value>
         public double WanderRadius { get; set; }
 
+        /// <summary>
+        /// Gets or sets the wander distance.
+        /// </summary>
+        /// <value>
+        /// The wander distance.
+        /// </value>
         public double WanderDistance { get; set; }
 
+        /// <summary>
+        /// Gets or sets the wander jitter.
+        /// </summary>
+        /// <value>
+        /// The wander jitter.
+        /// </value>
         public double WanderJitter { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Wander"/> class.
+        /// </summary>
+        /// <param name="player">The player.</param>
+        /// <param name="priority">The priority.</param>
+        /// <param name="weight">The weight.</param>
+        /// <param name="wanderDistance">The wander distance.</param>
+        /// <param name="wanderRadius">The wander radius.</param>
+        /// <param name="wanderJitter">The wander jitter.</param>
         public Wander(Player player, int priority, double weight, double wanderDistance, double wanderRadius,
             double wanderJitter) : base(player, priority, weight)
         {
@@ -28,6 +71,12 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
 
         }
 
+        /// <summary>
+        /// Gets the current acceleration vector of the behavior.
+        /// </summary>
+        /// <returns>
+        /// The acceleration <see cref="Vector" />.
+        /// </returns>
         public override Vector GetAccelerationVector()
         {
             // we are working in local space (Player heading = x-coordinate)

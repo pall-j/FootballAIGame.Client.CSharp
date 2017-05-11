@@ -3,8 +3,15 @@ using FootballAIGame.Client.CustomDataTypes;
 
 namespace FootballAIGame.Client.SimulationEntities
 {
+    /// <summary>
+    /// Represents the football ball in the simulation.
+    /// </summary>
+    /// <seealso cref="FootballAIGame.Client.SimulationEntities.MovableEntity" />
     class FootballBall : MovableEntity
     {
+        /// <summary>
+        /// The maximum allowed distance for kick to be successful.
+        /// </summary>
         public const double MaxDistanceForKick = 2; // [m]
 
         /// <summary>
@@ -19,14 +26,11 @@ namespace FootballAIGame.Client.SimulationEntities
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FootballBall"/> class.
+        /// Gets the time that is needed to cover the specified distance.
         /// </summary>
-        public FootballBall()
-        {
-            Position = new Vector();
-            Movement = new Vector();
-        }
-
+        /// <param name="distance">The distance.</param>
+        /// <param name="kickPower">The kick power that would be applied.</param>
+        /// <returns>The time that is need to cover the specified distance.</returns>
         public double GetTimeToCoverDistance(double distance, double kickPower)
         {
             var v0 = kickPower;
@@ -44,11 +48,22 @@ namespace FootballAIGame.Client.SimulationEntities
             return t;
         }
 
+        /// <summary>
+        /// Predicts the position in time.
+        /// </summary>
+        /// <param name="time">The time.</param>
+        /// <returns>The predicted position <see cref="Vector"/>.</returns>
         public override Vector PredictPositionInTime(double time)
         {
             return PredictPositionInTimeAfterKick(time, Movement);
         }
 
+        /// <summary>
+        /// Predicts the position in time after kick.
+        /// </summary>
+        /// <param name="time">The time.</param>
+        /// <param name="kick">The kick.</param>
+        /// <returns>The predicted position <see cref="Vector"/>.</returns>
         public Vector PredictPositionInTimeAfterKick(double time, Vector kick)
         {
             var kickSpeed = kick.Length;

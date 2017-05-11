@@ -5,8 +5,18 @@ using FootballAIGame.Client.CustomDataTypes;
 
 namespace FootballAIGame.Client.AIs.Fsm.PlayerStates.GlobalStates
 {
+    /// <summary>
+    /// Represents the goalkeeper's global state. Keeps <see cref="PlayerGlobalState"/> internally and calls
+    /// its methods at the end of its own methods.
+    /// </summary>
     class GoalKeeperGlobalState : PlayerState
     {
+        /// <summary>
+        /// Gets or sets the player' global state that is used at the end of the this state methods.
+        /// </summary>
+        /// <value>
+        /// The player global state.
+        /// </value>
         private PlayerGlobalState PlayerGlobalState { get; set; }
 
         public GoalKeeperGlobalState(Player player, FsmAI footballAI) : base(player, footballAI)
@@ -33,7 +43,7 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates.GlobalStates
                     for (int y = 10; y < GameClient.FieldHeight; y += 5)
                     {
                         var target = new Vector(x, y);
-                        if (AI.MyTeam.IsKickSafe(Player, target))
+                        if (AI.MyTeam.IsPassSafe(Player, target))
                         {
                             Player.KickBall(AI.Ball, target);
                             safeDirectionFound = true;

@@ -4,16 +4,54 @@ using FootballAIGame.Client.SimulationEntities;
 
 namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
 {
+    /// <summary>
+    /// Represents the behavior where the player is moving to a
+    /// position between the specified entities.
+    /// </summary>
+    /// <seealso cref="FootballAIGame.Client.AIs.Fsm.SteeringBehaviors.SteeringBehavior" />
     class Interpose : SteeringBehavior
     {
+        /// <summary>
+        /// Gets or sets the first entity.
+        /// </summary>
+        /// <value>
+        /// The first <see cref="MovableEntity"/>.
+        /// </value>
         public MovableEntity First { get; set; }
 
+        /// <summary>
+        /// Gets or sets the second entity.
+        /// </summary>
+        /// <value>
+        /// The second <see cref="MovableEntity"/>.
+        /// </value>
         public MovableEntity Second { get; set; }
 
+        /// <summary>
+        /// Gets or sets the arrive behavior, that is used to move to a position
+        /// between the first and the second entity.
+        /// </summary>
+        /// <value>
+        /// The arrive behavior.
+        /// </value>
         private Arrive Arrive { get; set; }
 
+        /// <summary>
+        /// Gets or sets the preferred distance from the second entity.
+        /// </summary>
+        /// <value>
+        /// The preferred distance from second.
+        /// </value>
         public double PreferredDistanceFromSecond { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Interpose"/> class.
+        /// </summary>
+        /// <param name="player">The player.</param>
+        /// <param name="priority">The priority.</param>
+        /// <param name="weight">The weight.</param>
+        /// <param name="first">The first entity.</param>
+        /// <param name="second">The second entity.</param>
         public Interpose(Player player, int priority, double weight, 
             MovableEntity first, MovableEntity second) : base(player, priority, weight)
         {
@@ -23,6 +61,15 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
             PreferredDistanceFromSecond = Vector.GetDistanceBetween(Second.Position, First.Position)/2.0;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Interpose"/> class.
+        /// </summary>
+        /// <param name="player">The player.</param>
+        /// <param name="priority">The priority.</param>
+        /// <param name="weight">The weight.</param>
+        /// <param name="first">The first entity.</param>
+        /// <param name="secondPosition">The second position that is used instead of entity.
+        /// The artificial second entity is created at this position.</param>
         public Interpose(Player player, int priority, double weight,
             MovableEntity first, Vector secondPosition) : base(player, priority, weight)
         {
@@ -36,6 +83,12 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
             PreferredDistanceFromSecond = Vector.GetDistanceBetween(Second.Position, First.Position) / 2.0;
         }
 
+        /// <summary>
+        /// Gets the current acceleration vector of the behavior.
+        /// </summary>
+        /// <returns>
+        /// The acceleration <see cref="Vector" />.
+        /// </returns>
         public override Vector GetAccelerationVector()
         {
 

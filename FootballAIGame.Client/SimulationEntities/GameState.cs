@@ -4,33 +4,51 @@ using FootballAIGame.Client.CustomDataTypes;
 namespace FootballAIGame.Client.SimulationEntities
 {
     /// <summary>
-    /// Represents the state of the football game.
+    /// Represents the state of the football match.
     /// </summary>
     class GameState
     {
         /// <summary>
-        /// Gets or sets the football players array consisting of 22 players, where first 11
-        /// players are from the player's team and the rest 11 players are from the opponent's team.
+        /// Gets or sets the football players' array consisting of 22 players, where first 11
+        /// players are from the player's team and the other 11 players are from the opponent's team.
         /// </summary>
+        /// <value>
+        /// The array of football players.
+        /// </value>
         public FootballPlayer[] FootballPlayers { get; set; }
 
         /// <summary>
         /// Gets or sets the football ball.
         /// </summary>
+        /// <value>
+        /// The football ball.
+        /// </value>
         public FootballBall Ball { get; set; }
 
         /// <summary>
         /// The simulation step number specifying to which simulation step this instance belongs.
         /// </summary>
+        /// <value>
+        /// The simulation step.
+        /// </value>
         public int Step { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether a kickoff is happening.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if a kickoff is happening; otherwise, <c>false</c>.
+        /// </value>
         public bool KickOff { get; set; }
 
-      /// <summary>
+        /// <summary>
         /// Parses the specified binary representation of the game state.
         /// </summary>
         /// <param name="data">The binary representation of the game state.</param>
-        /// <returns>The parsed game state.</returns>
+        /// <returns>
+        /// The parsed <see cref="GameState"/>.
+        /// </returns>
+        /// <exception cref="ArgumentException">Thrown if an error has occurred while parsing the game state.</exception>
         public static GameState Parse(byte[] data)
         {
             var floatData = new float[92];

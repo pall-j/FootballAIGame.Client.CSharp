@@ -50,6 +50,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>FootballAIGame.Client.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

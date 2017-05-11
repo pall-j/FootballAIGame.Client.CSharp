@@ -7,22 +7,52 @@ using FootballAIGame.Client.SimulationEntities;
 namespace FootballAIGame.Client.AIs.Fsm
 {
     /// <summary>
-    /// The football AI class where the AI behavior is defined.
+    /// Represents the FSM AI.
     /// </summary>
     class FsmAI : IFootballAI
     {
+        /// <summary>
+        /// Gets or sets the <see cref="System.Random" /> used for generating random numbers.
+        /// </summary>
+        /// <value>
+        /// The <see cref="Random"/> instance.
+        /// </value>
         public static Random Random { get; set; }
 
+        /// <summary>
+        /// Gets or sets the ball.
+        /// </summary>
+        /// <value>
+        /// The ball.
+        /// </value>
         public Ball Ball { get; set; }
 
+        /// <summary>
+        /// Gets or sets my (AI's) team.
+        /// </summary>
+        /// <value>
+        /// My team.
+        /// </value>
         public Team MyTeam { get; set; }
 
+        /// <summary>
+        /// Gets or sets the opponent's team.
+        /// </summary>
+        /// <value>
+        /// The opponent's team.
+        /// </value>
         public Team OpponentTeam { get; set; }
 
+        /// <summary>
+        /// Gets or sets the support positions manager.
+        /// </summary>
+        /// <value>
+        /// The support positions manager.
+        /// </value>
         public SupportPositionsManager SupportPositionsManager { get; set; }
 
         /// <summary>
-        /// Called every time the new match simulation with this AI starts.<para />
+        /// Called every time the new match simulation with the AI starts.<para />
         /// Called before <see cref="GetParameters" />.
         /// </summary>
         public void Initialize()
@@ -35,8 +65,10 @@ namespace FootballAIGame.Client.AIs.Fsm
         /// <summary>
         /// Gets the <see cref="AIAction" /> for the specified <see cref="GameState" />.
         /// </summary>
-        /// <param name="gameState">State of the game.</param>
-        /// <returns>The <see cref="AIAction" /> for the specified <see cref="GameState" />.</returns>
+        /// <param name="gameState">The state of the game.</param>
+        /// <returns>
+        /// The <see cref="AIAction" /> for the specified <see cref="GameState" />.
+        /// </returns>
         public AIAction GetAction(GameState gameState)
         {
             if (gameState.Step == 0 || MyTeam == null)
@@ -64,7 +96,7 @@ namespace FootballAIGame.Client.AIs.Fsm
         }
 
         /// <summary>
-        /// Gets the player parameters. Position and moving vector properties are ignored.
+        /// Gets the players' parameters.
         /// </summary>
         /// <returns>
         /// The array of football players with their parameters set.

@@ -6,25 +6,34 @@ using FootballAIGame.Client.SimulationEntities;
 namespace FootballAIGame.Client.AIs.Basic
 {
     /// <summary>
-    /// The main AI class where the AI behavior is defined.
+    /// Represents the basic random AI.
     /// </summary>
     class BasicAI : IFootballAI
     {
         /// <summary>
         /// Gets or sets the football players with their parameters set.
-        /// Set after GetParameters is called. Used to know players parameters at every <see cref="GetAction"/> call.
+        /// Set after GetParameters is called. Used to know players' parameters at every <see cref="GetAction"/> call.
         /// </summary>
         private FootballPlayer[] Players { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="System.Random" /> used for generating random numbers.
+        /// </summary>
+        /// <value>
+        /// The <see cref="Random"/> instance.
+        /// </value>
         public static Random Random { get; set; }
 
         /// <summary>
-        /// Gets or sets the value indicating whether the AI football team holds currently the left goal post.
+        /// Gets or sets the value indicating whether the AI's football team currently holds the left goal post.
         /// </summary>
+        /// <value>
+        /// <c>true</c> if the AI's football team currently holds the left goal post; otherwise, <c>false</c>.
+        /// </value>
         private bool IsOnLeft { get; set; }
 
         /// <summary>
-        /// Called every time the new match simulation with this AI starts.<para />
+        /// Called every time the new match simulation with the AI starts.<para />
         /// Called before <see cref="GetParameters" />.
         /// </summary>
         public void Initialize()
@@ -36,7 +45,7 @@ namespace FootballAIGame.Client.AIs.Basic
         /// <summary>
         /// Gets the <see cref="AIAction" /> for the specified <see cref="GameState" />.
         /// </summary>
-        /// <param name="gameState">State of the game.</param>
+        /// <param name="gameState">The state of the game.</param>
         /// <returns>The <see cref="AIAction" /> for the specified <see cref="GameState" />.</returns>
         public AIAction GetAction(GameState gameState)
         {
@@ -96,7 +105,7 @@ namespace FootballAIGame.Client.AIs.Basic
         }
 
         /// <summary>
-        /// Gets the player parameters. Position and moving vector properties are ignored.
+        /// Gets the players' parameters.
         /// </summary>
         /// <returns>
         /// The array of football players with their parameters set.
