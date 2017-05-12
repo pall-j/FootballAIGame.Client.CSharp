@@ -12,7 +12,7 @@ namespace FootballAIGame.Client.AIs.Fsm
         /// Gets or sets the entity to which this instance belongs.
         /// </summary>
         /// <value>
-        /// The <see cref="TEntity"/> to which this instance belongs.
+        /// The <see cref="T:TEntity"/> to which this instance belongs.
         /// </value>
         protected TEntity Entity { get; set; }
 
@@ -36,14 +36,14 @@ namespace FootballAIGame.Client.AIs.Fsm
         }
 
         /// <summary>
-        /// Occurs when the entity enters to this state.
-        /// </summary>
-        public virtual void Enter() { }
-
-        /// <summary>
         /// Occurs every simulation step while the entity is in this state.
         /// </summary>
         public abstract void Run();
+
+        /// <summary>
+        /// Occurs when the entity enters to this state.
+        /// </summary>
+        public virtual void Enter() { }
 
         /// <summary>
         /// Occurs when the entity leaves this state.

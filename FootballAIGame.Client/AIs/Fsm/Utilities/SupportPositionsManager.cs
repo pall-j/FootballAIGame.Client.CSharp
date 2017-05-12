@@ -13,6 +13,28 @@ namespace FootballAIGame.Client.AIs.Fsm.Utilities
     class SupportPositionsManager
     {
         /// <summary>
+        /// Gets the best support position.
+        /// </summary>
+        /// <value>
+        /// The best support position.
+        /// </value>
+        public Vector BestSupportPosition
+        {
+            get
+            {
+                var bestPosition = SupportPositions.First();
+                foreach (var supportPosition in SupportPositions)
+                {
+                    if (supportPosition.Score > bestPosition.Score)
+                        bestPosition = supportPosition;
+                }
+
+                //Console.WriteLine(string.Format("Score {0}, DistanceS {1}, SafePassS {2}, ShotScore {3}", bestPosition.Score, bestPosition.DistanceScore, bestPosition.PassScore, bestPosition.ShootScore));
+                return bestPosition.Position;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the <see cref="FsmAI"/> instance to which this instance belongs.
         /// </summary>
         /// <value>
@@ -43,28 +65,6 @@ namespace FootballAIGame.Client.AIs.Fsm.Utilities
         /// The support positions.
         /// </value>
         private List<SupportPosition> SupportPositions { get; set; }
-
-        /// <summary>
-        /// Gets the best support position.
-        /// </summary>
-        /// <value>
-        /// The best support position.
-        /// </value>
-        public Vector BestSupportPosition
-        {
-            get
-            {
-                var bestPosition = SupportPositions.First();
-                foreach (var supportPosition in SupportPositions)
-                {
-                    if (supportPosition.Score > bestPosition.Score)
-                        bestPosition = supportPosition;
-                }
-
-                //Console.WriteLine(string.Format("Score {0}, DistanceS {1}, SafePassS {2}, ShotScore {3}", bestPosition.Score, bestPosition.DistanceScore, bestPosition.PassScore, bestPosition.ShootScore));
-                return bestPosition.Position;
-            }
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportPositionsManager"/> class.

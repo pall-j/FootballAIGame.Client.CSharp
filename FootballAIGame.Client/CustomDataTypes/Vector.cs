@@ -24,61 +24,6 @@ namespace FootballAIGame.Client.CustomDataTypes
         public double Y { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Vector"/> class.
-        /// </summary>
-        public Vector() { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Vector"/> class.
-        /// </summary>
-        /// <param name="x">The x coordinate.</param>
-        /// <param name="y">The y coordinate.</param>
-        public Vector(double x, double y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Vector"/> class.
-        /// The vector is specified by the parameters and is equal to (<see cref="to"/> - <see cref="from"/>).
-        /// </summary>
-        /// <param name="from">From which position.</param>
-        /// <param name="to">To which position.</param>
-        public Vector(Vector from, Vector to)
-        {
-            X = to.X - from.X;
-            Y = to.Y - from.Y;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Vector"/> class.
-        /// The vector is specified by the parameters and is equal to (<see cref="to"/> - <see cref="from"/>).
-        /// </summary>
-        /// <param name="from">From which position.</param>
-        /// <param name="to">To which position.</param>
-        /// <param name="length">The length of the vector.</param>
-        public Vector(Vector from, Vector to, double length)
-        {
-            X = to.X - from.X;
-            Y = to.Y - from.Y;
-            Resize(length);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Vector"/> class.
-        /// </summary>
-        /// <param name="x">The x coordinate.</param>
-        /// <param name="y">The y coordinate.</param>
-        /// <param name="length">The length of the vector.</param>
-        public Vector(double x, double y, double length)
-        {
-            X = x;
-            Y = y;
-            Resize(length);
-        }
-
-        /// <summary>
         /// Gets the vector's length.
         /// </summary>
         /// <value>
@@ -114,6 +59,117 @@ namespace FootballAIGame.Client.CustomDataTypes
                 result.Normalize();
                 return result;
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector"/> class.
+        /// </summary>
+        public Vector() { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector"/> class.
+        /// </summary>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        public Vector(double x, double y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector"/> class.
+        /// The vector is specified by the parameters and is equal to (<paramref name="to"/> - <paramref name="from"/>).
+        /// </summary>
+        /// <param name="from">From which position.</param>
+        /// <param name="to">To which position.</param>
+        public Vector(Vector from, Vector to)
+        {
+            X = to.X - from.X;
+            Y = to.Y - from.Y;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector"/> class.
+        /// The vector is specified by the parameters and is equal to (<paramref name="to"/> - <paramref name="from"/>).
+        /// </summary>
+        /// <param name="from">From which position.</param>
+        /// <param name="to">To which position.</param>
+        /// <param name="length">The length of the vector.</param>
+        public Vector(Vector from, Vector to, double length)
+        {
+            X = to.X - from.X;
+            Y = to.Y - from.Y;
+            Resize(length);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector"/> class.
+        /// </summary>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        /// <param name="length">The length of the vector.</param>
+        public Vector(double x, double y, double length)
+        {
+            X = x;
+            Y = y;
+            Resize(length);
+        }
+
+        /// <summary>
+        /// Gets the distances between the given vectors.
+        /// </summary>
+        /// <param name="firstVector">The first vector.</param>
+        /// <param name="secondVector">The second vector.</param>
+        /// <returns>The distance between the given vectors.</returns>
+        public static double GetDistanceBetween(Vector firstVector, Vector secondVector)
+        {
+            return Math.Sqrt(Math.Pow(firstVector.X - secondVector.X, 2) + Math.Pow(firstVector.Y - secondVector.Y, 2));
+        }
+
+        /// <summary>
+        /// Gets the squared distance between the given vectors.
+        /// </summary>
+        /// <param name="firstVector">The first vector.</param>
+        /// <param name="secondVector">The second vector.</param>
+        /// <returns>The squared distance between the given vectors.</returns>
+        public static double GetDistanceBetweenSquared(Vector firstVector, Vector secondVector)
+        {
+            return Math.Pow(firstVector.X - secondVector.X, 2) + Math.Pow(firstVector.Y - secondVector.Y, 2);
+        }
+
+        /// <summary>
+        /// Gets the dot product of the given vectors.
+        /// </summary>
+        /// <param name="firstVector">The first vector.</param>
+        /// <param name="secondVector">The second vector.</param>
+        /// <returns>The dot product between the given vectors.</returns>
+        public static double GetDotProduct(Vector firstVector, Vector secondVector)
+        {
+            return firstVector.X * secondVector.X + firstVector.Y * secondVector.Y;
+        }
+
+        /// <summary>
+        /// Gets the difference between the specified vectors.
+        /// The difference <see cref="Vector"/> is equal to <paramref name="to"/> - <paramref name="from"/>.
+        /// </summary>
+        /// <param name="to">To.</param>
+        /// <param name="from">From.</param>
+        /// <returns>The <see cref="Vector"/> that is equal to <paramref name="to"/> - <paramref name="from"/>.</returns>
+        public static Vector GetDifference(Vector to, Vector from)
+        {
+            return new Vector(to.X - from.X, to.Y - from.Y);
+        }
+
+        /// <summary>
+        /// Gets the sum of the given vectors.
+        /// </summary>
+        /// <param name="first">The first vector.</param>
+        /// <param name="second">The second vector.</param>
+        /// <returns>The sum <see cref="Vector"/> of the given vectors.</returns>
+        public static Vector GetSum(Vector first, Vector second)
+        {
+            return new Vector(first.X + second.X, first.Y + second.Y);
         }
 
         /// <summary>
@@ -194,62 +250,5 @@ namespace FootballAIGame.Client.CustomDataTypes
             X *= scalar;
             Y *= scalar;
         }
-
-        /// <summary>
-        /// Gets the distances between the given vectors.
-        /// </summary>
-        /// <param name="firstVector">The first vector.</param>
-        /// <param name="secondVector">The second vector.</param>
-        /// <returns>The distance between the given vectors.</returns>
-        public static double GetDistanceBetween(Vector firstVector, Vector secondVector)
-        {
-            return Math.Sqrt(Math.Pow(firstVector.X - secondVector.X, 2) + Math.Pow(firstVector.Y - secondVector.Y, 2));
-        }
-
-        /// <summary>
-        /// Gets the squared distance between the given vectors.
-        /// </summary>
-        /// <param name="firstVector">The first vector.</param>
-        /// <param name="secondVector">The second vector.</param>
-        /// <returns>The squared distance between the given vectors.</returns>
-        public static double GetDistanceBetweenSquared(Vector firstVector, Vector secondVector)
-        {
-            return Math.Pow(firstVector.X - secondVector.X, 2) + Math.Pow(firstVector.Y - secondVector.Y, 2);
-        }
-
-        /// <summary>
-        /// Gets the dot product of the given vectors.
-        /// </summary>
-        /// <param name="firstVector">The first vector.</param>
-        /// <param name="secondVector">The second vector.</param>
-        /// <returns>The dot product between the given vectors.</returns>
-        public static double GetDotProduct(Vector firstVector, Vector secondVector)
-        {
-            return firstVector.X * secondVector.X + firstVector.Y * secondVector.Y;
-        }
-
-        /// <summary>
-        /// Gets the difference between the specified vectors.
-        /// The difference <see cref="Vector"/> is equal to <see cref="to"/> - <see cref="from"/>.
-        /// </summary>
-        /// <param name="to">To.</param>
-        /// <param name="from">From.</param>
-        /// <returns>The <see cref="Vector"/> that is equal to <see cref="to"/> - <see cref="from"/>.</returns>
-        public static Vector GetDifference(Vector to, Vector from)
-        {
-            return new Vector(to.X - from.X, to.Y - from.Y);
-        }
-
-        /// <summary>
-        /// Gets the sum of the given vectors.
-        /// </summary>
-        /// <param name="first">The first vector.</param>
-        /// <param name="second">The second vector.</param>
-        /// <returns>The sum <see cref="Vector"/> of the given vectors.</returns>
-        public static Vector GetSum(Vector first, Vector second)
-        {
-            return new Vector(first.X + second.X, first.Y + second.Y);
-        }
-
     }
 }

@@ -9,14 +9,6 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
     abstract class SteeringBehavior
     {
         /// <summary>
-        /// Gets or sets the player to whom this instance belongs.
-        /// </summary>
-        /// <value>
-        /// The player to whom this instance belongs.
-        /// </value>
-        protected Player Player { get; set; }
-
-        /// <summary>
         /// Gets or sets the priority. Affects the combination of behaviors in <see cref="SteeringBehaviorsManager"/>.
         /// The behaviors with higher priority are preferred.
         /// </summary>
@@ -33,6 +25,14 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
         /// The weight.
         /// </value>
         public double Weight { get; set; }
+
+        /// <summary>
+        /// Gets or sets the player to whom this instance belongs.
+        /// </summary>
+        /// <value>
+        /// The player to whom this instance belongs.
+        /// </value>
+        protected Player Player { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SteeringBehavior"/> class.
@@ -52,6 +52,5 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
         /// </summary>
         /// <returns>The acceleration <see cref="Vector"/>.</returns>
         public abstract Vector GetAccelerationVector();
-
     }
 }

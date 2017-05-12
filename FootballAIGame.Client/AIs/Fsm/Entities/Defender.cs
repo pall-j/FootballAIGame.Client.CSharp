@@ -29,6 +29,5 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         {
             StateMachine.ProcessMessage(this, message);
         }
-
     }
 }

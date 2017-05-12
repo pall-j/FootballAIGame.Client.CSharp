@@ -60,6 +60,5 @@ namespace FootballAIGame.Client.AIs.Fsm.TeamStates
         public override void SetHomeRegions()
         {
         }
-
     }
 }

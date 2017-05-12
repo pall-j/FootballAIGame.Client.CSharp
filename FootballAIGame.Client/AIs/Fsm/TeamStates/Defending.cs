@@ -76,28 +76,6 @@ namespace FootballAIGame.Client.AIs.Fsm.TeamStates
         }
 
         /// <summary>
-        /// Updates the interposes of the team's forwards that interpose themselves between
-        /// the opponent's controlling player and two of his nearest players 
-        /// to the controlling player.
-        /// </summary>
-        private void UpdateInterposes()
-        {
-            var controllingOpponent = AI.OpponentTeam.NearestPlayerToBall;
-
-            var firstNearestToControlling = AI.OpponentTeam.GetNearestPlayerToPosition(
-                controllingOpponent.Position, controllingOpponent);
-
-            var secondNearestToControlling = AI.OpponentTeam.GetNearestPlayerToPosition(
-                controllingOpponent.Position, controllingOpponent, firstNearestToControlling);
-
-            Interposes[0].First = controllingOpponent;
-            Interposes[1].First = controllingOpponent;
-
-            Interposes[0].Second = firstNearestToControlling;
-            Interposes[1].Second = secondNearestToControlling;
-        }
-
-        /// <summary>
         /// Occurs when the entity leaves this state.
         /// </summary>
         public override void Exit()
@@ -136,5 +114,26 @@ namespace FootballAIGame.Client.AIs.Fsm.TeamStates
             }
         }
 
+        /// <summary>
+        /// Updates the interposes of the team's forwards that interpose themselves between
+        /// the opponent's controlling player and two of his nearest players 
+        /// to the controlling player.
+        /// </summary>
+        private void UpdateInterposes()
+        {
+            var controllingOpponent = AI.OpponentTeam.NearestPlayerToBall;
+
+            var firstNearestToControlling = AI.OpponentTeam.GetNearestPlayerToPosition(
+                controllingOpponent.Position, controllingOpponent);
+
+            var secondNearestToControlling = AI.OpponentTeam.GetNearestPlayerToPosition(
+                controllingOpponent.Position, controllingOpponent, firstNearestToControlling);
+
+            Interposes[0].First = controllingOpponent;
+            Interposes[1].First = controllingOpponent;
+
+            Interposes[0].Second = firstNearestToControlling;
+            Interposes[1].Second = secondNearestToControlling;
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using FootballAIGame.Client.AIs.Fsm.Entities;
 using FootballAIGame.Client.AIs.Fsm.Utilities;
 using FootballAIGame.Client.SimulationEntities;

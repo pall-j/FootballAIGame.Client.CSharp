@@ -36,6 +36,5 @@ namespace FootballAIGame.Client.AIs.Fsm.TeamStates
         {
             return false;
         }
-
     }
 }

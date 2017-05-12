@@ -55,6 +55,5 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
         {
             Player.SteeringBehaviorsManager.RemoveBehavior(MoveToHomeRegionArrive);
         }
-
     }
 }

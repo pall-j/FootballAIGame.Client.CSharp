@@ -77,6 +77,5 @@ namespace FootballAIGame.Client.AIs.Fsm.TeamStates
                     (Region.NumberOfColumns - 1) - player.HomeRegion.X, player.HomeRegion.Y);
             }
         }
-
     }
 }

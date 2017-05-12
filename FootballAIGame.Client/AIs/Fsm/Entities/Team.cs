@@ -14,15 +14,6 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
     class Team
     {
         /// <summary>
-        /// Gets or sets a value indicating whether the initial states' (of the team and its players) enter methods
-        /// have already been called.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if the initial states' enter methods have already been called; otherwise, <c>false</c>.
-        /// </value>
-        private bool InitialEnter { get; set; }
-
-        /// <summary>
         /// Gets or sets the <see cref="FsmAI"/> instance to which this instance belongs.
         /// </summary>
         /// <value>
@@ -137,38 +128,6 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         public bool IsOnLeft { get; set; }
 
         /// <summary>
-        /// Gets the nearest player, from the team's players besides the specified <see cref="skippedPlayers"/>, 
-        /// to the specified position.
-        /// </summary>
-        /// <param name="position">The position.</param>
-        /// <param name="skippedPlayers">The skipped players.</param>
-        /// <returns>The nearest team's <see cref="Player"/> if there is at least one player outside of the
-        /// specified <see cref="skippedPlayers"/>; otherwise, null.</returns>
-        public Player GetNearestPlayerToPosition(Vector position, params Player[] skippedPlayers)
-        {
-            var minPlayer = Players.FirstOrDefault(p => !skippedPlayers.Contains(p));
-            if (minPlayer == null)
-                return null; // all players are skipped
-
-            var minDistSq = Vector.GetDistanceBetweenSquared(minPlayer.Position, position);
-
-            foreach (var player in Players)
-            {
-                if (skippedPlayers.Contains(player))
-                    continue;
-
-                var distSq = Vector.GetDistanceBetweenSquared(player.Position, position);
-                if (minDistSq > distSq)
-                {
-                    minDistSq = distSq;
-                    minPlayer = player;
-                }
-            }
-
-            return minPlayer;
-        }
-
-        /// <summary>
         /// Gets the nearest team's player to the ball.
         /// </summary>
         /// <value>
@@ -183,20 +142,13 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         }
 
         /// <summary>
-        /// Determines whether the specified player is nearer to an opponent than other specified player.
+        /// Gets or sets a value indicating whether the initial states' (of the team and its players) enter methods
+        /// have already been called.
         /// </summary>
-        /// <param name="player">The player.</param>
-        /// <param name="otherPlayer">The other player.</param>
-        /// <returns>
-        ///   <c>true</c> if <see cref="player"/> is nearer to an opponent than <see cref="otherPlayer"/>; otherwise, <c>false</c>.
-        /// </returns>
-        public bool IsNearerToOpponent(Player player, Player otherPlayer)
-        {
-            if (IsOnLeft)
-                return player.Position.X > otherPlayer.Position.X;
-            else
-                return player.Position.X < otherPlayer.Position.X;
-        }
+        /// <value>
+        ///   <c>true</c> if the initial states' enter methods have already been called; otherwise, <c>false</c>.
+        /// </value>
+        private bool InitialEnter { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Team"/> class.
@@ -245,6 +197,54 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
             var teamState = StateMachine.CurrentState as TeamState;
             if (teamState != null)
                 teamState.SetHomeRegions();
+        }
+
+        /// <summary>
+        /// Gets the nearest player, from the team's players besides the specified <paramref name="skippedPlayers"/>, 
+        /// to the specified position.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <param name="skippedPlayers">The skipped players.</param>
+        /// <returns>The nearest team's <see cref="Player"/> if there is at least one player outside of the
+        /// specified <paramref name="skippedPlayers"/>; otherwise, null.</returns>
+        public Player GetNearestPlayerToPosition(Vector position, params Player[] skippedPlayers)
+        {
+            var minPlayer = Players.FirstOrDefault(p => !skippedPlayers.Contains(p));
+            if (minPlayer == null)
+                return null; // all players are skipped
+
+            var minDistSq = Vector.GetDistanceBetweenSquared(minPlayer.Position, position);
+
+            foreach (var player in Players)
+            {
+                if (skippedPlayers.Contains(player))
+                    continue;
+
+                var distSq = Vector.GetDistanceBetweenSquared(player.Position, position);
+                if (minDistSq > distSq)
+                {
+                    minDistSq = distSq;
+                    minPlayer = player;
+                }
+            }
+
+            return minPlayer;
+        }
+
+        /// <summary>
+        /// Determines whether the specified player is nearer to an opponent than other specified player.
+        /// </summary>
+        /// <param name="player">The player.</param>
+        /// <param name="otherPlayer">The other player.</param>
+        /// <returns>
+        ///   <c>true</c> if <paramref name="player"/> is nearer to an opponent than <paramref name="otherPlayer"/>; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsNearerToOpponent(Player player, Player otherPlayer)
+        {
+            if (IsOnLeft)
+                return player.Position.X > otherPlayer.Position.X;
+            else
+                return player.Position.X < otherPlayer.Position.X;
         }
 
         /// <summary>
@@ -415,7 +415,7 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         /// <param name="player">The player.</param>
         /// <param name="shotTarget">The shot target.</param>
         /// <returns>
-        ///   <c>true</c> if <see cref="shotTarget"/> was set; otherwise, <c>false</c>.
+        ///   <c>true</c> if <paramref name="shotTarget"/> was set; otherwise, <c>false</c>.
         /// </returns>
         public bool TryGetShotOnGoal(FootballPlayer player, out Vector shotTarget)
         {
@@ -429,7 +429,7 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         /// <param name="shotTarget">The shot target.</param>
         /// <param name="ball">The ball.</param>
         /// <returns>
-        ///   <c>true</c> if <see cref="shotTarget"/> was set; otherwise, <c>false</c>.
+        ///   <c>true</c> if <paramref name="shotTarget"/> was set; otherwise, <c>false</c>.
         /// </returns>
         public bool TryGetShotOnGoal(FootballPlayer player, out Vector shotTarget, FootballBall ball)
         {
@@ -456,7 +456,7 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         /// </summary>
         /// <param name="player">The player.</param>
         /// <param name="target">The target player.</param>
-        ///   <c>true</c> if <see cref="target"/> was set; otherwise, <c>false</c>.
+        ///   <c>true</c> if <paramref name="target"/> was set; otherwise, <c>false</c>.
         public bool TryGetSafePass(Player player, out Player target)
         {
             return TryGetSafePass(player, out target, AI.Ball);
@@ -469,7 +469,7 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         /// <param name="target">The target player.</param>
         /// <param name="ball">The ball.</param>
         /// <returns></returns>
-        /// <c>true</c> if <see cref="target" /> was set; otherwise, <c>false</c>.
+        /// <c>true</c> if <paramref name="target" /> was set; otherwise, <c>false</c>.
         public bool TryGetSafePass(Player player, out Player target, Ball ball)
         {
             target = null;
@@ -493,7 +493,7 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         }
 
         /// <summary>
-        /// Predicts the nearest team's player, besides the specified <see cref="skippedPlayers"/>, 
+        /// Predicts the nearest team's player, besides the specified <paramref name="skippedPlayers"/>, 
         /// to the specified position in the specified time.
         /// </summary>
         /// <param name="position">The position.</param>
@@ -501,7 +501,7 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         /// <param name="skippedPlayers">The skipped players.</param>
         /// <returns>
         /// The nearest <see cref="Player"/> to the specified position in the specified time if there is at 
-        /// least one player outside of the specified <see cref="skippedPlayers"/>; otherwise, null.
+        /// least one player outside of the specified <paramref name="skippedPlayers"/>; otherwise, null.
         /// </returns>
         public Player PredictNearestPlayerToPosition(Vector position, double time, params Player[] skippedPlayers)
         {

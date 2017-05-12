@@ -52,6 +52,5 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
 
             return acceleration;
         }
-
     }
 }

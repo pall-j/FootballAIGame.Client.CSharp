@@ -5,6 +5,5 @@
     /// </summary>
     /// <seealso cref="FootballAIGame.Client.AIs.Fsm.Messaging.IMessage" />
     class ReturnToHomeMessage : IMessage
-    {
-    }
+    {}
 }

@@ -28,6 +28,14 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
         public MovableEntity Second { get; set; }
 
         /// <summary>
+        /// Gets or sets the preferred distance from the second entity.
+        /// </summary>
+        /// <value>
+        /// The preferred distance from second.
+        /// </value>
+        public double PreferredDistanceFromSecond { get; set; }
+
+        /// <summary>
         /// Gets or sets the arrive behavior, that is used to move to a position
         /// between the first and the second entity.
         /// </summary>
@@ -35,14 +43,6 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
         /// The arrive behavior.
         /// </value>
         private Arrive Arrive { get; set; }
-
-        /// <summary>
-        /// Gets or sets the preferred distance from the second entity.
-        /// </summary>
-        /// <value>
-        /// The preferred distance from second.
-        /// </value>
-        public double PreferredDistanceFromSecond { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Interpose"/> class.

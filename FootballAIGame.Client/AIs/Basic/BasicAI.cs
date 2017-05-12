@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using FootballAIGame.Client.CustomDataTypes;
 using FootballAIGame.Client.SimulationEntities;
 
@@ -11,18 +10,18 @@ namespace FootballAIGame.Client.AIs.Basic
     class BasicAI : IFootballAI
     {
         /// <summary>
-        /// Gets or sets the football players with their parameters set.
-        /// Set after GetParameters is called. Used to know players' parameters at every <see cref="GetAction"/> call.
-        /// </summary>
-        private FootballPlayer[] Players { get; set; }
-
-        /// <summary>
         /// Gets or sets the <see cref="System.Random" /> used for generating random numbers.
         /// </summary>
         /// <value>
         /// The <see cref="Random"/> instance.
         /// </value>
         public static Random Random { get; set; }
+
+        /// <summary>
+        /// Gets or sets the football players with their parameters set.
+        /// Set after GetParameters is called. Used to know players' parameters at every <see cref="GetAction"/> call.
+        /// </summary>
+        private FootballPlayer[] Players { get; set; }
 
         /// <summary>
         /// Gets or sets the value indicating whether the AI's football team currently holds the left goal post.

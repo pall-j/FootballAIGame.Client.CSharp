@@ -53,6 +53,5 @@ namespace FootballAIGame.Client.SimulationEntities
         {
             return Vector.GetSum(Position, Movement.GetMultiplied(time));
         }
-
     }
 }

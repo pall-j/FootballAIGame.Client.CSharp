@@ -3,8 +3,8 @@
 namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
 {
     /// <summary>
-    /// Provides the base class from which the classes that represent team's states are derived.
-    /// Contains the shared functionality of the team's states.
+    /// Provides the base class from which the classes that represent player's states are derived.
+    /// Contains the shared functionality of the player's states.
     /// </summary>
     /// <seealso cref="State{Player}" />
     abstract class PlayerState : State<Player>

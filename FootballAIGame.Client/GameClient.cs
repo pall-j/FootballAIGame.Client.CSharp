@@ -176,6 +176,5 @@ namespace FootballAIGame.Client
                     break;
             }
         }
-
     }
 }

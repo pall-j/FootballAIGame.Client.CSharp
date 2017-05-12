@@ -93,6 +93,5 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates.GlobalStates
 
             return false;
         }
-
     }
 }

@@ -81,6 +81,5 @@ namespace FootballAIGame.Client.SimulationEntities
 
             return Vector.GetSum(Position, diff);
         }
-
     }
 }

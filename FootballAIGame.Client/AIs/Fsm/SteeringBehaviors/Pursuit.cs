@@ -12,20 +12,20 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
     class Pursuit : SteeringBehavior
     {
         /// <summary>
-        /// Gets or sets the arrive to the target behavior.
-        /// </summary>
-        /// <value>
-        /// The arrive to the target behavior.
-        /// </value>
-        private Arrive TargetArrive { get; set; }
-
-        /// <summary>
         /// Gets or sets the pursued target.
         /// </summary>
         /// <value>
         /// The pursued target.
         /// </value>
         public MovableEntity Target { get; set; }
+
+        /// <summary>
+        /// Gets or sets the arrive to the target behavior.
+        /// </summary>
+        /// <value>
+        /// The arrive to the target behavior.
+        /// </value>
+        private Arrive TargetArrive { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Pursuit"/> class.

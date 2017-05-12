@@ -28,7 +28,7 @@ namespace FootballAIGame.Client.AIs.Fsm
         /// Gets or sets the entity to which this instance belongs.
         /// </summary>
         /// <value>
-        /// The <see cref="TEntity"/> to which this instance belongs.
+        /// The <see cref="T:TEntity"/> to which this instance belongs.
         /// </value>
         public TEntity Entity { get; set; }
 

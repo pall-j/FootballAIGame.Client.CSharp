@@ -32,6 +32,14 @@ namespace FootballAIGame.Client
         private NetworkStream NetworkStream { get; set; }
 
         /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            ServerTcpClient.Close();
+        }
+
+        /// <summary>
         /// Try to connect to the game server.
         /// </summary>
         /// <param name="address">The game server IP address.</param>
@@ -247,14 +255,6 @@ namespace FootballAIGame.Client
         {
             NetworkStream.Write(data, 0, data.Length);
             NetworkStream.Flush();
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            ServerTcpClient.Close();
         }
     }
 }

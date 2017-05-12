@@ -13,14 +13,6 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
     abstract class Player : FootballPlayer
     {
         /// <summary>
-        /// Gets or sets the <see cref="FsmAI"/> instance to which this instance belongs.
-        /// </summary>
-        /// <value>
-        /// The <see cref="FsmAI"/> instance to which this instance belongs.
-        /// </value>
-        protected FsmAI AI { get; set; }
-
-        /// <summary>
         /// Gets or sets the finite state machine of the player.
         /// </summary>
         /// <value>
@@ -43,42 +35,6 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         /// The steering behaviors manager of the player.
         /// </value>
         public SteeringBehaviorsManager SteeringBehaviorsManager { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Player"/> class.
-        /// </summary>
-        /// <param name="player">The football player.</param>
-        /// <param name="footballAI">The <see cref="FsmAI"/> instance to which this player belongs.</param>
-        protected Player(FootballPlayer player, FsmAI footballAI) : base(player.Id)
-        {
-            AI = footballAI;
-
-            Position = player.Position;
-            Movement = player.Movement;
-            KickVector = player.KickVector;
-
-            Speed = player.Speed;
-            KickPower = player.KickPower;
-            Possession = player.Possession;
-            Precision = player.Precision;
-
-            SteeringBehaviorsManager = new SteeringBehaviorsManager(this);
-        }
-
-        /// <summary>
-        /// Gets the player's action in the current state.
-        /// </summary>
-        /// <returns>The <see cref="PlayerAction"/> containing the action of the player in the current state.</returns>
-        public PlayerAction GetAction()
-        {
-            var action = new PlayerAction
-            {
-                Movement = Vector.GetSum(SteeringBehaviorsManager.GetAccelerationVector(), Movement),
-                Kick = KickVector
-            };
-
-            return action;
-        }
 
         /// <summary>
         /// Gets a value indicating whether the player is at his home region.
@@ -116,10 +72,53 @@ namespace FootballAIGame.Client.AIs.Fsm.Entities
         }
 
         /// <summary>
+        /// Gets or sets the <see cref="FsmAI"/> instance to which this instance belongs.
+        /// </summary>
+        /// <value>
+        /// The <see cref="FsmAI"/> instance to which this instance belongs.
+        /// </value>
+        protected FsmAI AI { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Player"/> class.
+        /// </summary>
+        /// <param name="player">The football player.</param>
+        /// <param name="footballAI">The <see cref="FsmAI"/> instance to which this player belongs.</param>
+        protected Player(FootballPlayer player, FsmAI footballAI) : base(player.Id)
+        {
+            AI = footballAI;
+
+            Position = player.Position;
+            Movement = player.Movement;
+            KickVector = player.KickVector;
+
+            Speed = player.Speed;
+            KickPower = player.KickPower;
+            Possession = player.Possession;
+            Precision = player.Precision;
+
+            SteeringBehaviorsManager = new SteeringBehaviorsManager(this);
+        }
+
+        /// <summary>
         /// Processes the specified message.
         /// </summary>
         /// <param name="message">The message.</param>
         public abstract void ProcessMessage(IMessage message);
 
+        /// <summary>
+        /// Gets the player's action in the current state.
+        /// </summary>
+        /// <returns>The <see cref="PlayerAction"/> containing the action of the player in the current state.</returns>
+        public PlayerAction GetAction()
+        {
+            var action = new PlayerAction
+            {
+                Movement = Vector.GetSum(SteeringBehaviorsManager.GetAccelerationVector(), Movement),
+                Kick = KickVector
+            };
+
+            return action;
+        }
     }
 }

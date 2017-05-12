@@ -52,6 +52,5 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
 
             Player.StateMachine.ChangeState(new PursueBall(Player, AI));
         }
-
     }
 }

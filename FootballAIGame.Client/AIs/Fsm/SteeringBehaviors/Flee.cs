@@ -17,7 +17,7 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
         /// The target <see cref="Vector"/>.
         /// </value>
         public Vector Target { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the safe distance. If this distance from the target is reached, then
         /// the behavior produces zero acceleration vector.

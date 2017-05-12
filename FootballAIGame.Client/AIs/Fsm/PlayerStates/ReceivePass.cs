@@ -138,6 +138,5 @@ namespace FootballAIGame.Client.AIs.Fsm.PlayerStates
             if (arrive != null)
                 arrive.Target = PassTarget;
         }
-
     }
 }

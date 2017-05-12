@@ -63,16 +63,6 @@ namespace FootballAIGame.Client.SimulationEntities
         public Vector KickVector { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FootballPlayer"/> class.
-        /// </summary>
-        /// <param name="id">The player's identifier.</param>
-        public FootballPlayer(int id)
-        {
-            KickVector = new Vector();
-            Id = id;
-        }
-
-        /// <summary>
         /// Gets the maximum allowed speed of the player in meters per simulation step.
         /// </summary>
         /// <value>
@@ -103,6 +93,16 @@ namespace FootballAIGame.Client.SimulationEntities
         public double MaxKickSpeed
         {
             get { return (15 + KickPower*5) * GameClient.StepInterval / 1000.0; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FootballPlayer"/> class.
+        /// </summary>
+        /// <param name="id">The player's identifier.</param>
+        public FootballPlayer(int id)
+        {
+            KickVector = new Vector();
+            Id = id;
         }
 
         /// <summary>
@@ -185,6 +185,5 @@ namespace FootballAIGame.Client.SimulationEntities
 
             return t1 + t2;
         }
-
     }
 }

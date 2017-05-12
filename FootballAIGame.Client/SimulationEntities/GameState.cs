@@ -86,7 +86,6 @@ namespace FootballAIGame.Client.SimulationEntities
                 KickOff = data[4] == 1
             };
         }
-
     }
     
 }

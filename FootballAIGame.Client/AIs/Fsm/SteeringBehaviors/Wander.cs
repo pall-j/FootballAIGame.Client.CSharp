@@ -10,22 +10,6 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
     class Wander : SteeringBehavior
     {
         /// <summary>
-        /// Gets or sets the wander target.
-        /// </summary>
-        /// <value>
-        /// The wander target.
-        /// </value>
-        private Vector WanderTarget { get; set; }
-
-        /// <summary>
-        /// Gets or sets the seek to the wander target.
-        /// </summary>
-        /// <value>
-        /// The seek to the wander target.
-        /// </value>
-        private Seek Seek { get; set; }
-
-        /// <summary>
         /// Gets or sets the wander radius.
         /// </summary>
         /// <value>
@@ -48,6 +32,22 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
         /// The wander jitter.
         /// </value>
         public double WanderJitter { get; set; }
+
+        /// <summary>
+        /// Gets or sets the wander target.
+        /// </summary>
+        /// <value>
+        /// The wander target.
+        /// </value>
+        private Vector WanderTarget { get; set; }
+
+        /// <summary>
+        /// Gets or sets the seek to the wander target.
+        /// </summary>
+        /// <value>
+        /// The seek to the wander target.
+        /// </value>
+        private Seek Seek { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Wander"/> class.

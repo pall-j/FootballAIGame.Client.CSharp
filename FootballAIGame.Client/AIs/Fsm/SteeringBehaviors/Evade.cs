@@ -11,14 +11,6 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
     class Evade : SteeringBehavior
     {
         /// <summary>
-        /// Gets or sets the flee behavior to flee from the current position of the target entity.
-        /// </summary>
-        /// <value>
-        /// The flee from target behavior.
-        /// </value>
-        private Flee FleeFromTarget { get; set; }
-
-        /// <summary>
         /// Gets or sets the target entity from which the player is running away.
         /// </summary>
         /// <value>
@@ -38,6 +30,14 @@ namespace FootballAIGame.Client.AIs.Fsm.SteeringBehaviors
             get { return FleeFromTarget.SafeDistance; }
             set { FleeFromTarget.SafeDistance = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the flee behavior to flee from the current position of the target entity.
+        /// </summary>
+        /// <value>
+        /// The flee from target behavior.
+        /// </value>
+        private Flee FleeFromTarget { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Evade"/> class.

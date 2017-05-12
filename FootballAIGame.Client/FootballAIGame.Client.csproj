@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FootballAIGame.Client</RootNamespace>
     <AssemblyName>FootballAIGame.Client</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -51,7 +51,8 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <DebugSymbols>true</DebugSymbols>
-    <LangVersion>default</LangVersion>
+    <LangVersion>3</LangVersion>
+    <DocumentationFile>bin\Release\FootballAIGame.Client.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>FootballAIGame.Client.Program</StartupObject>
