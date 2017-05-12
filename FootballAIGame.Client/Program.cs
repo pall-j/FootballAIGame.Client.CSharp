@@ -21,10 +21,10 @@ namespace FootballAIGame.Client
             // ----------------------- BASIC (RANDOM) AI ----
             //var client = new GameClient(IPAddress.Parse("13.69.197.216"), 50030, new BasicAI());
             //var client = new GameClient(IPAddress.Loopback, 50030, new BasicAI());
+            
 
-
-            //client.Start();
-            client.Start("UserName", null); // fixed user with his access key (suitable for connecting to local simulators)
+            client.Start();
+            //client.Start("UserName", null); // fixed user with his access key (suitable for connecting to local simulators)
         }
     }
 }

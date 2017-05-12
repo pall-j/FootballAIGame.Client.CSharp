@@ -12,7 +12,7 @@ namespace FootballAIGame.Client.SimulationEntities
         /// <summary>
         /// The maximum allowed distance for kick to be successful.
         /// </summary>
-        public const double MaxDistanceForKick = 2; // [m]
+        public const double MaxDistanceForKick = 2;
 
         /// <summary>
         /// Gets the ball's deceleration in meters per simulation step squared.

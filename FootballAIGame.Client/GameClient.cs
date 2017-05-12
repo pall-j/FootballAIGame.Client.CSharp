@@ -15,17 +15,17 @@ namespace FootballAIGame.Client
         /// <summary>
         /// The time in milliseconds of one simulation step.
         /// </summary>
-        public const int StepInterval = 200; // [ms]
+        public const int StepInterval = 200;
 
         /// <summary>
-        /// The football field height in meters.
+        /// The football field height.
         /// </summary>
-        public const double FieldHeight = 75; // [m]
+        public const double FieldHeight = 75;
 
         /// <summary>
-        /// The football field width in meters.
+        /// The football field width.
         /// </summary>
-        public const double FieldWidth = 110; // [m]
+        public const double FieldWidth = 110;
 
         /// <summary>
         /// Gets or sets the connection to the server.
