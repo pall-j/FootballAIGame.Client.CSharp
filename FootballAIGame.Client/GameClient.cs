@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Text.RegularExpressions;
 using FootballAIGame.Client.SimulationEntities;
 
 namespace FootballAIGame.Client
@@ -48,6 +49,14 @@ namespace FootballAIGame.Client
         private IFootballAI AI { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the parametrized <see cref="Start(string, string)"/> was used.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the parametrized <see cref="Start(string, string)"/> was used; otherwise, <c>false</c>.
+        /// </value>
+        private bool WasParametrizedStartUsed { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameClient" /> class.
         /// </summary>
         /// <param name="serverAddress">The game server IP address.</param>
@@ -67,13 +76,13 @@ namespace FootballAIGame.Client
         {
             while (true)
             {
-                Console.WriteLine("Enter user name, AI name and access key separated by whitespace.");
+                Console.WriteLine("Enter user name, AI name and access key separated by whitespaces.");
                 var line = Console.ReadLine();
 
                 if (line == null)
                     break;
 
-                var tokens = line.Trim().Split();
+                var tokens = Regex.Split(line.Trim(), "\\s+");
                 if (tokens.Length != 3)
                 {
                     Console.WriteLine("Invalid format!");
@@ -91,6 +100,8 @@ namespace FootballAIGame.Client
         /// <param name="accessKey">The access key.</param>
         public void Start(string userName, string accessKey)
         {
+            WasParametrizedStartUsed = true;
+
             while (true)
             {
                 Console.WriteLine("Enter AI name.");
@@ -99,7 +110,7 @@ namespace FootballAIGame.Client
                 if (line == null)
                     break;
 
-                var tokens = line.Trim().Split();
+                var tokens = Regex.Split(line.Trim(), "\\s+");
                 if (tokens.Length != 1 || tokens[0].Length == 0)
                 {
                     Console.WriteLine("Invalid format!");
@@ -150,7 +161,11 @@ namespace FootballAIGame.Client
             catch (IOException)
             {
                 Console.WriteLine("Game Server has stopped responding.");
-                Start();
+
+                if (WasParametrizedStartUsed)
+                    Start(Connection.UserName, Connection.AccessKey);
+                else
+                    Start();
             }
         }
 

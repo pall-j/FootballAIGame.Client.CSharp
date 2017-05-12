@@ -15,8 +15,8 @@ namespace FootballAIGame.Client
         private static void Main()
         {
             // ------------------------ FSM AI ----
-            var client = new GameClient(IPAddress.Parse("13.69.197.216"), 50030, new FsmAI());
-            //var client = new GameClient(IPAddress.Loopback, 50030, new FsmAI());
+            //var client = new GameClient(IPAddress.Parse("13.69.197.216"), 50030, new FsmAI());
+            var client = new GameClient(IPAddress.Loopback, 50030, new FsmAI());
 
             // ----------------------- BASIC (RANDOM) AI ----
             //var client = new GameClient(IPAddress.Parse("13.69.197.216"), 50030, new BasicAI());

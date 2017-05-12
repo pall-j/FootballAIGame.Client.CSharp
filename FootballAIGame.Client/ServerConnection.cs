@@ -16,6 +16,30 @@ namespace FootballAIGame.Client
     class ServerConnection : IDisposable
     {
         /// <summary>
+        /// Gets or sets the name of the user that was used to log in.
+        /// </summary>
+        /// <value>
+        /// The name of the user.
+        /// </value>
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the AI that was used to log in..
+        /// </summary>
+        /// <value>
+        /// The name of the AI.
+        /// </value>
+        public string AIName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user's access key that was used to log in..
+        /// </summary>
+        /// <value>
+        /// The user's access key.
+        /// </value>
+        public string AccessKey { get; set; }
+
+        /// <summary>
         /// Gets or sets the TCP client associated with the game server.
         /// </summary>
         /// <value>
@@ -52,7 +76,13 @@ namespace FootballAIGame.Client
         public static string TryConnect(IPAddress address, int port, string userName, string footballAIName, string accessKey, 
             out ServerConnection connection)
         {
-            connection = new ServerConnection { ServerTcpClient = new TcpClient { NoDelay = true } };
+            connection = new ServerConnection
+            {
+                ServerTcpClient = new TcpClient { NoDelay = true },
+                UserName = userName,
+                AIName = footballAIName,
+                AccessKey = accessKey
+            };
 
             try
             {
@@ -73,7 +103,15 @@ namespace FootballAIGame.Client
             connection.NetworkStream = connection.ServerTcpClient.GetStream();
             connection.Send(string.Format("LOGIN {0} {1} {2}", userName, footballAIName, accessKey));
 
-            var message = connection.ReceiveMessage();
+            string message;
+            try
+            {
+                message = connection.ReceiveMessage();
+            }
+            catch (IOException ex)
+            {
+                return "Server is not responding.";
+            }
 
             if (message == "CONNECTED")
                 return null;
@@ -86,6 +124,7 @@ namespace FootballAIGame.Client
         /// Receives the server <see cref="Command"/>.
         /// </summary>
         /// <returns>The server <see cref="Command"/></returns>
+        /// <exception cref="IOException">Thrown if the connection was closed.</exception>
         public Command ReceiveCommand()
         {
             while (true)
@@ -118,6 +157,7 @@ namespace FootballAIGame.Client
         /// Receives the string message.
         /// </summary>
         /// <returns>The string message.</returns>
+        /// <exception cref="IOException">Thrown if the connection was closed.</exception>
         public string ReceiveMessage()
         {
             var message = ReadLine();
@@ -127,7 +167,10 @@ namespace FootballAIGame.Client
         /// <summary>
         /// Reads the next line.
         /// </summary>
-        /// <returns>The string read from the line.</returns>
+        /// <returns>
+        /// The string read from the line.
+        /// </returns>
+        /// <exception cref="IOException">Thrown if the connection was closed.</exception>
         public string ReadLine()
         {
             var bytes = new List<byte>();
@@ -197,7 +240,7 @@ namespace FootballAIGame.Client
         }
 
         /// <summary>
-        /// Sends the players parameters to the game server.
+        /// Sends the players' parameters to the game server.
         /// </summary>
         /// <param name="players">The players with their parameters set.</param>
         public void SendParameters(FootballPlayer[] players)
