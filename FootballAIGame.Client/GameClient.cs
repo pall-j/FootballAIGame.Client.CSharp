@@ -82,7 +82,8 @@ namespace FootballAIGame.Client
                 if (line == null)
                     break;
 
-                var tokens = Regex.Split(line.Trim(), "\\s+");
+                // arrows in mono might add null (\0)
+                var tokens = Regex.Split(line.Replace("\0", "").Trim(), "\\s+"); 
                 if (tokens.Length != 3)
                 {
                     Console.WriteLine("Invalid format!");
@@ -110,7 +111,8 @@ namespace FootballAIGame.Client
                 if (line == null)
                     break;
 
-                var tokens = Regex.Split(line.Trim(), "\\s+");
+                // arrows in mono might add null (\0)
+                var tokens = Regex.Split(line.Replace("\0", "").Trim(), "\\s+");
                 if (tokens.Length != 1 || tokens[0].Length == 0)
                 {
                     Console.WriteLine("Invalid format!");
