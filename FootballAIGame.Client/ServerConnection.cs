@@ -108,7 +108,7 @@ namespace FootballAIGame.Client
             {
                 message = connection.ReceiveMessage();
             }
-            catch (IOException ex)
+            catch (IOException)
             {
                 return "Server is not responding.";
             }
